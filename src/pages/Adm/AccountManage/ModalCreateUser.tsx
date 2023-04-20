@@ -24,7 +24,7 @@ const ModalCreateUser = ({ open, onCreateUser, onCancel }: Props) => {
         >
           <span>Ten hien thi</span>
           <Form.Item
-            name="displayname"
+            name="displayName"
             rules={[{ required: true, message: 'Please input your displayname!' }]}
           >
             <Input />
@@ -48,7 +48,7 @@ const ModalCreateUser = ({ open, onCreateUser, onCancel }: Props) => {
 
           <span>Nhap lai mat khau</span>
           <Form.Item
-            name="confirm"
+            name=""
             dependencies={['password']}
             hasFeedback
             rules={[

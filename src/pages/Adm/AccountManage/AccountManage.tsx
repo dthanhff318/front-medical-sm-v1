@@ -30,15 +30,15 @@ const AccountManage = () => {
     },
     {
       title: 'Ten nguoi dung',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'displayName',
+      key: 'displayName',
       width: '40%',
     },
     {
-      title: 'Khoa phong',
-      dataIndex: 'department',
+      title: 'Quyen',
+      dataIndex: 'role',
       width: '30%',
-      key: 'department',
+      key: 'role',
     },
     {
       title: '',
@@ -85,7 +85,7 @@ const AccountManage = () => {
         <div className={styles.groupBtn}>
           <CommonButton onClick={() => setOpenModal('create')}>Them nguoi dung moi</CommonButton>
         </div>
-        <Table dataSource={dataSource} columns={columns} />
+        <Table dataSource={departmentDetail.member} columns={columns} />
       </div>
     </>
   );

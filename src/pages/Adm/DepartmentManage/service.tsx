@@ -6,12 +6,14 @@ import { TCreateDepartments } from 'store/slices/type';
 
 const useService = () => {
   const dispatch = useDispatch();
-  const { departmentList } = useSelector((state: RootState) => state.department);
+  const { departmentList, departmentDetail } = useSelector((state: RootState) => state.department);
   const departmentListMapping = departmentList.map((d) => ({
     ...d,
     key: d.id,
     owner: d.owner ? d.owner.displayName : '',
   }));
+
+  // const departmentListMapping = [];
   const onCreateDepartment = (data: TCreateDepartments) => {
     dispatch(createNewDepartments(data) as any);
   };
@@ -19,6 +21,7 @@ const useService = () => {
     dispatch(getDepartments({ page: 1, limit: 10 }) as any);
   }, []);
   return {
+    departmentDetail,
     departmentListMapping,
     onCreateDepartment,
   };

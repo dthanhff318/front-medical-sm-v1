@@ -9,7 +9,8 @@ const useService = () => {
   const { id } = useParams<{ id: string }>();
   const { departmentDetail } = useSelector((state: RootState) => state.department);
   const handleCreateUser = (data) => {
-    dispatch(createUserDepartment(data) as any);
+    const extraInfoUser = { ...data, department: id };
+    dispatch(createUserDepartment(extraInfoUser) as any);
   };
   useEffect(() => {
     dispatch(getDepartmentInfoDetail(id ?? '') as any);
