@@ -6,3 +6,5 @@ export const store = configureStore({
     department: departmentReducer,
   },
 });
+
+export type RootState = ReturnType<typeof store.getState>

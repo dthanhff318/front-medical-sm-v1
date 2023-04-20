@@ -3,26 +3,14 @@ import { Table } from 'antd';
 import CommonButton from 'components/CommonButton/CommonButton';
 import ModalDelete from 'components/CommonModal/ModalDelete';
 import styles from './style.module.scss';
-import ModalCreateUser from './ModalCreateUser';
+import ModalCreateDepartment from './ModalCreateDepartment';
 import MPath from 'routes/routes';
 import { Link } from 'react-router-dom';
 import useService from './service';
+import { replacePathParams } from 'helpers/functions';
 
 type TModal = '' | 'delete' | 'create';
 const DepartmentManage = () => {
-  const dataSource = [
-    {
-      key: '1',
-      name: 'Khoa nhi',
-      owner: 'Khoa',
-    },
-    {
-      key: '2',
-      name: 'Khoa san',
-      owner: 'Ngoc',
-    },
-  ];
-
   const columns = [
     {
       title: 'ID',
@@ -46,9 +34,9 @@ const DepartmentManage = () => {
       title: '',
       dataIndex: 'action',
       key: 'action',
-      render: () => (
+      render: (_, d) => (
         <div className={styles.actionBtn}>
-          <Link to={MPath.ADM_DEPARTMENT_DETAIL}>
+          <Link to={replacePathParams(MPath.ADM_DEPARTMENT_DETAIL, { id: d.id })}>
             <CommonButton>Chi tiet</CommonButton>
           </Link>
           <CommonButton danger onClick={() => setOpenModal('delete')}>
@@ -59,7 +47,7 @@ const DepartmentManage = () => {
     },
   ];
   const [openModal, setOpenModal] = useState<TModal>('');
-  const {} = useService();
+  const { departmentListMapping, onCreateDepartment } = useService();
   return (
     <>
       <ModalDelete
@@ -69,9 +57,9 @@ const DepartmentManage = () => {
         onCancel={() => setOpenModal('')}
         onOk={() => setOpenModal('')}
       />
-      <ModalCreateUser
+      <ModalCreateDepartment
         open={openModal === 'create'}
-        onCreateUser={() => {}}
+        onCreateDepartment={onCreateDepartment}
         onCancel={() => setOpenModal('')}
       />
       <div className={styles.wrapper}>
@@ -79,7 +67,7 @@ const DepartmentManage = () => {
         <div className={styles.groupBtn}>
           <CommonButton onClick={() => setOpenModal('create')}>Them moi khoa phong</CommonButton>
         </div>
-        <Table dataSource={dataSource} columns={columns} />
+        <Table dataSource={departmentListMapping} columns={columns} />
       </div>
     </>
   );

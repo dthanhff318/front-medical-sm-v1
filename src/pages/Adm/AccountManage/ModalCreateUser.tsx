@@ -2,9 +2,10 @@ import { Button, Form, Input, Modal, Select } from 'antd';
 import React from 'react';
 import styles from './style.module.scss';
 import CommonButton from 'components/CommonButton/CommonButton';
+import { TCreateUser } from 'store/slices/type';
 type Props = {
   open: boolean;
-  onCreateUser: () => void;
+  onCreateUser: (data: TCreateUser) => void;
   onCancel: () => void;
 };
 
@@ -15,7 +16,10 @@ const ModalCreateUser = ({ open, onCreateUser, onCancel }: Props) => {
         <Form
           style={{ maxWidth: 600 }}
           initialValues={{ remember: true }}
-          onFinish={() => {}}
+          onFinish={(data) => {
+            onCreateUser(data);
+            onCancel();
+          }}
           autoComplete="off"
         >
           <span>Ten hien thi</span>
@@ -67,22 +71,9 @@ const ModalCreateUser = ({ open, onCreateUser, onCancel }: Props) => {
             <Input.Password />
           </Form.Item>
 
-          <span>Lua chon khoa phong</span>
-          <Form.Item
-            name="department"
-            rules={[{ required: true, message: 'Hay lua chon khoa phong' }]}
-          >
-            <Select>
-              <Select.Option value="demo">Demo</Select.Option>
-              <Select.Option value="logi">logi</Select.Option>
-              <Select.Option value="cog">cog</Select.Option>
-            </Select>
-          </Form.Item>
           <div className={styles.bottom}>
             <Form.Item>
-              <CommonButton onClick={onCreateUser} isSubmit={true}>
-                Tao tai khoan
-              </CommonButton>
+              <CommonButton isSubmit={true}>Tao tai khoan</CommonButton>
             </Form.Item>
           </div>
         </Form>

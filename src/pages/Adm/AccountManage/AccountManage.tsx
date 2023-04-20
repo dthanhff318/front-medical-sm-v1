@@ -4,6 +4,7 @@ import ModalDelete from 'components/CommonModal/ModalDelete';
 import React, { useState } from 'react';
 import styles from './style.module.scss';
 import ModalCreateUser from './ModalCreateUser';
+import useService from './service';
 
 type TModal = '' | 'delete' | 'create';
 const AccountManage = () => {
@@ -54,6 +55,8 @@ const AccountManage = () => {
     },
   ];
   const [openModal, setOpenModal] = useState<TModal>('');
+  const { departmentDetail, handleCreateUser } = useService();
+
   return (
     <>
       <ModalDelete
@@ -65,22 +68,17 @@ const AccountManage = () => {
       />
       <ModalCreateUser
         open={openModal === 'create'}
-        onCreateUser={() => {}}
+        onCreateUser={handleCreateUser}
         onCancel={() => setOpenModal('')}
       />
       <div className={styles.wrapper}>
         <h2 className={styles.title}>Thong tin chi tiet khoa phong</h2>
         <div className={styles.infoDepartment}>
-          <Descriptions
-            bordered
-            title="Custom Size"
-            size="small"
-            // extra={<Button type="primary">Edit</Button>}
-          >
-            <Descriptions.Item label="Ten khoa">Khoa nhi</Descriptions.Item>
-            <Descriptions.Item label="Vi tri">Tang 3 Toa B1</Descriptions.Item>
+          <Descriptions bordered title="Custom Size" size="small">
+            <Descriptions.Item label="Ten khoa">{departmentDetail.name}</Descriptions.Item>
+            <Descriptions.Item label="Vi tri">{departmentDetail.location}</Descriptions.Item>
             <Descriptions.Item label="Gmail">childlik@gmail.com</Descriptions.Item>
-            <Descriptions.Item label="So dien thoai">0983413272</Descriptions.Item>
+            <Descriptions.Item label="So dien thoai">{departmentDetail.phone}</Descriptions.Item>
             <Descriptions.Item label="Truong khoa">Nguyen Van Vinh</Descriptions.Item>
           </Descriptions>
         </div>
