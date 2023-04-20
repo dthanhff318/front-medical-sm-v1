@@ -1,0 +1,95 @@
+import { Descriptions, Table } from 'antd';
+import CommonButton from 'components/CommonButton/CommonButton';
+import ModalDelete from 'components/CommonModal/ModalDelete';
+import React, { useState } from 'react';
+import styles from './style.module.scss';
+import ModalCreateUser from './ModalCreateUser';
+
+type TModal = '' | 'delete' | 'create';
+const AccountManage = () => {
+  const dataSource = [
+    {
+      key: '1',
+      name: 'Mike',
+      department: 'Khoa nhi',
+    },
+    {
+      key: '2',
+      name: 'John',
+      department: 'Khoa san',
+    },
+  ];
+
+  const columns = [
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'id',
+      width: '10%',
+    },
+    {
+      title: 'Ten nguoi dung',
+      dataIndex: 'name',
+      key: 'name',
+      width: '40%',
+    },
+    {
+      title: 'Khoa phong',
+      dataIndex: 'department',
+      width: '30%',
+      key: 'department',
+    },
+    {
+      title: '',
+      dataIndex: 'action',
+      key: 'action',
+      render: () => (
+        <div className={styles.actionBtn}>
+          <CommonButton>Chi tiet</CommonButton>
+          <CommonButton danger onClick={() => setOpenModal('delete')}>
+            Xoa
+          </CommonButton>
+        </div>
+      ),
+    },
+  ];
+  const [openModal, setOpenModal] = useState<TModal>('');
+  return (
+    <>
+      <ModalDelete
+        open={openModal === 'delete'}
+        title="Ban co chac chan xoa khong ?"
+        subTitle="Xoa"
+        onCancel={() => setOpenModal('')}
+        onOk={() => setOpenModal('')}
+      />
+      <ModalCreateUser
+        open={openModal === 'create'}
+        onCreateUser={() => {}}
+        onCancel={() => setOpenModal('')}
+      />
+      <div className={styles.wrapper}>
+        <h2 className={styles.title}>Thong tin chi tiet khoa phong</h2>
+        <div className={styles.infoDepartment}>
+          <Descriptions
+            bordered
+            title="Custom Size"
+            size="small"
+            // extra={<Button type="primary">Edit</Button>}
+          >
+            <Descriptions.Item label="Ten khoa">Khoa nhi</Descriptions.Item>
+            <Descriptions.Item label="Vi tri">Tang 3 Toa B1</Descriptions.Item>
+            <Descriptions.Item label="Gmail">childlik@gmail.com</Descriptions.Item>
+            <Descriptions.Item label="So dien thoai">0983413272</Descriptions.Item>
+            <Descriptions.Item label="Truong khoa">Nguyen Van Vinh</Descriptions.Item>
+          </Descriptions>
+        </div>
+        <div className={styles.groupBtn}>
+          <CommonButton onClick={() => setOpenModal('create')}>Them nguoi dung moi</CommonButton>
+        </div>
+        <Table dataSource={dataSource} columns={columns} />
+      </div>
+    </>
+  );
+};
+export default AccountManage;
