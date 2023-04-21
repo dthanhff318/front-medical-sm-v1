@@ -3,6 +3,7 @@ import React from 'react';
 import styles from './style.module.scss';
 import CommonButton from 'components/CommonButton/CommonButton';
 import { TCreateUser } from 'store/slices/type';
+import { useForm } from 'antd/es/form/Form';
 type Props = {
   open: boolean;
   onCreateUser: (data: TCreateUser) => void;
@@ -10,6 +11,7 @@ type Props = {
 };
 
 const ModalCreateUser = ({ open, onCreateUser, onCancel }: Props) => {
+  const [form] = useForm();
   return (
     <Modal open={open} footer={null} onCancel={onCancel}>
       <div className={styles.wrapperModal}>
@@ -18,9 +20,11 @@ const ModalCreateUser = ({ open, onCreateUser, onCancel }: Props) => {
           initialValues={{ remember: true }}
           onFinish={(data) => {
             onCreateUser(data);
+            form.resetFields();
             onCancel();
           }}
           autoComplete="off"
+          form={form}
         >
           <span>Ten hien thi</span>
           <Form.Item

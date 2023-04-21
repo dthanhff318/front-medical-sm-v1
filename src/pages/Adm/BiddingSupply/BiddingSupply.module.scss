@@ -13,9 +13,4 @@
       padding: 1rem 3rem;
     }
   }
-  :global {
-    .ant-table-thead > tr > th {
-      height: 50px; // Thiết lập chiều cao là 50px
-    }
-  }
 }

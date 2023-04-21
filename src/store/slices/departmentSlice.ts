@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import departmentApi from 'axiosConfig/api/department';
 import userApi from 'axiosConfig/api/user';
+import { toast } from 'react-toastify';
 import { TCreateDepartments, TCreateUser, TGetDepartments, TInitState } from './type';
 
 const initialState: TInitState = {
@@ -24,12 +25,14 @@ export const getDepartments = createAsyncThunk(
 // Create a department
 export const createNewDepartments = createAsyncThunk(
   'department/createNewDepartments',
-  async (data: TCreateDepartments) => {
+  async (data: TCreateDepartments, thunkApi) => {
     try {
       const res = await departmentApi.createDepartments(data);
+      toast.success('Tao khoa phong thanh cong !');
       return res.data;
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      toast.error(`Co loi xay ra, vui long thu lai`);
+      return thunkApi.rejectWithValue({});
     }
   },
 );
@@ -47,13 +50,42 @@ export const getDepartmentInfoDetail = createAsyncThunk(
   },
 );
 
+// Delete department
+export const deleteDepartment = createAsyncThunk(
+  'department/deleteDepartment ',
+  async (id: number) => {
+    try {
+      await departmentApi.deleteDepartments(id);
+      return id;
+    } catch (err) {
+      console.log(err);
+    }
+  },
+);
+
 // create user department
 export const createUserDepartment = createAsyncThunk(
   'department/createUserDepartment',
-  async (data: TCreateUser) => {
+  async (data: TCreateUser, thunkApi) => {
     try {
       const res = await userApi.createUser(data);
+      toast.success('Them nguoi dung thanh cong !');
       return res.data;
+    } catch (err: any) {
+      toast.error(`Co loi xay ra, vui long thu lai`);
+      return thunkApi.rejectWithValue({});
+    }
+  },
+);
+
+// delete user department
+export const deleteUserDepartment = createAsyncThunk(
+  'department/deleteUserDepartment',
+  async (id: number) => {
+    try {
+      await userApi.deleteUser(id);
+      toast.success('Da xoa nguoi dung !');
+      return id;
     } catch (err) {
       console.log(err);
     }
@@ -69,10 +101,23 @@ const departmentSlice = createSlice({
       state.departmentList = action.payload;
     });
     builder.addCase(createNewDepartments.fulfilled, (state, action) => {
+      console.log(456);
       state.departmentList.push(action.payload);
+    });
+    builder.addCase(deleteDepartment.fulfilled, (state, action) => {
+      const remainDepartments = state.departmentList.filter((d) => d.id === action.payload);
+      state.departmentList = remainDepartments;
     });
     builder.addCase(getDepartmentInfoDetail.fulfilled, (state, action) => {
       state.departmentDetail = action.payload;
+    });
+    // User
+    builder.addCase(createUserDepartment.fulfilled, (state, action) => {
+      state.departmentDetail.member.push(action.payload);
+    });
+    builder.addCase(deleteUserDepartment.fulfilled, (state, action) => {
+      const listUserRemain = state.departmentDetail?.member?.filter((u) => u.id !== action.payload);
+      state.departmentDetail.member = listUserRemain;
     });
   },
 });

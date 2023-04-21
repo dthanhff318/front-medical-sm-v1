@@ -58,7 +58,7 @@ const BiddingSupply = () => {
     address: string;
   }
 
-  const columns: ColumnsType<any> = [
+  const columns: ColumnsType<DataType> = [
     {
       title: 'ID ',
       dataIndex: 'id',
@@ -78,7 +78,7 @@ const BiddingSupply = () => {
     {
       title: 'Tên',
       dataIndex: 'name',
-      width: 200,
+      width: 250,
     },
     {
       title: 'Hoạt chất',
@@ -98,10 +98,12 @@ const BiddingSupply = () => {
     {
       title: 'Tên hãng',
       dataIndex: 'brand',
+      width: 200,
     },
     {
       title: 'Tên nước',
       dataIndex: 'country',
+      width: 200,
     },
     {
       title: 'NSX',
@@ -150,85 +152,26 @@ const BiddingSupply = () => {
     },
   ];
 
-  const data: DataType[] = [
-    {
-      key: '1',
-      name: 'John Brown',
+  const data: DataType[] = [];
+  for (let i = 0; i < 100; i++) {
+    data.push({
+      key: i,
+      name: `Edward ${i}`,
       age: 32,
-      address: 'New York No. 1 Lake Park',
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sydney No. 1 Lake Park',
-    },
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sydney No. 1 Lake Park',
-    },
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sydney No. 1 Lake Park',
-    },
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sydney No. 1 Lake Park',
-    },
-  ];
+      address: `London Park no. ${i}`,
+    });
+  }
 
   return (
     <div className={s.wrapper}>
       <h2 className={s.title}>Danh sách vật tư đầu thầu</h2>
-      <Table bordered scroll={{ y: '50vh' }} columns={columns} dataSource={data} size="middle" />
+      {/* <Table bordered scroll={{ y: '50vh' }} columns={columns} dataSource={data} size="middle" /> */}
+      <Table
+        bordered
+        columns={columns}
+        dataSource={data}
+        scroll={{ x: 'max-content', y: '50vh' }}
+      />
       <div className={s.handleZone}>
         <div className={s.dropzone} {...getRootProps()}>
           <input {...getInputProps()} />
@@ -236,25 +179,6 @@ const BiddingSupply = () => {
         </div>
         <button onClick={handleExcelDownload}>Xuất file Excel</button>
       </div>
-
-      {/* <table>
-        <thead>
-          <tr>
-            <th>Column 1</th>
-            <th>Column 2</th>
-            <th>Column 3</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row, index) => (
-            <tr key={index}>
-              <td>{row[0]}</td>
-              <td>{row[1]}</td>
-              <td>{row[2]}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table> */}
     </div>
   );
 };

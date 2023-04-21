@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import styles from './style.module.scss';
 import ModalCreateUser from './ModalCreateUser';
 import useService from './service';
+import { toast } from 'react-toastify';
 
 type TModal = '' | 'delete' | 'create';
 const AccountManage = () => {
@@ -44,10 +45,15 @@ const AccountManage = () => {
       title: '',
       dataIndex: 'action',
       key: 'action',
-      render: () => (
+      render: (_, user) => (
         <div className={styles.actionBtn}>
-          <CommonButton>Chi tiet</CommonButton>
-          <CommonButton danger onClick={() => setOpenModal('delete')}>
+          <CommonButton
+            danger
+            onClick={() => {
+              setSelectUser(user.id);
+              setOpenModal('delete');
+            }}
+          >
             Xoa
           </CommonButton>
         </div>
@@ -55,8 +61,13 @@ const AccountManage = () => {
     },
   ];
   const [openModal, setOpenModal] = useState<TModal>('');
-  const { departmentDetail, handleCreateUser } = useService();
-
+  const [selectUser, setSelectUser] = useState<any>();
+  const { departmentDetail, handleCreateUser, handleDeleteUser } = useService();
+  const listUserDepartment = departmentDetail.member?.map((u) => ({
+    ...u,
+    key: u?.id,
+  }));
+  const notify = () => toast('Wow so easy !');
   return (
     <>
       <ModalDelete
@@ -64,7 +75,10 @@ const AccountManage = () => {
         title="Ban co chac chan xoa khong ?"
         subTitle="Xoa"
         onCancel={() => setOpenModal('')}
-        onOk={() => setOpenModal('')}
+        onOk={() => {
+          handleDeleteUser(selectUser);
+          setOpenModal('');
+        }}
       />
       <ModalCreateUser
         open={openModal === 'create'}
@@ -72,7 +86,9 @@ const AccountManage = () => {
         onCancel={() => setOpenModal('')}
       />
       <div className={styles.wrapper}>
-        <h2 className={styles.title}>Thong tin chi tiet khoa phong</h2>
+        <h2 className={styles.title} onClick={notify}>
+          Thong tin chi tiet khoa phong
+        </h2>
         <div className={styles.infoDepartment}>
           <Descriptions bordered title="Custom Size" size="small">
             <Descriptions.Item label="Ten khoa">{departmentDetail.name}</Descriptions.Item>
@@ -85,7 +101,7 @@ const AccountManage = () => {
         <div className={styles.groupBtn}>
           <CommonButton onClick={() => setOpenModal('create')}>Them nguoi dung moi</CommonButton>
         </div>
-        <Table dataSource={departmentDetail.member} columns={columns} />
+        <Table dataSource={listUserDepartment} columns={columns} />
       </div>
     </>
   );

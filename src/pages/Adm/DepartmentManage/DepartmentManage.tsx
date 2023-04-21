@@ -39,7 +39,13 @@ const DepartmentManage = () => {
           <Link to={replacePathParams(MPath.ADM_DEPARTMENT_DETAIL, { id: d.id })}>
             <CommonButton>Chi tiet</CommonButton>
           </Link>
-          <CommonButton danger onClick={() => setOpenModal('delete')}>
+          <CommonButton
+            danger
+            onClick={() => {
+              setSelectDepartment(d.id);
+              setOpenModal('delete');
+            }}
+          >
             Xoa
           </CommonButton>
         </div>
@@ -47,7 +53,8 @@ const DepartmentManage = () => {
     },
   ];
   const [openModal, setOpenModal] = useState<TModal>('');
-  const { departmentListMapping, onCreateDepartment } = useService();
+  const [selectDepartment, setSelectDepartment] = useState<number>(-1);
+  const { departmentListMapping, onCreateDepartment, handleDeleteDepartment } = useService();
   return (
     <>
       <ModalDelete
@@ -55,7 +62,10 @@ const DepartmentManage = () => {
         title="Ban co chac chan xoa khong ?"
         subTitle="Xoa"
         onCancel={() => setOpenModal('')}
-        onOk={() => setOpenModal('')}
+        onOk={() => {
+          handleDeleteDepartment(selectDepartment);
+          setOpenModal('');
+        }}
       />
       <ModalCreateDepartment
         open={openModal === 'create'}

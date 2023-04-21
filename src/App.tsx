@@ -6,12 +6,15 @@ import React from 'react';
 import Notfound from './pages/Notfound';
 import HomePage from './pages/AdmHome';
 import DefaultLayout from './pages/Layout/DefaultLayout';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   const auth = true;
+
   return (
     <BrowserRouter>
       <div className="App">
+        <ToastContainer closeOnClick pauseOnHover={false} autoClose={3000} />
         <Routes>
           {routers.map((route: any, i: number) => {
             return route.public ? (

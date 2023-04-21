@@ -12,6 +12,9 @@ const departmentApi = {
   createDepartments: (data: TCreateDepartments) => {
     return axiosClient.post('/department', data);
   },
+  deleteDepartments: (id: number) => {
+    return axiosClient.delete(`/department/${id}`);
+  },
 };
 
 export default departmentApi;
