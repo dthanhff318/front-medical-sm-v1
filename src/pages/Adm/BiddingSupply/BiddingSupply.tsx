@@ -6,6 +6,7 @@ import Table, { ColumnsType } from 'antd/es/table';
 
 const BiddingSupply = () => {
   const [rows, setRows] = useState<any>([]);
+  console.log(rows);
 
   // Hàm để đọc dữ liệu từ file Excel
   const handleExcelUpload = (file) => {
@@ -16,7 +17,28 @@ const BiddingSupply = () => {
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
       const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-      setRows(rows);
+      const mappingData = rows.map((r: any, i: number) => ({
+        key: i,
+        id: r[0],
+        codett: r[1],
+        code: r[2],
+        name: r[3],
+        ingredient: r[4],
+        unit: r[5],
+        group: r[6],
+        brand: r[7],
+        country: r[8],
+        company: r[9],
+        unitPrice: r[10],
+        yearBidding: r[11],
+        codeBidding: r[12],
+        biddingCount: r[13],
+        buyCount: r[14],
+        remainCount: r[15],
+        biddingPrice: r[16],
+        contract: r[17],
+      }));
+      setRows(mappingData);
     };
     reader.readAsArrayBuffer(file);
   };
@@ -51,14 +73,7 @@ const BiddingSupply = () => {
     },
   });
 
-  interface DataType {
-    key: React.Key;
-    name: string;
-    age: number;
-    address: string;
-  }
-
-  const columns: ColumnsType<DataType> = [
+  const columns: ColumnsType<any> = [
     {
       title: 'ID ',
       dataIndex: 'id',
@@ -67,7 +82,7 @@ const BiddingSupply = () => {
     },
     {
       title: 'Mã TT',
-      dataIndex: 'code-tt',
+      dataIndex: 'codett',
       width: 100,
     },
     {
@@ -82,7 +97,7 @@ const BiddingSupply = () => {
     },
     {
       title: 'Hoạt chất',
-      dataIndex: 'age',
+      dataIndex: 'ingredient',
       width: 300,
     },
     {
@@ -152,16 +167,6 @@ const BiddingSupply = () => {
     },
   ];
 
-  const data: DataType[] = [];
-  for (let i = 0; i < 100; i++) {
-    data.push({
-      key: i,
-      name: `Edward ${i}`,
-      age: 32,
-      address: `London Park no. ${i}`,
-    });
-  }
-
   return (
     <div className={s.wrapper}>
       <h2 className={s.title}>Danh sách vật tư đầu thầu</h2>
@@ -169,7 +174,8 @@ const BiddingSupply = () => {
       <Table
         bordered
         columns={columns}
-        dataSource={data}
+        dataSource={rows}
+        size="middle"
         scroll={{ x: 'max-content', y: '50vh' }}
       />
       <div className={s.handleZone}>
