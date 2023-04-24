@@ -14,6 +14,7 @@ export const routers: any = [
     element: <Login />,
     public: true,
     path: '/login',
+    role: [],
     exact: true,
   },
   {

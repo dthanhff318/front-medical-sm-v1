@@ -1,15 +1,17 @@
 import './App.css';
-import { History } from 'history';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
 import { routers } from './routes/index';
 import React from 'react';
-import Notfound from './pages/Notfound';
-import HomePage from './pages/AdmHome';
 import DefaultLayout from './pages/Layout/DefaultLayout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
+import { getUserFromLs } from 'helpers/localStorage';
+import MPath from 'routes/routes';
 function App() {
-  const auth = true;
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const auth = isAuthenticated || Object.entries(getUserFromLs()).length > 0;
 
   return (
     <BrowserRouter>
@@ -23,7 +25,15 @@ function App() {
               <Route
                 key={route.name}
                 path={route.path}
-                element={auth ? <DefaultLayout>{route.element}</DefaultLayout> : <HomePage />}
+                element={
+                  auth ? (
+                    <DefaultLayout>{route.element}</DefaultLayout>
+                  ) : (
+                    <>
+                      <Navigate to={MPath.LOGIN} replace />
+                    </>
+                  )
+                }
               />
             );
           })}

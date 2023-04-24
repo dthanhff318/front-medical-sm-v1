@@ -1,25 +1,29 @@
 import { Button, Checkbox, Form, Input } from 'antd';
 import React from 'react';
 import styles from './style.module.scss';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
+import useService from './service';
 
 type Props = {};
 
 const Login = (props: Props) => {
-  const onFinish = () => {};
+  const { handleLogin } = useService();
+  const { currentUser } = useSelector((state: RootState) => state.auth);
+  console.log(currentUser);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.loginForm}>
         <Form
           name="basic"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          style={{ maxWidth: 600 }}
+          style={{ width: 400 }}
           initialValues={{ remember: true }}
-          onFinish={onFinish}
+          onFinish={handleLogin}
           autoComplete="off"
         >
           <Form.Item
-            label={<span className={styles.label}>Username</span>}
+            label={<span className={styles.label}>Tai khoan</span>}
             name="username"
             colon={false}
             rules={[{ required: true, message: 'Please input your username!' }]}
@@ -28,7 +32,7 @@ const Login = (props: Props) => {
           </Form.Item>
 
           <Form.Item
-            label={<span className={styles.label}>Password</span>}
+            label={<span className={styles.label}>Mat khau</span>}
             name="password"
             rules={[{ required: true, message: 'Please input your password!' }]}
           >

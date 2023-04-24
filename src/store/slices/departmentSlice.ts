@@ -2,9 +2,9 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import departmentApi from 'axiosConfig/api/department';
 import userApi from 'axiosConfig/api/user';
 import { toast } from 'react-toastify';
-import { TCreateDepartments, TCreateUser, TGetDepartments, TInitState } from './type';
+import { TCreateDepartments, TCreateUser, TGetDepartments, TInitDepartmentState } from './type';
 
-const initialState: TInitState = {
+const initialState: TInitDepartmentState = {
   departmentList: [],
   departmentDetail: {},
 };
