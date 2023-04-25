@@ -1,7 +1,8 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import departmentApi from 'axiosConfig/api/department';
 import userApi from 'axiosConfig/api/user';
 import { toast } from 'react-toastify';
+import { TDepartment } from 'types/department';
 import { TCreateDepartments, TCreateUser, TGetDepartments, TInitDepartmentState } from './type';
 
 const initialState: TInitDepartmentState = {
@@ -12,12 +13,12 @@ const initialState: TInitDepartmentState = {
 // Get Departments Pagination
 export const getDepartments = createAsyncThunk(
   'department/getDepartments',
-  async (query: TGetDepartments) => {
+  async (query: TGetDepartments, thunkApi) => {
     try {
       const res = await departmentApi.getDepartments(query);
       return res.data;
     } catch (err) {
-      console.log(err);
+      return thunkApi.rejectWithValue({});
     }
   },
 );
@@ -29,7 +30,7 @@ export const createNewDepartments = createAsyncThunk(
     try {
       const res = await departmentApi.createDepartments(data);
       toast.success('Tao khoa phong thanh cong !');
-      return res.data;
+      return res.data as TDepartment;
     } catch (err: any) {
       toast.error(`Co loi xay ra, vui long thu lai`);
       return thunkApi.rejectWithValue({});
@@ -98,14 +99,18 @@ const departmentSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getDepartments.fulfilled, (state, action) => {
+      console.log(action.payload);
+
       state.departmentList = action.payload;
     });
-    builder.addCase(createNewDepartments.fulfilled, (state, action) => {
+    builder.addCase(createNewDepartments.fulfilled, (state: TInitDepartmentState, action) => {
       console.log(456);
       state.departmentList.push(action.payload);
     });
     builder.addCase(deleteDepartment.fulfilled, (state, action) => {
-      const remainDepartments = state.departmentList.filter((d) => d.id === action.payload);
+      const remainDepartments = state.departmentList.filter(
+        (d: TDepartment) => d.id === action.payload,
+      );
       state.departmentList = remainDepartments;
     });
     builder.addCase(getDepartmentInfoDetail.fulfilled, (state, action) => {
@@ -113,7 +118,7 @@ const departmentSlice = createSlice({
     });
     // User
     builder.addCase(createUserDepartment.fulfilled, (state, action) => {
-      state.departmentDetail.member.push(action.payload);
+      state.departmentDetail.member?.push(action.payload);
     });
     builder.addCase(deleteUserDepartment.fulfilled, (state, action) => {
       const listUserRemain = state.departmentDetail?.member?.filter((u) => u.id !== action.payload);

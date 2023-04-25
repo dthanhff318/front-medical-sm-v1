@@ -20,8 +20,8 @@ export const routers: any = [
   {
     name: 'Home',
     element: <Home />,
-    public: true,
-    path: '/',
+    public: false,
+    path: MPath.ADM_HOME,
     exact: true,
   },
   {

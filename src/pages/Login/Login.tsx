@@ -4,13 +4,13 @@ import styles from './style.module.scss';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import useService from './service';
+import CommonButton from 'components/CommonButton/CommonButton';
 
 type Props = {};
 
 const Login = (props: Props) => {
   const { handleLogin } = useService();
-  const { currentUser } = useSelector((state: RootState) => state.auth);
-  console.log(currentUser);
+  const { loading } = useSelector((state: RootState) => state.auth);
 
   return (
     <div className={styles.wrapper}>
@@ -48,9 +48,9 @@ const Login = (props: Props) => {
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
 
-          <Button type="primary" htmlType="submit" className={styles.submitBtn}>
+          <CommonButton isSubmit className={styles.submitBtn}>
             Login
-          </Button>
+          </CommonButton>
         </Form>
       </div>
     </div>

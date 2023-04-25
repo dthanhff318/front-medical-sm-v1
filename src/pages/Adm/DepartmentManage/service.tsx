@@ -17,7 +17,6 @@ const useService = () => {
       key: d?.id,
       owner: d?.owner ? d.owner?.displayName : '',
     })) ?? [];
-  // const departmentListMapping = [];
   const onCreateDepartment = (data: TCreateDepartments) => {
     dispatch(createNewDepartments(data) as any);
   };

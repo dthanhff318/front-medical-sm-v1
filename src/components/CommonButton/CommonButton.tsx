@@ -1,5 +1,5 @@
 import { Button } from 'antd';
-import React, { ReactNode } from 'react';
+import React, { CSSProperties, ReactNode } from 'react';
 import styles from './style.module.scss';
 
 type Props = {
@@ -7,15 +7,22 @@ type Props = {
   danger?: boolean;
   onClick?: () => void;
   isSubmit?: boolean;
+  className?: string;
 };
 
-const CommonButton = ({ children, danger = false, onClick, isSubmit = false }: Props) => {
+const CommonButton = ({
+  children,
+  danger = false,
+  onClick,
+  isSubmit = false,
+  className,
+}: Props) => {
   return (
     <Button
       onClick={onClick}
       htmlType={isSubmit ? 'submit' : 'button'}
       danger={danger}
-      className={styles.commonBtn}
+      className={`${styles.commonBtn} ${className}`}
     >
       {children}
     </Button>

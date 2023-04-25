@@ -5,9 +5,7 @@ import {
 } from 'helpers/localStorage';
 // import { TRefreshTokenRequest } from "app/pages/AuthPage/slice/authTypes";
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import dotenv from 'dotenv';
 
-// dotenv.config();
 enum StatusCode {
   Unauthorized = 401,
   Forbidden = 403,
@@ -124,8 +122,8 @@ class Http {
             refresh: getRefreshTokenFromLocalStorage(),
           });
           const { accessToken, refreshToken } = rs.data;
-          saveToken(accessToken, 'accessToken');
-          saveToken(refreshToken, 'refreshToken');
+          saveToken('accessToken', accessToken);
+          saveToken('refreshToken', refreshToken);
           return this.http(config);
         } catch (_error) {
           return Promise.reject(_error);

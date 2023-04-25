@@ -1,17 +1,29 @@
 import './App.css';
 import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
 import { routers } from './routes/index';
-import React from 'react';
+import React, { useEffect } from 'react';
 import DefaultLayout from './pages/Layout/DefaultLayout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'store';
 import { getUserFromLs } from 'helpers/localStorage';
 import MPath from 'routes/routes';
+import { getRefreshTokenFromLocalStorage } from './helpers/localStorage';
+import { saveUser } from 'store/slices/authSlice';
+import { axiosClient } from 'axiosConfig/axiosClient';
 function App() {
+  const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-  const auth = isAuthenticated || Object.entries(getUserFromLs()).length > 0;
+  const userLs = getUserFromLs();
+  const refreshToken = getRefreshTokenFromLocalStorage();
+  const auth = isAuthenticated || Object.entries(userLs).length > 0;
+
+  useEffect(() => {
+    if (userLs.id && refreshToken) {
+      dispatch(saveUser(userLs));
+    }
+  }, []);
 
   return (
     <BrowserRouter>

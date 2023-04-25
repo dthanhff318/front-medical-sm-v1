@@ -1,6 +1,8 @@
+import { TDepartment } from 'types/department';
+
 export type TInitDepartmentState = {
-  departmentList: any;
-  departmentDetail: any;
+  departmentList: Array<TDepartment>;
+  departmentDetail: TDepartment;
 };
 
 export type TGetDepartments = {
