@@ -170,7 +170,6 @@ const BiddingSupply = () => {
   return (
     <div className={s.wrapper}>
       <h2 className={s.title}>Danh sách vật tư đầu thầu</h2>
-      {/* <Table bordered scroll={{ y: '50vh' }} columns={columns} dataSource={data} size="middle" /> */}
       <Table
         bordered
         columns={columns}
