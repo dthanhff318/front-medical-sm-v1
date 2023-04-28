@@ -7,6 +7,7 @@ import MPath from './routes';
 import AddSupply from 'pages/Adm/AddSupply/AddSupply';
 import AccountManage from 'pages/Adm/AccountManage/AccountManage';
 import DepartmentManage from 'pages/Adm/DepartmentManage/DepartmentManage';
+import Depot from 'pages/Adm/Depot/Depot';
 
 export const routers: any = [
   {
@@ -36,6 +37,13 @@ export const routers: any = [
     element: <AddSupply />,
     public: false,
     path: MPath.ADM_ADD_SUPPLY,
+    exact: true,
+  },
+  {
+    name: 'AdmDepot',
+    element: <Depot />,
+    public: false,
+    path: MPath.ADM_DEPOT,
     exact: true,
   },
   {

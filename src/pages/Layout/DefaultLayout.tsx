@@ -29,7 +29,15 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
     {
       id: 1,
       icon: HomeOutlined,
-      label: <Link to={MPath.ADM_ADD_SUPPLY}>Nhập vật tư</Link>,
+      label: 'Nhập kho',
+      children: [
+        {
+          label: <Link to={MPath.ADM_ADD_SUPPLY}>Phiếu nhập kho</Link>,
+        },
+        {
+          label: <Link to={MPath.ADM_ADD_SUPPLY}>Công nợ</Link>,
+        },
+      ],
     },
     {
       id: 2,
@@ -51,6 +59,19 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
     },
     {
       id: 4,
+      icon: HomeOutlined,
+      label: 'Báo cáo',
+      children: [
+        {
+          label: <Link to={MPath.ADM_DEPOT}>Tổng kho</Link>,
+        },
+        {
+          label: <Link to={MPath.ADM_ADD_SUPPLY}>Công nợ</Link>,
+        },
+      ],
+    },
+    {
+      id: 5,
       icon: BankOutlined,
       label: <Link to={MPath.ADM_DEPARTMENT}>Khoa phong</Link>,
     },
