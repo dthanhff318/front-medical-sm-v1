@@ -85,7 +85,7 @@ for (let i = 0; i < 20; i++) {
   });
 }
 const onSearch = (value: string) => console.log(value);
-const AddSupply: React.FC = () => {
+const Store: React.FC = () => {
   return (
     <div className={styles.wapper}>
       <Row gutter={[8, 0]} style={{ marginBottom: '20px' }}>
@@ -145,4 +145,4 @@ const AddSupply: React.FC = () => {
   );
 };
 
-export default AddSupply;
+export default Store;
