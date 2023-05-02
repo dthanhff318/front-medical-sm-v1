@@ -1,13 +1,13 @@
 import React from 'react';
 import Notfound from '../pages/Notfound';
-import Home from '../pages/AdmHome';
 import Login from 'pages/Login/Login';
 import BiddingSupply from 'pages/Adm/BiddingSupply/BiddingSupply';
 import MPath from './routes';
 import AddSupply from 'pages/Adm/AddSupply/AddSupply';
 import AccountManage from 'pages/Adm/AccountManage/AccountManage';
 import DepartmentManage from 'pages/Adm/DepartmentManage/DepartmentManage';
-import Depot from 'pages/Adm/Depot/Depot';
+import Home from 'pages/Adm/Home/Home';
+import Store from 'pages/Adm/Store/Store';
 
 export const routers: any = [
   {
@@ -41,7 +41,7 @@ export const routers: any = [
   },
   {
     name: 'AdmDepot',
-    element: <Depot />,
+    element: <Store />,
     public: false,
     path: MPath.ADM_DEPOT,
     exact: true,

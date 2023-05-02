@@ -135,7 +135,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
   return (
     <Layout className="defaultlayout-wapper">
       <Sider className="sider-wapper" trigger={null} collapsible collapsed={collapsed}>
-        <div className="sider-title">
+        <Link to={MPath.ADM_HOME} className="sider-title">
           <div className="sider-logo">
             {/* <img
               className="logo-img"
@@ -143,7 +143,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
               alt=""
             /> */}
           </div>
-        </div>
+        </Link>
         <Menu theme="dark" mode="inline" style={{ borderRight: 0 }} items={itemsAdmin} />
       </Sider>
       <Layout className="site-layout default-layout-body">
