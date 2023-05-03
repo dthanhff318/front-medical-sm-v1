@@ -81,6 +81,7 @@ const columns: any = [
 const AddSupply: React.FC = () => {
   const [form] = useForm();
   const { findBidding, findLoading } = useSelector((state: RootState) => state.bidding);
+  const [dataAdd, setDataAdd] = useState<any>([]);
   const [value, setValue] = useState<string>('');
   const {} = useService({ value });
   const [selectSupply, setSelectSupply] = useState<any>(null);
@@ -112,13 +113,12 @@ const AddSupply: React.FC = () => {
   return (
     <div className={styles.wapper}>
       <Divider style={{ marginTop: '0px' }}>Bảng Phiếu nhập vật tư</Divider>
-      <Table columns={columns} dataSource={[]} size="middle" scroll={{ x: 1500, y: 300 }} />
+      <Table columns={columns} dataSource={dataAdd} size="middle" scroll={{ x: 1500, y: 300 }} />
       <div className={styles.control}>
         <Form
           initialValues={{ remember: true }}
           onFinish={(data: any) => {
-            console.log(1);
-            console.log(data);
+            setDataAdd([...dataAdd, data]);
             form.resetFields();
           }}
           autoComplete="off"
@@ -290,7 +290,7 @@ const AddSupply: React.FC = () => {
               <div className={styles.bottom}>
                 <Form.Item>
                   <CommonButton onClick={() => console.log(1)} isSubmit={true}>
-                    Tạo phiếu nhập
+                    Thêm vào bảng
                   </CommonButton>
                 </Form.Item>
               </div>

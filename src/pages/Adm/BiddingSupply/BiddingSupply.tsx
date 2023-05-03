@@ -158,11 +158,11 @@ const BiddingSupply = () => {
       key: 'action',
       width: 100,
       fixed: 'right',
-      render: (_, data) => {
+      render: (_, data) => (
         <div className={s.actionBtn}>
-          <CommonButton danger>Xoa</CommonButton>;
-        </div>;
-      },
+          <CommonButton danger>Xóa</CommonButton>
+        </div>
+      ),
     },
   ];
 
@@ -172,7 +172,7 @@ const BiddingSupply = () => {
       <Table
         bordered
         columns={columns}
-        dataSource={listBidding}
+        dataSource={listBidding.map((e) => ({ ...e, company: e.company.name }))}
         size="middle"
         scroll={{ x: 'max-content', y: '50vh' }}
         loading={loading}
