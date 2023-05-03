@@ -40,3 +40,11 @@ export type TLoginData = {
   username: string;
   password: string;
 };
+
+// Bidding
+export type TInitBiddingState = {
+  listBidding: Array<any>;
+  loading: boolean;
+  findBidding: Array<any>;
+  findLoading: boolean;
+};

@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
+import { findBidding } from 'store/slices/biddingSlice';
 import {
   createNewDepartments,
   deleteDepartment,
@@ -8,29 +9,27 @@ import {
 } from 'store/slices/departmentSlice';
 import { TCreateDepartments } from 'store/slices/type';
 
-const useService = () => {
+const useService = ({ value }: { value: string }) => {
   const dispatch = useDispatch();
-  const { departmentList, departmentDetail } = useSelector((state: RootState) => state.department);
-  const departmentListMapping =
-    departmentList.map((d) => ({
-      ...d,
-      owner: d?.owner ? d.owner?.displayName : '',
-    })) ?? [];
-  const onCreateDepartment = (data: TCreateDepartments) => {
-    dispatch(createNewDepartments(data) as any);
-  };
-  const handleDeleteDepartment = (id: number) => {
-    dispatch(deleteDepartment(id) as any);
+  const [search, setSearch] = useState<string>('');
+  const [biddingFind, setBiddingFind] = useState([]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSearch(value);
+    }, 1500);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [value]);
+  const getListFindBidding = () => {
+    dispatch(findBidding(search) as any);
   };
 
   useEffect(() => {
-    dispatch(getDepartments({ page: 1, limit: 10 }) as any);
-  }, []);
+    getListFindBidding();
+  }, [search]);
   return {
-    departmentDetail,
-    departmentListMapping,
-    onCreateDepartment,
-    handleDeleteDepartment,
+    search,
   };
 };
 

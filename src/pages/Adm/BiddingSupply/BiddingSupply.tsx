@@ -3,65 +3,52 @@ import * as XLSX from 'xlsx';
 import { Accept, useDropzone } from 'react-dropzone';
 import s from './BiddingSupply.module.scss';
 import Table, { ColumnsType } from 'antd/es/table';
+import biddingApi from 'axiosConfig/api/bidding';
+import useService from './service';
+import CommonButton from 'components/CommonButton/CommonButton';
 
 const BiddingSupply = () => {
-  const [rows, setRows] = useState<any>([]);
-  console.log(rows);
+  const { listBidding, loading, handleExcelDownload } = useService();
 
   // Hàm để đọc dữ liệu từ file Excel
   const handleExcelUpload = (file) => {
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       const data = new Uint8Array(e.target?.result as ArrayBufferLike);
       const workbook = XLSX.read(data, { type: 'array' });
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
       const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
       const mappingData = rows.map((r: any, i: number) => ({
-        key: i,
-        id: r[0],
-        codett: r[1],
-        code: r[2],
-        name: r[3],
-        ingredient: r[4],
-        unit: r[5],
-        group: r[6],
-        brand: r[7],
-        country: r[8],
-        company: r[9],
-        unitPrice: r[10],
-        yearBidding: r[11],
-        codeBidding: r[12],
-        biddingCount: r[13],
-        buyCount: r[14],
-        remainCount: r[15],
-        biddingPrice: r[16],
-        contract: r[17],
+        code: r[0],
+        name: r[1],
+        ingredient: r[2],
+        unit: r[3],
+        group: r[4],
+        brand: r[5],
+        country: r[6],
+        company: r[7],
+        unitPrice: r[8],
+        yearBidding: r[9],
+        codeBidding: r[10],
+        biddingCount: r[11],
+        buyCount: r[12],
+        remainCount: r[13],
+        biddingPrice: r[14],
+        contract: r[15],
       }));
-      setRows(mappingData);
+      const dataSlice = mappingData.slice(1);
+
+      const chunkSize = 50;
+      for (let i = 0; i < dataSlice.length; i += chunkSize) {
+        const chunk = dataSlice.slice(i, i + chunkSize); // lấy ra phần từ vị trí i đến i + chunkSize
+        // gửi chunk lên server
+        await biddingApi.updateBidding({
+          bidding: chunk,
+        });
+      }
     };
     reader.readAsArrayBuffer(file);
-  };
-
-  // Hàm để xuất file Excel
-  const handleExcelDownload = () => {
-    const worksheet = XLSX.utils.json_to_sheet(rows);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-    const excelBuffer = XLSX.write(workbook, {
-      bookType: 'xlsx',
-      type: 'array',
-    });
-    const blob = new Blob([excelBuffer], {
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'data.xlsx');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   };
 
   // Sử dụng useDropzone để tạo phần tử Dropzone để kéo thả file Excel
@@ -73,7 +60,7 @@ const BiddingSupply = () => {
     },
   });
 
-  const columns: ColumnsType<any> = [
+  const columns: any = [
     {
       title: 'ID ',
       dataIndex: 'id',
@@ -165,6 +152,18 @@ const BiddingSupply = () => {
       dataIndex: 'contract',
       width: 200,
     },
+    {
+      title: '',
+      dataIndex: 'action',
+      key: 'action',
+      width: 100,
+      fixed: 'right',
+      render: (_, data) => {
+        <div className={s.actionBtn}>
+          <CommonButton danger>Xoa</CommonButton>;
+        </div>;
+      },
+    },
   ];
 
   return (
@@ -173,16 +172,17 @@ const BiddingSupply = () => {
       <Table
         bordered
         columns={columns}
-        dataSource={rows}
+        dataSource={listBidding}
         size="middle"
         scroll={{ x: 'max-content', y: '50vh' }}
+        loading={loading}
       />
       <div className={s.handleZone}>
         <div className={s.dropzone} {...getRootProps()}>
           <input {...getInputProps()} />
           <p>Kéo thả hoặc nhấn vào đây để tải lên file Excel</p>
         </div>
-        <button onClick={handleExcelDownload}>Xuất file Excel</button>
+        <button onClick={() => handleExcelDownload(listBidding)}>Xuất file Excel</button>
       </div>
     </div>
   );

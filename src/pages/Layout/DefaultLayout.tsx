@@ -5,6 +5,7 @@ import {
   BellOutlined,
   UsergroupAddOutlined,
   BankOutlined,
+  SnippetsOutlined,
 } from '@ant-design/icons';
 import { Badge, Layout, Menu } from 'antd';
 import React, { useState } from 'react';
@@ -44,22 +45,22 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       icon: MedicineBoxOutlined,
       label: <Link to={MPath.ADM_BIDDING}>Cập nhật đấu thầu</Link>,
     },
-    {
-      id: 3,
-      icon: MedicineBoxOutlined,
-      label: 'Plan',
-      // children: [
-      //   {
-      //     label: <Link to={mPath.A_PLAN_LIST}>List Plan</Link>,
-      //   },
-      //   {
-      //     label: <Link to={mPath.A_WAREHOUSE}>List request supply</Link>,
-      //   },
-      // ],
-    },
+    // {
+    //   id: 3,
+    //   icon: MedicineBoxOutlined,
+    //   label: 'Plan',
+    // children: [
+    //   {
+    //     label: <Link to={mPath.A_PLAN_LIST}>List Plan</Link>,
+    //   },
+    //   {
+    //     label: <Link to={mPath.A_WAREHOUSE}>List request supply</Link>,
+    //   },
+    // ],
+    // },
     {
       id: 4,
-      icon: HomeOutlined,
+      icon: SnippetsOutlined,
       label: 'Báo cáo',
       children: [
         {
