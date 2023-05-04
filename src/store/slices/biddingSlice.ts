@@ -21,11 +21,11 @@ export const getListBidding = createAsyncThunk('bidding/getListBidding', async (
   }
 });
 
-export const findBidding = createAsyncThunk(
-  'bidding/findBidding',
-  async (value: string, thunkApi) => {
+export const findBiddingWithSupplier = createAsyncThunk(
+  'bidding/findBiddingWithSupplier',
+  async (id: string, thunkApi) => {
     try {
-      const res = await biddingApi.findBidding(value);
+      const res = await biddingApi.findBidding(id);
       return res.data;
     } catch (err: any) {
       toast.error(`Co loi xay ra, vui long thu lai`);
@@ -46,10 +46,10 @@ const biddingSlice = createSlice({
       state.listBidding = action.payload;
       state.loading = false;
     });
-    builder.addCase(findBidding.pending, (state, _) => {
+    builder.addCase(findBiddingWithSupplier.pending, (state, _) => {
       state.findLoading = true;
     });
-    builder.addCase(findBidding.fulfilled, (state, action) => {
+    builder.addCase(findBiddingWithSupplier.fulfilled, (state, action) => {
       state.findBidding = action.payload;
       state.findLoading = false;
     });

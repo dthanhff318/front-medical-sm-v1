@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import { Col, DatePicker, Divider, Form, Input, InputNumber, Row, Select, Table } from 'antd';
-import { Button, Radio, Space } from 'antd';
-import type { SpaceSize } from 'antd/es/space';
-import type { ColumnsType } from 'antd/es/table';
-import styles from './style.module.scss';
-import ModalAddSupply from './ModalAddSupply';
 import useService from './service';
 import { useForm } from 'antd/es/form/Form';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import CommonButton from 'components/CommonButton/CommonButton';
+import styles from './style.module.scss';
 
 type TModal = '' | 'delete' | 'create';
 const columns: any = [
@@ -80,14 +76,21 @@ const columns: any = [
 
 const AddSupply: React.FC = () => {
   const [form] = useForm();
-  const { findBidding, findLoading } = useSelector((state: RootState) => state.bidding);
+  const { suppliers } = useSelector((state: RootState) => state.supplier);
+  const { findBidding } = useSelector((state: RootState) => state.bidding);
+
   const [dataAdd, setDataAdd] = useState<any>([]);
   const [value, setValue] = useState<string>('');
-  const {} = useService({ value });
-  const [selectSupply, setSelectSupply] = useState<any>(null);
-  const handleSelect = (id: string) => {
+  const [selectCompany, setSelectCompany] = useState<string>('');
+  const {} = useService({ value, selectCompany });
+  console.log(selectCompany);
+
+  const handleSelectCompany = (id: string) => {
+    setSelectCompany(id);
+  };
+
+  const handleSelectSupply = (id: string) => {
     const supply = findBidding.find((d) => d.id === id);
-    setSelectSupply(supply);
     form.setFieldsValue({
       ingredient: supply.ingredient,
       code: supply.code,
@@ -129,12 +132,37 @@ const AddSupply: React.FC = () => {
               span={12}
               style={{ display: 'flex', flexDirection: 'column', marginBottom: '16px' }}
             >
-              <span>Tên vật tư</span>
+              <span>Nhà cung cấp</span>
               <Form.Item
                 noStyle
-                name="name"
-                rules={[{ required: true, message: 'Vui long dien ten vat tu' }]}
+                name="company"
+                rules={[{ required: true, message: 'Vui long chọn nhà cung cấp' }]}
               >
+                <Select
+                  showSearch
+                  value={value}
+                  placeholder="Chọn nhà cung cấp"
+                  style={{ width: '100%' }}
+                  defaultActiveFirstOption={false}
+                  showArrow={true}
+                  filterOption={false}
+                  onSearch={(e) => setValue(e)}
+                  onChange={(e) => handleSelectCompany(e)}
+                  notFoundContent={null}
+                  options={
+                    value
+                      ? suppliers.map((d) => ({
+                          value: d.id,
+                          label: d.name,
+                        }))
+                      : []
+                  }
+                />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <span>Tên vật tư</span>
+              <Form.Item noStyle name="ingredient">
                 <Select
                   showSearch
                   value={value}
@@ -144,7 +172,7 @@ const AddSupply: React.FC = () => {
                   showArrow={true}
                   filterOption={false}
                   onSearch={(e) => setValue(e)}
-                  onChange={(e) => handleSelect(e)}
+                  onChange={(e) => handleSelectSupply(e)}
                   notFoundContent={null}
                   options={
                     value
@@ -155,12 +183,6 @@ const AddSupply: React.FC = () => {
                       : []
                   }
                 />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <span>Hoạt chất</span>
-              <Form.Item noStyle name="ingredient">
-                <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
             <Col span={6}>
@@ -213,9 +235,9 @@ const AddSupply: React.FC = () => {
               >
                 <InputNumber
                   min={1}
-                  max={selectSupply ? Number(selectSupply.remainCount) : 1}
-                  type="number"
-                  disabled={Number(selectSupply?.remainCount) ? false : true}
+                  // max={selectSupply ? Number(selectSupply.remainCount) : 1}
+                  // type="number"
+                  // disabled={Number(selectSupply?.remainCount) ? false : true}
                   style={{ marginBottom: '10px', width: '100%' }}
                   onChange={handleChangeQuantity}
                 />

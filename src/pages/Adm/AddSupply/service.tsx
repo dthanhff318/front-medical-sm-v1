@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'store';
-import { findBidding } from 'store/slices/biddingSlice';
-import {
-  createNewDepartments,
-  deleteDepartment,
-  getDepartments,
-} from 'store/slices/departmentSlice';
-import { TCreateDepartments } from 'store/slices/type';
+import { findBiddingWithSupplier } from 'store/slices/biddingSlice';
+import { findSupplier } from 'store/slices/supplierSlice';
 
-const useService = ({ value }: { value: string }) => {
+type Props = {
+  value: string;
+  selectCompany: string;
+};
+const useService = ({ value, selectCompany }: Props) => {
   const dispatch = useDispatch();
   const [search, setSearch] = useState<string>('');
-  const [biddingFind, setBiddingFind] = useState([]);
   useEffect(() => {
     const timer = setTimeout(() => {
       setSearch(value);
@@ -21,13 +18,21 @@ const useService = ({ value }: { value: string }) => {
       clearTimeout(timer);
     };
   }, [value]);
-  const getListFindBidding = () => {
-    dispatch(findBidding(search) as any);
+  const findListSupplier = () => {
+    dispatch(findSupplier(search) as any);
+  };
+
+  const findBidding = () => {
+    dispatch(findBiddingWithSupplier(selectCompany) as any);
   };
 
   useEffect(() => {
-    getListFindBidding();
+    findListSupplier();
   }, [search]);
+
+  useEffect(() => {
+    findBidding();
+  }, [selectCompany]);
   return {
     search,
   };

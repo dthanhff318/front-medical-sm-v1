@@ -48,3 +48,9 @@ export type TInitBiddingState = {
   findBidding: Array<any>;
   findLoading: boolean;
 };
+
+// Supplier
+export type TInitSupplierState = {
+  suppliers: Array<any>;
+  loading: boolean;
+};

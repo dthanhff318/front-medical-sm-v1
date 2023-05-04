@@ -8,8 +8,8 @@ const biddingApi = {
   getListBidding: () => {
     return axiosClient.get('/bidding');
   },
-  findBidding: (value: string) => {
-    return axiosClient.get(`/bidding/search?q=${value}`);
+  findBidding: (id: string) => {
+    return axiosClient.get(`/bidding/supplier/${id}`);
   },
 };
 
