@@ -6,75 +6,84 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import CommonButton from 'components/CommonButton/CommonButton';
 import styles from './style.module.scss';
+import moment from 'moment';
 
-type TModal = '' | 'delete' | 'create';
 const columns: any = [
   {
-    title: 'STT',
-    width: 60,
+    title: 'Tên vật tư',
+    width: 250,
     dataIndex: 'name',
-    key: 'name',
     fixed: 'left',
   },
   {
-    title: 'Age',
+    title: 'Hoạt chất',
+    width: 150,
+    dataIndex: 'ingredient',
+  },
+  {
+    title: 'Đơn vị',
+    dataIndex: 'unit',
     width: 100,
-    dataIndex: 'age',
-    key: 'age',
   },
   {
-    title: 'Column 1',
-    dataIndex: 'address',
-    key: '1',
+    title: 'Nhóm',
+    dataIndex: 'group',
+    width: 250,
+  },
+  {
+    title: 'Tên hãng',
+    dataIndex: 'brand',
+    width: 200,
+  },
+  {
+    title: 'Tên nước',
+    dataIndex: 'country',
     width: 150,
   },
   {
-    title: 'Column 2',
-    dataIndex: 'address',
-    key: '2',
+    title: 'Hạn sử dụng',
+    dataIndex: 'dateExpired',
     width: 150,
   },
   {
-    title: 'Column 3',
-    dataIndex: 'address',
-    key: '3',
+    title: 'Lô SX',
+    dataIndex: 'codeProduct',
     width: 150,
   },
   {
-    title: 'Column 4',
-    dataIndex: 'address',
-    key: '4',
+    title: 'Mã thầu',
+    dataIndex: 'codeBidding',
     width: 150,
   },
   {
-    title: 'Column 5',
-    dataIndex: 'address',
-    key: '5',
+    title: 'Số lượng',
+    dataIndex: 'quantity',
+    width: 100,
+  },
+  {
+    title: 'Đơn giá',
+    dataIndex: 'unitPrice',
     width: 150,
   },
   {
-    title: 'Column 6',
-    dataIndex: 'address',
-    key: '6',
+    title: 'Tổng tiền',
+    dataIndex: 'totalPrice',
     width: 150,
   },
   {
-    title: 'Column 7',
-    dataIndex: 'address',
-    key: '7',
-    width: 150,
-  },
-  { title: 'Column 8', dataIndex: 'address', key: '8' },
-  {
-    title: 'Action',
-    key: 'operation',
+    title: '',
     fixed: 'right',
     width: 100,
-    render: () => <a>action</a>,
+    render: (_, record: any) => (
+      <CommonButton danger onClick={() => console.log(record)}>
+        Xóa
+      </CommonButton>
+    ),
   },
 ];
 
 const AddSupply: React.FC = () => {
+  const [formSubmit] = useForm();
   const [form] = useForm();
   const { suppliers } = useSelector((state: RootState) => state.supplier);
   const { findBidding } = useSelector((state: RootState) => state.bidding);
@@ -82,8 +91,8 @@ const AddSupply: React.FC = () => {
   const [dataAdd, setDataAdd] = useState<any>([]);
   const [value, setValue] = useState<string>('');
   const [selectCompany, setSelectCompany] = useState<string>('');
+  const [selectSupply, setSelectSupply] = useState<any>('');
   const {} = useService({ value, selectCompany });
-  console.log(selectCompany);
 
   const handleSelectCompany = (id: string) => {
     setSelectCompany(id);
@@ -91,6 +100,7 @@ const AddSupply: React.FC = () => {
 
   const handleSelectSupply = (id: string) => {
     const supply = findBidding.find((d) => d.id === id);
+    setSelectSupply(supply);
     form.setFieldsValue({
       ingredient: supply.ingredient,
       code: supply.code,
@@ -113,56 +123,96 @@ const AddSupply: React.FC = () => {
     const quantity = form.getFieldValue('quantity');
     form.setFieldValue('totalPrice', e * quantity);
   };
+  const handleAddData = (data: any) => {
+    const dateExp = form.getFieldValue('dateExpired');
+    const convertDate = dateExp ? moment(dateExp).format('MMM Do YY') : '';
+    setDataAdd([...dataAdd, { ...data, name: selectSupply.name, dateExpired: convertDate }]);
+  };
+
+  const handleSubmit = (data: any) => {
+    console.log(data);
+    const dataBill = {
+      supplier: selectCompany,
+      codeBill: formSubmit.getFieldValue(''),
+    };
+  };
   return (
     <div className={styles.wapper}>
       <Divider style={{ marginTop: '0px' }}>Bảng Phiếu nhập vật tư</Divider>
-      <Table columns={columns} dataSource={dataAdd} size="middle" scroll={{ x: 1500, y: 300 }} />
+      <Form
+        initialValues={{ remember: true }}
+        onFinish={handleSubmit}
+        autoComplete="off"
+        form={formSubmit}
+        name="form-submit"
+      >
+        <Row gutter={[8, 0]}>
+          <Col span={12} style={{ display: 'flex', flexDirection: 'column', marginBottom: '16px' }}>
+            <span>Nhà cung cấp</span>
+            <Form.Item
+              noStyle
+              name="company"
+              rules={[{ required: true, message: 'Vui long chọn nhà cung cấp' }]}
+            >
+              <Select
+                showSearch
+                value={value}
+                placeholder="Chọn nhà cung cấp"
+                style={{ width: '100%' }}
+                defaultActiveFirstOption={false}
+                showArrow={true}
+                filterOption={false}
+                onSearch={(e) => setValue(e)}
+                onChange={(e) => handleSelectCompany(e)}
+                notFoundContent={null}
+                options={
+                  value
+                    ? suppliers.map((d) => ({
+                        value: d.id,
+                        label: d.name,
+                      }))
+                    : []
+                }
+              />
+            </Form.Item>
+          </Col>
+          <Col span={4}>
+            <span>Mã hóa đơn</span>
+            <Form.Item
+              noStyle
+              name="codeBill"
+              rules={[{ required: true, message: 'Hãy điền mã hóa đơn!' }]}
+            >
+              <Input style={{ marginBottom: '10px' }} />
+            </Form.Item>
+          </Col>
+          <Col span={8} style={{ display: 'flex', flexDirection: 'column', marginBottom: '16px' }}>
+            <span>---</span>
+            <Form.Item>
+              <CommonButton isSubmit={true}>Nhập kho</CommonButton>
+            </Form.Item>
+          </Col>
+        </Row>
+      </Form>
+      <Table
+        bordered
+        columns={columns}
+        dataSource={dataAdd}
+        size="middle"
+        scroll={{ x: 'max-content', y: '500px' }}
+      />
       <div className={styles.control}>
         <Form
           initialValues={{ remember: true }}
-          onFinish={(data: any) => {
-            setDataAdd([...dataAdd, data]);
-            form.resetFields();
-          }}
+          onFinish={handleAddData}
           autoComplete="off"
           form={form}
+          name="form-add"
         >
           <Row gutter={[8, 0]}>
-            <Col
-              span={12}
-              style={{ display: 'flex', flexDirection: 'column', marginBottom: '16px' }}
-            >
-              <span>Nhà cung cấp</span>
-              <Form.Item
-                noStyle
-                name="company"
-                rules={[{ required: true, message: 'Vui long chọn nhà cung cấp' }]}
-              >
-                <Select
-                  showSearch
-                  value={value}
-                  placeholder="Chọn nhà cung cấp"
-                  style={{ width: '100%' }}
-                  defaultActiveFirstOption={false}
-                  showArrow={true}
-                  filterOption={false}
-                  onSearch={(e) => setValue(e)}
-                  onChange={(e) => handleSelectCompany(e)}
-                  notFoundContent={null}
-                  options={
-                    value
-                      ? suppliers.map((d) => ({
-                          value: d.id,
-                          label: d.name,
-                        }))
-                      : []
-                  }
-                />
-              </Form.Item>
-            </Col>
             <Col span={12}>
               <span>Tên vật tư</span>
-              <Form.Item noStyle name="ingredient">
+              <Form.Item noStyle name="name">
                 <Select
                   showSearch
                   value={value}
@@ -185,6 +235,12 @@ const AddSupply: React.FC = () => {
                 />
               </Form.Item>
             </Col>
+            <Col span={12}>
+              <span>Hoạt chất</span>
+              <Form.Item noStyle name="ingredient">
+                <Input style={{ marginBottom: '10px' }} readOnly />
+              </Form.Item>
+            </Col>
             <Col span={6}>
               <span>Nhóm</span>
               <Form.Item noStyle name="group">
@@ -198,25 +254,9 @@ const AddSupply: React.FC = () => {
               </Form.Item>
             </Col>
             <Col span={6}>
-              <span>Nhà cung cấp</span>
-              <Form.Item noStyle name="company">
-                <Input style={{ marginBottom: '10px' }} readOnly />
-              </Form.Item>
-            </Col>
-            <Col span={6}>
               <span>Nước SX</span>
               <Form.Item noStyle name="country">
                 <Input style={{ marginBottom: '10px' }} readOnly />
-              </Form.Item>
-            </Col>
-            <Col span={4}>
-              <span>Mã hóa đơn</span>
-              <Form.Item
-                noStyle
-                name="codeBill"
-                rules={[{ required: true, message: 'Vui long dien ten khoa phong!' }]}
-              >
-                <Input style={{ marginBottom: '10px' }} />
               </Form.Item>
             </Col>
             <Col span={4}>
@@ -225,7 +265,6 @@ const AddSupply: React.FC = () => {
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
-
             <Col span={4}>
               <span>Số lượng</span>
               <Form.Item
@@ -276,15 +315,10 @@ const AddSupply: React.FC = () => {
               style={{ display: 'flex', flexDirection: 'column', marginBottom: '16px' }}
             >
               <span>Ngày hết hạn</span>
-              <Form.Item
-                noStyle
-                name="dateExprired"
-                rules={[{ required: true, message: 'Vui long dien ten khoa phong!' }]}
-              >
-                <DatePicker onChange={() => {}} style={{ marginBottom: '10px' }} />
+              <Form.Item noStyle name="dateExpired">
+                <DatePicker defaultValue={undefined} style={{ marginBottom: '10px' }} />
               </Form.Item>
             </Col>
-
             <Col
               span={6}
               style={{ display: 'flex', flexDirection: 'column', marginBottom: '16px' }}
@@ -311,9 +345,7 @@ const AddSupply: React.FC = () => {
             <Col span={24}>
               <div className={styles.bottom}>
                 <Form.Item>
-                  <CommonButton onClick={() => console.log(1)} isSubmit={true}>
-                    Thêm vào bảng
-                  </CommonButton>
+                  <CommonButton isSubmit={true}>Thêm vào bảng</CommonButton>
                 </Form.Item>
               </div>
             </Col>
