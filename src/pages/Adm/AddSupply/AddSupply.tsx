@@ -47,7 +47,7 @@ const columns: any = [
   },
   {
     title: 'Lô SX',
-    dataIndex: 'codeProduct',
+    dataIndex: 'productCode',
     width: 150,
   },
   {
@@ -62,7 +62,7 @@ const columns: any = [
   },
   {
     title: 'Đơn giá',
-    dataIndex: 'unitPrice',
+    dataIndex: 'price',
     width: 150,
   },
   {
@@ -92,7 +92,7 @@ const AddSupply: React.FC = () => {
   const [value, setValue] = useState<string>('');
   const [selectCompany, setSelectCompany] = useState<string>('');
   const [selectSupply, setSelectSupply] = useState<any>('');
-  const {} = useService({ value, selectCompany });
+  const { handleAddSupplyToStore } = useService({ value, selectCompany });
 
   const handleSelectCompany = (id: string) => {
     setSelectCompany(id);
@@ -112,6 +112,7 @@ const AddSupply: React.FC = () => {
       biddingCount: supply.biddingCount,
       unit: supply.unit,
       codeBidding: supply.codeBidding,
+      yearBidding: supply.yearBidding,
     });
   };
   const handleChangeQuantity = (e) => {
@@ -125,16 +126,21 @@ const AddSupply: React.FC = () => {
   };
   const handleAddData = (data: any) => {
     const dateExp = form.getFieldValue('dateExpired');
+    const price = form.getFieldValue('price');
+    const productCode = form.getFieldValue('productCode');
     const convertDate = dateExp ? moment(dateExp).format('MMM Do YY') : '';
-    setDataAdd([...dataAdd, { ...data, name: selectSupply.name, dateExpired: convertDate }]);
+    setDataAdd([
+      ...dataAdd,
+      { ...data, name: selectSupply.name, dateExpired: convertDate, unitPrice: price, productCode },
+    ]);
   };
 
-  const handleSubmit = (data: any) => {
-    console.log(data);
+  const handleSubmit = (info: { company: number; codeBill: string }) => {
     const dataBill = {
-      supplier: selectCompany,
-      codeBill: formSubmit.getFieldValue(''),
+      ...info,
+      add: dataAdd,
     };
+    handleAddSupplyToStore(dataBill);
   };
   return (
     <div className={styles.wapper}>
@@ -307,6 +313,12 @@ const AddSupply: React.FC = () => {
             <Col span={6}>
               <span>Mã thầu</span>
               <Form.Item noStyle name="codeBidding">
+                <Input style={{ marginBottom: '10px' }} readOnly />
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <span>Năm thầu</span>
+              <Form.Item noStyle name="yearBidding">
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>

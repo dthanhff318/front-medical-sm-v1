@@ -1,98 +1,91 @@
 import React from 'react';
-import { Col, Input, Space, Row, Table, Select } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
+import { Col, Input, Space, Row, Table, Select, Divider } from 'antd';
 import styles from './style.module.scss';
 import Search from 'antd/es/input/Search';
+import useService from './service';
+import CommonButton from 'components/CommonButton/CommonButton';
 
-interface DataType {
-  key: React.Key;
-  name: string;
-  age: number;
-  address: string;
-}
-const columns: ColumnsType<DataType> = [
+const columns: any = [
   {
-    title: 'STT',
-    width: 60,
+    title: 'Tên vật tư',
+    width: 250,
     dataIndex: 'name',
-    key: 'name',
     fixed: 'left',
   },
   {
-    title: 'Age',
+    title: 'Hoạt chất',
+    width: 150,
+    dataIndex: 'ingredient',
+  },
+  {
+    title: 'Đơn vị',
+    dataIndex: 'unit',
     width: 100,
-    dataIndex: 'age',
-    key: 'age',
   },
   {
-    title: 'Column 1',
-    dataIndex: 'address',
-    key: '1',
+    title: 'Nhóm',
+    dataIndex: 'group',
+    width: 250,
+  },
+  {
+    title: 'Tên hãng',
+    dataIndex: 'brand',
+    width: 200,
+  },
+  {
+    title: 'Tên công ty',
+    dataIndex: 'company',
+    width: 200,
+  },
+  {
+    title: 'Tên nước',
+    dataIndex: 'country',
     width: 150,
   },
   {
-    title: 'Column 2',
-    dataIndex: 'address',
-    key: '2',
+    title: 'Hạn sử dụng',
+    dataIndex: 'dateExpired',
     width: 150,
   },
   {
-    title: 'Column 3',
-    dataIndex: 'address',
-    key: '3',
+    title: 'Lô SX',
+    dataIndex: 'productCode',
     width: 150,
   },
   {
-    title: 'Column 4',
-    dataIndex: 'address',
-    key: '4',
+    title: 'Mã thầu',
+    dataIndex: 'codeBidding',
     width: 150,
   },
   {
-    title: 'Column 5',
-    dataIndex: 'address',
-    key: '5',
-    width: 150,
-  },
-  {
-    title: 'Column 6',
-    dataIndex: 'address',
-    key: '6',
-    width: 150,
-  },
-  {
-    title: 'Column 7',
-    dataIndex: 'address',
-    key: '7',
-    width: 150,
-  },
-  { title: 'Column 8', dataIndex: 'address', key: '8' },
-  {
-    title: 'Action',
-    key: 'operation',
+    title: 'Số lượng',
+    dataIndex: 'quantity',
     width: 100,
-    render: () => <a>action</a>,
+  },
+  {
+    title: '',
+    fixed: 'right',
+    width: 100,
+    render: (_, record: any) => (
+      <CommonButton danger onClick={() => console.log(record)}>
+        Xóa
+      </CommonButton>
+    ),
   },
 ];
 
-const data: DataType[] = [];
-for (let i = 0; i < 20; i++) {
-  data.push({
-    key: i,
-    name: ` ${i}`,
-    age: 32,
-    address: `London Park no. ${i}`,
-  });
-}
-const onSearch = (value: string) => console.log(value);
 const Store: React.FC = () => {
+  const { stores, loading, getStore } = useService();
+  const onSearch = (value: string) => {
+    getStore({ q: value });
+  };
+
   return (
     <div className={styles.wapper}>
+      <Divider style={{ marginTop: '0px' }}>Tổng kho vật tư</Divider>
       <Row gutter={[8, 0]} style={{ marginBottom: '20px' }}>
-        <Col span={6}>
-          <Space direction="vertical">
-            <Search placeholder="input search text" onSearch={onSearch} style={{ width: '100%' }} />
-          </Space>
+        <Col span={8}>
+          <Search placeholder="Nhập tên vật tư" onSearch={onSearch} style={{ width: '100%' }} />
         </Col>
         <Col span={8}>
           <Select
@@ -137,9 +130,11 @@ const Store: React.FC = () => {
       </Row>
       <Table
         columns={columns}
-        dataSource={data}
+        loading={loading}
+        dataSource={stores.map((e) => ({ ...e, company: e.company.name }))}
         size="middle"
         scroll={{ x: 'max-content', y: '59vh' }}
+        rowKey="id"
       />
     </div>
   );

@@ -8,17 +8,6 @@ const initialState: TInitSupplierState = {
   loading: false,
 };
 
-// export const getListBidding = createAsyncThunk('bidding/getListBidding', async (_, thunkApi) => {
-//   try {
-//     const res = await biddingApi.getListBidding();
-//     toast.success('Cap nhat thongg tin dau thau thanh cong !');
-//     return res.data;
-//   } catch (err: any) {
-//     toast.error(`Co loi xay ra, vui long thu lai`);
-//     return thunkApi.rejectWithValue({});
-//   }
-// });
-
 export const findSupplier = createAsyncThunk(
   'supplier/findSupplier',
   async (value: string, thunkApi) => {
@@ -37,13 +26,6 @@ const supplierSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // builder.addCase(getListBidding.pending, (state, action) => {
-    //   state.loading = true;
-    // });
-    // builder.addCase(getListBidding.fulfilled, (state, action) => {
-    //   state.listBidding = action.payload;
-    //   state.loading = false;
-    // });
     builder.addCase(findSupplier.fulfilled, (state, action) => {
       state.suppliers = action.payload;
     });

@@ -1,3 +1,4 @@
+import storeApi from 'axiosConfig/api/store';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { findBiddingWithSupplier } from 'store/slices/biddingSlice';
@@ -33,8 +34,13 @@ const useService = ({ value, selectCompany }: Props) => {
   useEffect(() => {
     findBidding();
   }, [selectCompany]);
+
+  const handleAddSupplyToStore = async (data: any) => {
+    await storeApi.addSupplyToStore(data);
+  };
   return {
     search,
+    handleAddSupplyToStore,
   };
 };
 

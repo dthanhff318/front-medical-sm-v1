@@ -54,3 +54,9 @@ export type TInitSupplierState = {
   suppliers: Array<any>;
   loading: boolean;
 };
+
+// Store
+export type TInitStoreState = {
+  loading: boolean;
+  stores: Array<any>;
+};

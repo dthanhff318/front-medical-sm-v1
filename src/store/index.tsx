@@ -3,6 +3,7 @@ import { departmentReducer } from './slices/departmentSlice';
 import { authReducer } from './slices/authSlice';
 import { biddingReducer } from './slices/biddingSlice';
 import { supplierReducer } from './slices/supplierSlice';
+import { storeReducer } from './slices/storeSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     department: departmentReducer,
     bidding: biddingReducer,
     supplier: supplierReducer,
+    store: storeReducer,
   },
 });
 
