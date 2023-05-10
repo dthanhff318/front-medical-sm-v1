@@ -60,6 +60,14 @@ export const routers: any = [
     path: MPath.ADM_DEPARTMENT,
     exact: true,
   },
+  // User
+  {
+    name: 'USER_HOME',
+    element: <DepartmentManage />,
+    public: false,
+    path: MPath.USER_HOME,
+    exact: true,
+  },
   {
     name: 'Notfound',
     element: <Notfound />,
