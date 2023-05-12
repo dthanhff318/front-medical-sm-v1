@@ -1,5 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TInitAuthState, TUser } from './type';
+import { clearLs } from 'helpers/localStorage';
 
 const initialState: TInitAuthState = {
   isAuthenticated: false,
@@ -11,6 +12,14 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    logout: (state: TInitAuthState, _) => {
+      clearLs();
+      return {
+        ...state,
+        currentUser: initialState.currentUser,
+        isAuthenticated: initialState.isAuthenticated,
+      };
+    },
     saveUser: (state: TInitAuthState, action: PayloadAction<TUser>) => {
       state.currentUser = action.payload;
       state.isAuthenticated = true;
@@ -23,4 +32,4 @@ const authSlice = createSlice({
 });
 
 export const { actions, reducer: authReducer } = authSlice;
-export const { saveUser, setLoading } = actions;
+export const { saveUser, setLoading, logout } = actions;

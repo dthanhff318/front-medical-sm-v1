@@ -6,6 +6,7 @@ import { saveToken, saveUserToLs } from 'helpers/localStorage';
 import { useNavigate } from 'react-router-dom';
 import MPath from 'routes/routes';
 import { toast } from 'react-toastify';
+import { ERole } from 'enums';
 
 const useService = () => {
   const dispatch = useDispatch();
@@ -20,11 +21,11 @@ const useService = () => {
       saveToken('accessToken', accessToken);
       saveToken('refreshToken', refreshToken);
       dispatch(setLoading(false));
-      if (dataUser.isAdmin) {
-        toast.success('Dang nhap thanh cong !');
+      toast.success('Dang nhap thanh cong !');
+      if (dataUser.role === ERole.Admin) {
         return navigate(MPath.ADM_HOME);
       }
-      return navigate(MPath.ADM_ADD_SUPPLY);
+      return navigate(MPath.USER_HOME);
     } catch (err: any) {
       dispatch(setLoading(false));
       toast.error(err.response.data);

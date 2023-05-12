@@ -11,7 +11,7 @@ import { getUserFromLs } from 'helpers/localStorage';
 import MPath from 'routes/routes';
 import { getRefreshTokenFromLocalStorage } from './helpers/localStorage';
 import { saveUser } from 'store/slices/authSlice';
-import { axiosClient } from 'axiosConfig/axiosClient';
+import Notfound from './pages/Notfound';
 function App() {
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
@@ -38,7 +38,7 @@ function App() {
                 key={route.name}
                 path={route.path}
                 element={
-                  auth ? (
+                  auth && route.role?.includes(userLs.role) ? (
                     <DefaultLayout>{route.element}</DefaultLayout>
                   ) : (
                     <>
@@ -49,6 +49,14 @@ function App() {
               />
             );
           })}
+          <Route
+            path="*"
+            element={
+              <>
+                <Navigate to={'/notfound'} replace />
+              </>
+            }
+          />
         </Routes>
       </div>
     </BrowserRouter>

@@ -1,9 +1,7 @@
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UserOutlined,
   BellOutlined,
-  UsergroupAddOutlined,
   BankOutlined,
   SnippetsOutlined,
 } from '@ant-design/icons';
@@ -12,10 +10,11 @@ import React, { useState } from 'react';
 import './DefaultLayout.scss';
 import type { MenuProps } from 'antd';
 import { MedicineBoxOutlined, HomeOutlined } from '@ant-design/icons';
-
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import MPath from 'routes/routes';
+import { getPublicUrl } from 'helpers/functions';
+import useService from './service';
+import { ERole } from 'enums';
 
 const { Header, Sider, Content } = Layout;
 
@@ -23,7 +22,7 @@ type Props = {
   children: JSX.Element;
 };
 const DefaultLayout: React.FC<Props> = ({ children }) => {
-  const dispatch = useDispatch();
+  const { onLogout, role } = useService();
   const [onSetting, setOnSetting] = useState(false);
 
   const listSubnavAdmin = [
@@ -45,19 +44,6 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       icon: MedicineBoxOutlined,
       label: <Link to={MPath.ADM_BIDDING}>Cập nhật đấu thầu</Link>,
     },
-    // {
-    //   id: 3,
-    //   icon: MedicineBoxOutlined,
-    //   label: 'Plan',
-    // children: [
-    //   {
-    //     label: <Link to={mPath.A_PLAN_LIST}>List Plan</Link>,
-    //   },
-    //   {
-    //     label: <Link to={mPath.A_WAREHOUSE}>List request supply</Link>,
-    //   },
-    // ],
-    // },
     {
       id: 4,
       icon: SnippetsOutlined,
@@ -78,11 +64,11 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
     },
   ];
 
-  const listSubnavDepartment = [
+  const listSubnavUser = [
     {
       id: 1,
       icon: MedicineBoxOutlined,
-      // label: <Link to={mPath.M_PLAN_CREATE}>Lập dự trù</Link>,
+      label: <Link to={'/'}>Lập dự trù</Link>,
     },
     {
       id: 2,
@@ -93,16 +79,6 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       id: 3,
       icon: MedicineBoxOutlined,
       label: 'Lấy thêm vật tư',
-    },
-    {
-      id: 4,
-      icon: MedicineBoxOutlined,
-      // label: <Link to={mPath.M_WAREHOUSE}>Kho vật tư</Link>,
-    },
-    {
-      id: 5,
-      icon: MedicineBoxOutlined,
-      // label: <Link to={mPath.M_STAFF}>Nhân viên</Link>,
     },
   ];
   const itemsAdmin: MenuProps['items'] = listSubnavAdmin.map((list: any, index) => {
@@ -121,7 +97,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       }),
     };
   });
-  const itemsDepartment: MenuProps['items'] = listSubnavDepartment.map((list, index) => {
+  const itemsUser: MenuProps['items'] = listSubnavUser.map((list, index) => {
     const key = String(index + 1);
 
     return {
@@ -136,16 +112,17 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
   return (
     <Layout className="defaultlayout-wapper">
       <Sider className="sider-wapper" trigger={null} collapsible collapsed={collapsed}>
-        <Link to={MPath.ADM_HOME} className="sider-title">
+        <Link to={role === ERole.Admin ? MPath.ADM_HOME : MPath.USER_HOME} className="sider-title">
           <div className="sider-logo">
-            {/* <img
-              className="logo-img"
-              src={getPublicUrl("logo_app.png")}
-              alt=""
-            /> */}
+            <img className="logo-img" src={getPublicUrl('logobrand.png')} alt="" />
           </div>
         </Link>
-        <Menu theme="dark" mode="inline" style={{ borderRight: 0 }} items={itemsAdmin} />
+        <Menu
+          theme="dark"
+          mode="inline"
+          style={{ borderRight: 0 }}
+          items={role === ERole.Admin ? itemsAdmin : itemsUser}
+        />
       </Sider>
       <Layout className="site-layout default-layout-body">
         <Header className="header site-layout-background" style={{ padding: 20 }}>
@@ -189,7 +166,9 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
               <i className="fa-solid fa-user"></i>
             </div>
             {onSetting && (
-              <ul className="user-settings-list">{/* <li onClick={onLogout}>Logout</li> */}</ul>
+              <ul className="user-settings-list">
+                <li onClick={onLogout}>Logout</li>
+              </ul>
             )}
           </div>
         </Header>

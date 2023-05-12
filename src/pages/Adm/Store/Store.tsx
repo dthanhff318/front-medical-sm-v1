@@ -5,127 +5,86 @@ import Search from 'antd/es/input/Search';
 import useService from './service';
 import CommonButton from 'components/CommonButton/CommonButton';
 
-const columns: any = [
-  {
-    title: 'Tên vật tư',
-    width: 250,
-    dataIndex: 'name',
-    fixed: 'left',
-  },
-  {
-    title: 'Hoạt chất',
-    width: 150,
-    dataIndex: 'ingredient',
-  },
-  {
-    title: 'Đơn vị',
-    dataIndex: 'unit',
-    width: 100,
-  },
-  {
-    title: 'Nhóm',
-    dataIndex: 'group',
-    width: 250,
-  },
-  {
-    title: 'Tên hãng',
-    dataIndex: 'brand',
-    width: 200,
-  },
-  {
-    title: 'Tên công ty',
-    dataIndex: 'company',
-    width: 200,
-  },
-  {
-    title: 'Tên nước',
-    dataIndex: 'country',
-    width: 150,
-  },
-  {
-    title: 'Hạn sử dụng',
-    dataIndex: 'dateExpired',
-    width: 150,
-  },
-  {
-    title: 'Lô SX',
-    dataIndex: 'productCode',
-    width: 150,
-  },
-  {
-    title: 'Mã thầu',
-    dataIndex: 'codeBidding',
-    width: 150,
-  },
-  {
-    title: 'Số lượng',
-    dataIndex: 'quantity',
-    width: 100,
-  },
-  {
-    title: '',
-    fixed: 'right',
-    width: 100,
-    render: (_, record: any) => (
-      <CommonButton danger onClick={() => console.log(record)}>
-        Xóa
-      </CommonButton>
-    ),
-  },
-];
-
 const Store: React.FC = () => {
-  const { stores, loading, getStore } = useService();
+  const { stores, loading, getStore, onDeleteSupplyStore } = useService();
   const onSearch = (value: string) => {
     getStore({ q: value });
   };
 
+  const columns: any = [
+    {
+      title: 'Tên vật tư',
+      width: 250,
+      dataIndex: 'name',
+      fixed: 'left',
+    },
+    {
+      title: 'Hoạt chất',
+      width: 150,
+      dataIndex: 'ingredient',
+    },
+    {
+      title: 'Đơn vị',
+      dataIndex: 'unit',
+      width: 100,
+    },
+    {
+      title: 'Nhóm',
+      dataIndex: 'group',
+      width: 250,
+    },
+    {
+      title: 'Tên hãng',
+      dataIndex: 'brand',
+      width: 200,
+    },
+    {
+      title: 'Tên công ty',
+      dataIndex: 'company',
+      width: 200,
+    },
+    {
+      title: 'Tên nước',
+      dataIndex: 'country',
+      width: 150,
+    },
+    {
+      title: 'Hạn sử dụng',
+      dataIndex: 'dateExpired',
+      width: 150,
+    },
+    {
+      title: 'Lô SX',
+      dataIndex: 'productCode',
+      width: 150,
+    },
+    {
+      title: 'Mã thầu',
+      dataIndex: 'codeBidding',
+      width: 150,
+    },
+    {
+      title: 'Số lượng',
+      dataIndex: 'quantity',
+      width: 100,
+    },
+    {
+      title: '',
+      fixed: 'right',
+      width: 100,
+      render: (_, record: any) => (
+        <CommonButton danger onClick={() => onDeleteSupplyStore(record.id)}>
+          Xóa
+        </CommonButton>
+      ),
+    },
+  ];
   return (
     <div className={styles.wapper}>
       <Divider style={{ marginTop: '0px' }}>Tổng kho vật tư</Divider>
       <Row gutter={[8, 0]} style={{ marginBottom: '20px' }}>
         <Col span={8}>
           <Search placeholder="Nhập tên vật tư" onSearch={onSearch} style={{ width: '100%' }} />
-        </Col>
-        <Col span={8}>
-          <Select
-            showSearch
-            style={{ width: 200 }}
-            placeholder="Search to Select"
-            optionFilterProp="children"
-            filterOption={(input, option) => (option?.label ?? '').includes(input)}
-            filterSort={(optionA, optionB) =>
-              (optionA?.label ?? '')
-                .toLowerCase()
-                .localeCompare((optionB?.label ?? '').toLowerCase())
-            }
-            options={[
-              {
-                value: '1',
-                label: 'Not Identified',
-              },
-              {
-                value: '2',
-                label: 'Closed',
-              },
-              {
-                value: '3',
-                label: 'Communicated',
-              },
-              {
-                value: '4',
-                label: 'Identified',
-              },
-              {
-                value: '5',
-                label: 'Resolved',
-              },
-              {
-                value: '6',
-                label: 'Cancelled',
-              },
-            ]}
-          />
         </Col>
       </Row>
       <Table

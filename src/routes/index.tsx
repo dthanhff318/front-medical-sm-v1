@@ -8,6 +8,8 @@ import AccountManage from 'pages/Adm/AccountManage/AccountManage';
 import DepartmentManage from 'pages/Adm/DepartmentManage/DepartmentManage';
 import Home from 'pages/Adm/Home/Home';
 import Store from 'pages/Adm/Store/Store';
+import UserHome from 'pages/User/UserHome';
+import { ERole } from 'enums';
 
 export const routers: any = [
   {
@@ -15,14 +17,15 @@ export const routers: any = [
     element: <Login />,
     public: true,
     path: '/login',
-    role: [],
+    role: [ERole.User, ERole.Admin],
     exact: true,
   },
   {
-    name: 'Home',
+    name: 'ADM_HOME',
     element: <Home />,
     public: false,
     path: MPath.ADM_HOME,
+    role: [ERole.Admin],
     exact: true,
   },
   {
@@ -30,6 +33,7 @@ export const routers: any = [
     element: <BiddingSupply />,
     public: false,
     path: MPath.ADM_BIDDING,
+    role: [ERole.Admin],
     exact: true,
   },
   {
@@ -44,6 +48,7 @@ export const routers: any = [
     element: <Store />,
     public: false,
     path: MPath.ADM_DEPOT,
+    role: [ERole.Admin],
     exact: true,
   },
   {
@@ -51,6 +56,7 @@ export const routers: any = [
     element: <AccountManage />,
     public: false,
     path: MPath.ADM_DEPARTMENT_DETAIL,
+    role: [ERole.Admin],
     exact: true,
   },
   {
@@ -58,21 +64,25 @@ export const routers: any = [
     element: <DepartmentManage />,
     public: false,
     path: MPath.ADM_DEPARTMENT,
+    role: [ERole.Admin],
     exact: true,
   },
   // User
   {
     name: 'USER_HOME',
-    element: <DepartmentManage />,
+    element: <UserHome />,
     public: false,
     path: MPath.USER_HOME,
+    role: [ERole.User],
     exact: true,
   },
+  // Not found
   {
     name: 'Notfound',
     element: <Notfound />,
     public: true,
     path: '/notfound',
+    role: [ERole.User, ERole.Admin],
     exact: true,
   },
 ];

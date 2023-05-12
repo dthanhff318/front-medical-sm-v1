@@ -21,6 +21,19 @@ export const getSupplyStore = createAsyncThunk(
   },
 );
 
+export const deleteSupplyStore = createAsyncThunk(
+  'store/deleteSupplyStore',
+  async (id: number, thunkApi) => {
+    try {
+      await storeApi.deleteSupply(id);
+      return id;
+    } catch (err: any) {
+      toast.error(`Co loi xay ra, vui long thu lai`);
+      return thunkApi.rejectWithValue({});
+    }
+  },
+);
+
 const storeSlice = createSlice({
   name: 'supplier',
   initialState,
@@ -32,6 +45,17 @@ const storeSlice = createSlice({
     builder.addCase(getSupplyStore.fulfilled, (state, action) => {
       state.loading = false;
       state.stores = action.payload;
+    });
+    builder.addCase(deleteSupplyStore.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(deleteSupplyStore.fulfilled, (state, action) => {
+      const remainList = state.stores.filter((s) => s.id !== action.payload);
+      return {
+        ...state,
+        loading: false,
+        stores: remainList,
+      };
     });
   },
 });

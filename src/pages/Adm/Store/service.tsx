@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { RootState } from 'store';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSupplyStore } from 'store/slices/storeSlice';
+import { deleteSupplyStore, getSupplyStore } from 'store/slices/storeSlice';
 
 const useService = () => {
   const dispatch = useDispatch();
@@ -9,6 +9,8 @@ const useService = () => {
   const getStore = (condition?: any) => {
     dispatch(getSupplyStore(condition) as any);
   };
+
+  const onDeleteSupplyStore = (id: number) => dispatch(deleteSupplyStore(id) as any);
   useEffect(() => {
     getStore();
   }, []);
@@ -16,6 +18,7 @@ const useService = () => {
     stores,
     loading,
     getStore,
+    onDeleteSupplyStore,
   };
 };
 

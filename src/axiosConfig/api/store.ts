@@ -9,6 +9,9 @@ const storeApi = {
   addSupplyToStore: (data: any) => {
     return axiosClient.post('/store/add', data);
   },
+  deleteSupply: (id: number) => {
+    return axiosClient.delete(`/store/${id}`);
+  },
 };
 
 export default storeApi;

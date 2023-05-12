@@ -1,3 +1,4 @@
+import { ERole } from 'enums';
 import { TDepartment } from 'types/department';
 
 export type TInitDepartmentState = {
@@ -26,7 +27,7 @@ export type TCreateUser = {
 // auth
 export type TUser = {
   id?: number;
-  isAdmin?: boolean;
+  role?: ERole;
   department?: null | number;
   displayName?: string;
 };

@@ -1,22 +1,16 @@
-import { IndexedObject } from "types/common";
+import { IndexedObject } from 'types/common';
 
-export const getTokenFromLocalStorage = () =>
-  localStorage.getItem("accessToken");
+export const getTokenFromLocalStorage = () => localStorage.getItem('accessToken');
 
-export const saveToken = (key: string, token: string) =>
-  localStorage.setItem(key, token);
+export const saveToken = (key: string, token: string) => localStorage.setItem(key, token);
 
-export const getRefreshTokenFromLocalStorage = () =>
-  localStorage.getItem("refreshToken");
+export const getRefreshTokenFromLocalStorage = () => localStorage.getItem('refreshToken');
 
-export const saveUserToLs = (data) =>
-  localStorage.setItem("userInfo", JSON.stringify(data));
+export const saveUserToLs = (data) => localStorage.setItem('userInfo', JSON.stringify(data));
 
-export const removeUserLs = () => {
-  localStorage.removeItem("userInfo");
-  localStorage.removeItem("accessToken");
-  localStorage.removeItem("refreshToken");
+export const clearLs = () => {
+  localStorage.clear();
 };
 
 export const getUserFromLs = (): IndexedObject =>
-  JSON.parse(localStorage.getItem("userInfo") ?? "{}");
+  JSON.parse(localStorage.getItem('userInfo') ?? '{}');
