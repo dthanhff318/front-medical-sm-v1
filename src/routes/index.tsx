@@ -40,6 +40,7 @@ export const routers: any = [
     name: 'AdmAddSuppy',
     element: <AddSupply />,
     public: false,
+    role: [ERole.Admin],
     path: MPath.ADM_ADD_SUPPLY,
     exact: true,
   },
