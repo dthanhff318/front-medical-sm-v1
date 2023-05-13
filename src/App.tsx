@@ -41,9 +41,7 @@ function App() {
                   auth && route.role?.includes(userLs.role) ? (
                     <DefaultLayout>{route.element}</DefaultLayout>
                   ) : (
-                    <>
-                      <Navigate to={MPath.LOGIN} replace />
-                    </>
+                    <Navigate to={MPath.LOGIN} replace />
                   )
                 }
               />
