@@ -10,6 +10,8 @@ import Home from 'pages/Adm/Home/Home';
 import Store from 'pages/Adm/Store/Store';
 import UserHome from 'pages/User/UserHome';
 import { ERole } from 'enums';
+import Plan from 'pages/User/Plan/Plan';
+import Refund from 'pages/User/Refund/Refund';
 
 export const routers: any = [
   {
@@ -74,6 +76,22 @@ export const routers: any = [
     element: <UserHome />,
     public: false,
     path: MPath.USER_HOME,
+    role: [ERole.User],
+    exact: true,
+  },
+  {
+    name: 'USER_PLAN',
+    element: <Plan />,
+    public: false,
+    path: MPath.USER_PLAN,
+    role: [ERole.User],
+    exact: true,
+  },
+  {
+    name: 'USER_REFUND',
+    element: <Refund />,
+    public: false,
+    path: MPath.USER_REFUND,
     role: [ERole.User],
     exact: true,
   },
