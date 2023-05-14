@@ -10,7 +10,6 @@ const Store: React.FC = () => {
   const onSearch = (value: string) => {
     getStore({ q: value });
   };
-
   const columns: any = [
     {
       title: 'Tên vật tư',
@@ -79,6 +78,7 @@ const Store: React.FC = () => {
       ),
     },
   ];
+
   return (
     <div className={styles.wapper}>
       <Divider style={{ marginTop: '0px' }}>Tổng kho vật tư</Divider>
