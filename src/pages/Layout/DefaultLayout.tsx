@@ -68,12 +68,12 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
     {
       id: 1,
       icon: MedicineBoxOutlined,
-      label: <Link to={'/'}>Lập dự trù</Link>,
+      label: <Link to={MPath.USER_PLAN}>Lập dự trù</Link>,
     },
     {
       id: 2,
       icon: MedicineBoxOutlined,
-      label: 'Hoàn trả vật tư',
+      label: <Link to={MPath.USER_REFUND}>Hoàn trả vật tư</Link>,
     },
     {
       id: 3,
