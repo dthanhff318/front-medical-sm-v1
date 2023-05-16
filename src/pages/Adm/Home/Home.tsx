@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import s from './Home.module.scss';
 import { ColumnsType } from 'antd/es/table';
+import useService from './service';
 export interface IHomePageProps {}
 type DashboardOverview = {
   totalDepartment?: number;
@@ -75,6 +76,7 @@ const columns: ColumnsType<DataType> = [
 ];
 export default function Home(props: IHomePageProps) {
   const [dashboardOverview, setDashboardOverview] = useState<DashboardOverview>({});
+  const { dataService } = useService();
   const data: DataType[] = [];
   for (let i = 0; i < 5; i++) {
     data.push({
@@ -103,7 +105,7 @@ export default function Home(props: IHomePageProps) {
                     className="fa-solid fa-suitcase-medical"
                   ></i>
                 </div>
-                <p>Số vật tư: {dashboardOverview.totalSupply}</p>
+                <p>Số vật tư: {dataService.supply}</p>
               </div>
             </Col>
             <Col style={{ display: 'flex', justifyContent: 'center' }} span={7}>
@@ -114,7 +116,7 @@ export default function Home(props: IHomePageProps) {
                     className="fa-solid fa-city"
                   ></i>
                 </div>
-                <p>Số nhà cung cấp: {dashboardOverview.totalSupplier}</p>
+                <p>Số nhà cung cấp: {dataService.supplier}</p>
               </div>
             </Col>
             <Col style={{ display: 'flex', justifyContent: 'center' }} span={7}>
@@ -125,7 +127,7 @@ export default function Home(props: IHomePageProps) {
                     className="fa-solid fa-house"
                   ></i>
                 </div>
-                <p>Số khoa phòng: {dashboardOverview.totalDepartment}</p>
+                <p>Số khoa phòng: {dataService.department}</p>
               </div>
             </Col>
           </Row>
