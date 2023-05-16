@@ -60,7 +60,12 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
     {
       id: 5,
       icon: BankOutlined,
-      label: <Link to={MPath.ADM_DEPARTMENT}>Khoa phong</Link>,
+      label: <Link to={MPath.ADM_DEPARTMENT}>Khoa phòng</Link>,
+    },
+    {
+      id: 6,
+      icon: BankOutlined,
+      label: <Link to={MPath.ADM_DEPARTMENT}>Dự trù</Link>,
     },
   ];
 
