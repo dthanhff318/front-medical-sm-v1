@@ -1,0 +1,23 @@
+.actionBtn {
+    display: flex;
+    align-items: center;
+    gap: 0 1rem;
+  }
+  .wrapper {
+    .title {
+      font-size: 1.4rem;
+      text-align: center;
+    }
+    .groupBtn {
+      margin: 1rem 0;
+    }
+  }
+  
+  // Modal Create User
+  .wrapperModal {
+    padding: 2.5rem 1rem 0;
+    .bottom {
+      margin-top: 4rem;
+    }
+  }
+  

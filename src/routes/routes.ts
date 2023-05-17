@@ -5,6 +5,7 @@ const MPath = {
   ADM_BIDDING: '/adm/bidding',
   ADM_ADD_SUPPLY: '/adm/add/supply',
   ADM_DEPARTMENT: '/adm/department',
+  ADM_SUPPLIER: '/adm/supplier',
   ADM_DEPOT: '/adm/depot',
   ADM_DEPARTMENT_DETAIL: '/adm/department/:id',
   ADM_PLAN: '/adm/plan',
@@ -12,6 +13,9 @@ const MPath = {
   USER_HOME: '/',
   USER_PLAN: '/plan',
   USER_REFUND: '/refund',
+  USER_STORE: '/store/department',
+
+
 };
 
 export default MPath;

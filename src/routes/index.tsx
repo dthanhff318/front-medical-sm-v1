@@ -11,6 +11,8 @@ import Store from 'pages/Adm/Store/Store';
 import UserHome from 'pages/User/UserHome';
 import Plan from 'pages/User/Plan/Plan';
 import Refund from 'pages/User/Refund/Refund';
+import StoreDepartment from 'pages/User/StoreDepartment/StoreDepartment';
+import Supplier from 'pages/Adm/Supplier/Supplier';
 import ExportSupply from 'pages/Adm/ExportSupply/ExportSupply';
 import { ERole } from 'enums';
 
@@ -79,6 +81,15 @@ export const routers: any = [
     role: [ERole.Admin],
     exact: true,
   },
+  {
+    name: 'AdmSupplier',
+    element: <Supplier />,
+    public: false,
+    path: MPath.ADM_SUPPLIER,
+    role: [ERole.Admin],
+    exact: true,
+  },
+
   // User
   {
     name: 'USER_HOME',
@@ -101,6 +112,14 @@ export const routers: any = [
     element: <Refund />,
     public: false,
     path: MPath.USER_REFUND,
+    role: [ERole.User],
+    exact: true,
+  },
+  {
+    name: 'USER_STORE',
+    element: <StoreDepartment />,
+    public: false,
+    path: MPath.USER_STORE,
     role: [ERole.User],
     exact: true,
   },
