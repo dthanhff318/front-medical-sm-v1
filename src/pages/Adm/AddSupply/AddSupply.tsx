@@ -8,80 +8,6 @@ import CommonButton from 'components/CommonButton/CommonButton';
 import styles from './style.module.scss';
 import moment from 'moment';
 
-const columns: any = [
-  {
-    title: 'Tên vật tư',
-    width: 250,
-    dataIndex: 'name',
-    fixed: 'left',
-  },
-  {
-    title: 'Hoạt chất',
-    width: 150,
-    dataIndex: 'ingredient',
-  },
-  {
-    title: 'Đơn vị',
-    dataIndex: 'unit',
-    width: 100,
-  },
-  {
-    title: 'Nhóm',
-    dataIndex: 'group',
-    width: 250,
-  },
-  {
-    title: 'Tên hãng',
-    dataIndex: 'brand',
-    width: 200,
-  },
-  {
-    title: 'Tên nước',
-    dataIndex: 'country',
-    width: 150,
-  },
-  {
-    title: 'Hạn sử dụng',
-    dataIndex: 'dateExpired',
-    width: 150,
-  },
-  {
-    title: 'Lô SX',
-    dataIndex: 'productCode',
-    width: 150,
-  },
-  {
-    title: 'Mã thầu',
-    dataIndex: 'codeBidding',
-    width: 150,
-  },
-  {
-    title: 'Số lượng',
-    dataIndex: 'quantity',
-    width: 100,
-  },
-  {
-    title: 'Đơn giá',
-    dataIndex: 'price',
-    width: 150,
-  },
-  {
-    title: 'Tổng tiền',
-    dataIndex: 'totalPrice',
-    width: 150,
-  },
-  {
-    title: '',
-    fixed: 'right',
-    width: 100,
-    render: (_, record: any) => (
-      <CommonButton danger onClick={() => console.log(record)}>
-        Xóa
-      </CommonButton>
-    ),
-  },
-];
-
 const AddSupply: React.FC = () => {
   const [formSubmit] = useForm();
   const [form] = useForm();
@@ -128,7 +54,16 @@ const AddSupply: React.FC = () => {
     const dateExp = form.getFieldValue('dateExpired');
     const price = form.getFieldValue('price');
     const productCode = form.getFieldValue('productCode');
-    const convertDate = dateExp ? moment(dateExp).format('MMM Do YY') : '';
+    const convertDate = dateExp ? moment(dateExp.$d).format('MMM Do YY') : '';
+
+    const checkExist = dataAdd.find((d) => d.name === selectSupply.name);
+    if (checkExist) {
+      const incQuantity = dataAdd.map((e) =>
+        e.name === selectSupply.name ? { ...e, quantity: e.quantity + data.quantity } : e,
+      );
+      setDataAdd(incQuantity);
+      return;
+    }
     setDataAdd([
       ...dataAdd,
       { ...data, name: selectSupply.name, dateExpired: convertDate, unitPrice: price, productCode },
@@ -142,6 +77,85 @@ const AddSupply: React.FC = () => {
     };
     handleAddSupplyToStore(dataBill);
   };
+
+  const deleteSupply = (name: string) => {
+    const remainDataAdd = dataAdd.filter((d) => d.name !== name);
+    setDataAdd(remainDataAdd);
+  };
+
+  const columns: any = [
+    {
+      title: 'Tên vật tư',
+      width: 250,
+      dataIndex: 'name',
+      fixed: 'left',
+    },
+    {
+      title: 'Hoạt chất',
+      width: 150,
+      dataIndex: 'ingredient',
+    },
+    {
+      title: 'Đơn vị',
+      dataIndex: 'unit',
+      width: 100,
+    },
+    {
+      title: 'Nhóm',
+      dataIndex: 'group',
+      width: 250,
+    },
+    {
+      title: 'Tên hãng',
+      dataIndex: 'brand',
+      width: 200,
+    },
+    {
+      title: 'Tên nước',
+      dataIndex: 'country',
+      width: 150,
+    },
+    {
+      title: 'Hạn sử dụng',
+      dataIndex: 'dateExpired',
+      width: 150,
+    },
+    {
+      title: 'Lô SX',
+      dataIndex: 'productCode',
+      width: 150,
+    },
+    {
+      title: 'Mã thầu',
+      dataIndex: 'codeBidding',
+      width: 150,
+    },
+    {
+      title: 'Số lượng',
+      dataIndex: 'quantity',
+      width: 100,
+    },
+    {
+      title: 'Đơn giá',
+      dataIndex: 'price',
+      width: 150,
+    },
+    {
+      title: 'Tổng tiền',
+      dataIndex: 'totalPrice',
+      width: 150,
+    },
+    {
+      title: '',
+      fixed: 'right',
+      width: 100,
+      render: (_, record: any) => (
+        <CommonButton danger onClick={() => deleteSupply(record.name)}>
+          Xóa
+        </CommonButton>
+      ),
+    },
+  ];
   return (
     <div className={styles.wapper}>
       <Divider style={{ marginTop: '0px' }}>Bảng Phiếu nhập vật tư</Divider>
@@ -206,6 +220,7 @@ const AddSupply: React.FC = () => {
         dataSource={dataAdd}
         size="middle"
         scroll={{ x: 'max-content', y: '500px' }}
+        rowKey="name"
       />
       <div className={styles.control}>
         <Form

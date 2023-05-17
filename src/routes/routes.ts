@@ -8,6 +8,7 @@ const MPath = {
   ADM_SUPPLIER: '/adm/supplier',
   ADM_DEPOT: '/adm/depot',
   ADM_DEPARTMENT_DETAIL: '/adm/department/:id',
+  ADM_PLAN: '/adm/plan',
   // User
   USER_HOME: '/',
   USER_PLAN: '/plan',
