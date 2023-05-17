@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { Table } from 'antd';
+import { Pagination, Row, Table } from 'antd';
 import CommonButton from 'components/CommonButton/CommonButton';
 import ModalDelete from 'components/CommonModal/ModalDelete';
 import styles from './style.module.scss';
 import ModalCreateDepartment from './ModalCreateDepartment';
 import MPath from 'routes/routes';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useService from './service';
-import { replacePathParams } from 'helpers/functions';
+import { createQueryUrl, parseSearchParams, replacePathParams } from 'helpers/functions';
+import PaginationCustom from 'components/PaginationCustom/PaginationCustom';
 
 type TModal = '' | 'delete' | 'create';
 const DepartmentManage = () => {
@@ -54,7 +55,20 @@ const DepartmentManage = () => {
   ];
   const [openModal, setOpenModal] = useState<TModal>('');
   const [selectDepartment, setSelectDepartment] = useState<number>(-1);
-  const { departmentListMapping, onCreateDepartment, handleDeleteDepartment } = useService();
+  const { departmentState, urlQueryParams, onCreateDepartment, handleDeleteDepartment } =
+    useService();
+  const { departmentList, pagination } = departmentState;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const onChangePage = (page: number, limit: number) => {
+    navigate(createQueryUrl(location, { ...urlQueryParams, page, limit }));
+  };
+  const departmentListMapping =
+    departmentList.map((d) => ({
+      ...d,
+      key: d?.id,
+      owner: d?.owner ? d.owner?.displayName : '',
+    })) ?? [];
   return (
     <>
       <ModalDelete
@@ -77,7 +91,15 @@ const DepartmentManage = () => {
         <div className={styles.groupBtn}>
           <CommonButton onClick={() => setOpenModal('create')}>Them moi khoa phong</CommonButton>
         </div>
-        <Table dataSource={departmentListMapping} columns={columns} />
+        <Table dataSource={departmentListMapping} columns={columns} pagination={false} />
+        <Row justify={'center'} style={{ marginTop: '20px' }}>
+          <PaginationCustom
+            total={pagination.totalResults}
+            current={pagination.page}
+            pageSize={pagination.limit}
+            onChange={onChangePage}
+          />
+        </Row>
       </div>
     </>
   );

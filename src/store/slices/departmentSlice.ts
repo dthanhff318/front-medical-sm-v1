@@ -8,6 +8,12 @@ import { TCreateDepartments, TCreateUser, TGetDepartments, TInitDepartmentState 
 const initialState: TInitDepartmentState = {
   departmentList: [],
   departmentDetail: {},
+  pagination: {
+    page: 1,
+    limit: 10,
+    totalPages: 1,
+    totalResults: 0,
+  },
 };
 
 // Get Departments Pagination
@@ -99,9 +105,9 @@ const departmentSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getDepartments.fulfilled, (state, action) => {
-      console.log(action.payload);
-
-      state.departmentList = action.payload;
+      const { results, pagination } = action.payload;
+      state.departmentList = results;
+      state.pagination = pagination;
     });
     builder.addCase(createNewDepartments.fulfilled, (state: TInitDepartmentState, action) => {
       console.log(456);

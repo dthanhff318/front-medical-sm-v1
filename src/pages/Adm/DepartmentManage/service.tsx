@@ -1,5 +1,7 @@
+import { parseSearchParams } from 'helpers/functions';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { RootState } from 'store';
 import {
   createNewDepartments,
@@ -10,13 +12,10 @@ import { TCreateDepartments } from 'store/slices/type';
 
 const useService = () => {
   const dispatch = useDispatch();
-  const { departmentList, departmentDetail } = useSelector((state: RootState) => state.department);
-  const departmentListMapping =
-    departmentList.map((d) => ({
-      ...d,
-      key: d?.id,
-      owner: d?.owner ? d.owner?.displayName : '',
-    })) ?? [];
+  const location = useLocation();
+  const urlQueryParams = parseSearchParams(location.search);
+  const departmentState = useSelector((state: RootState) => state.department);
+
   const onCreateDepartment = (data: TCreateDepartments) => {
     dispatch(createNewDepartments(data) as any);
   };
@@ -25,11 +24,11 @@ const useService = () => {
   };
 
   useEffect(() => {
-    dispatch(getDepartments({ page: 1, limit: 10 }) as any);
-  }, []);
+    dispatch(getDepartments(urlQueryParams) as any);
+  }, [location]);
   return {
-    departmentDetail,
-    departmentListMapping,
+    departmentState,
+    urlQueryParams,
     onCreateDepartment,
     handleDeleteDepartment,
   };
