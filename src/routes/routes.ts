@@ -7,11 +7,11 @@ const MPath = {
   ADM_DEPARTMENT: '/adm/department',
   ADM_DEPOT: '/adm/depot',
   ADM_DEPARTMENT_DETAIL: '/adm/department/:id',
+  ADM_PLAN: '/adm/plan',
   // User
   USER_HOME: '/',
   USER_PLAN: '/plan',
   USER_REFUND: '/refund',
-
 };
 
 export default MPath;

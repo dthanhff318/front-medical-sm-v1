@@ -25,7 +25,7 @@ const useService = () => {
   };
 
   useEffect(() => {
-    dispatch(getDepartments({ page: 1, limit: 10 }) as any);
+    dispatch(getDepartments({}) as any);
   }, []);
   return {
     departmentDetail,

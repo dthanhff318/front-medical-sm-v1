@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { Table } from 'antd';
+import { Table, Select, Row, Col } from 'antd';
 import CommonButton from 'components/CommonButton/CommonButton';
 import ModalDelete from 'components/CommonModal/ModalDelete';
 import styles from './style.module.scss';
-import ModalCreateDepartment from './ModalCreateDepartment';
+import ModalTicket from './ModalTicket';
 import MPath from 'routes/routes';
 import { Link } from 'react-router-dom';
 import useService from './service';
 import { replacePathParams } from 'helpers/functions';
 
 type TModal = '' | 'delete' | 'create';
-const PlanManage = () => {
+const ExportSupply = () => {
   const columns = [
     {
       title: 'ID',
@@ -19,16 +19,16 @@ const PlanManage = () => {
       width: '10%',
     },
     {
-      title: 'Ten khoa phong',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Thời gian',
+      dataIndex: 'time',
+      key: 'time',
       width: '40%',
     },
     {
-      title: 'Truong khoa',
-      dataIndex: 'owner',
+      title: 'Trạng thái',
+      dataIndex: 'status',
+      key: 'status',
       width: '30%',
-      key: 'owner',
     },
     {
       title: '',
@@ -37,7 +37,7 @@ const PlanManage = () => {
       render: (_, d) => (
         <div className={styles.actionBtn}>
           <Link to={replacePathParams(MPath.ADM_DEPARTMENT_DETAIL, { id: d.id })}>
-            <CommonButton>Chi tiet</CommonButton>
+            <CommonButton>Chi tiết</CommonButton>
           </Link>
           <CommonButton
             danger
@@ -46,7 +46,7 @@ const PlanManage = () => {
               setOpenModal('delete');
             }}
           >
-            Xoa
+            Xóa
           </CommonButton>
         </div>
       ),
@@ -55,6 +55,8 @@ const PlanManage = () => {
   const [openModal, setOpenModal] = useState<TModal>('');
   const [selectDepartment, setSelectDepartment] = useState<number>(-1);
   const { departmentListMapping, onCreateDepartment, handleDeleteDepartment } = useService();
+
+  const onChangeDepartment = () => {};
   return (
     <>
       <ModalDelete
@@ -67,19 +69,47 @@ const PlanManage = () => {
           setOpenModal('');
         }}
       />
-      <ModalCreateDepartment
+      <ModalTicket
         open={openModal === 'create'}
         onCreateDepartment={onCreateDepartment}
         onCancel={() => setOpenModal('')}
       />
       <div className={styles.wrapper}>
-        <h2 className={styles.title}>Quan ly khoa phong</h2>
-        <div className={styles.groupBtn}>
-          <CommonButton onClick={() => setOpenModal('create')}>Them moi khoa phong</CommonButton>
-        </div>
+        <h2 className={styles.title}>Danh sách phiếu duyệt</h2>
+        <Row gutter={[20, 20]} className={styles.groupBtn}>
+          <Col span={6}>
+            <p>Khoa phòng</p>
+            <Select
+              labelInValue={true}
+              placeholder="Chọn khoa phòng"
+              style={{ width: '100%' }}
+              onChange={onChangeDepartment}
+              options={[
+                { value: 'jack', label: 'Jack' },
+                { value: 'lucy', label: 'Lucy' },
+                { value: 'Yiminghe', label: 'yiminghe' },
+                { value: 'disabled', label: 'Disabled', disabled: true },
+              ]}
+            />
+          </Col>
+          <Col span={8}>
+            <p>Loại phiếu</p>
+            <Select
+              placeholder="Chọn loại phiếu"
+              style={{ width: '100%' }}
+              onChange={onChangeDepartment}
+              options={[
+                { value: 'jack', label: 'Jack' },
+                { value: 'lucy', label: 'Lucy' },
+                { value: 'Yiminghe', label: 'yiminghe' },
+                { value: 'disabled', label: 'Disabled', disabled: true },
+              ]}
+            />
+          </Col>
+        </Row>
         <Table dataSource={departmentListMapping} columns={columns} />
       </div>
     </>
   );
 };
-export default PlanManage;
+export default ExportSupply;

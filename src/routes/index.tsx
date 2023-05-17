@@ -9,9 +9,10 @@ import DepartmentManage from 'pages/Adm/DepartmentManage/DepartmentManage';
 import Home from 'pages/Adm/Home/Home';
 import Store from 'pages/Adm/Store/Store';
 import UserHome from 'pages/User/UserHome';
-import { ERole } from 'enums';
 import Plan from 'pages/User/Plan/Plan';
 import Refund from 'pages/User/Refund/Refund';
+import ExportSupply from 'pages/Adm/ExportSupply/ExportSupply';
+import { ERole } from 'enums';
 
 export const routers: any = [
   {
@@ -67,6 +68,14 @@ export const routers: any = [
     element: <DepartmentManage />,
     public: false,
     path: MPath.ADM_DEPARTMENT,
+    role: [ERole.Admin],
+    exact: true,
+  },
+  {
+    name: 'AdmPlan',
+    element: <ExportSupply />,
+    public: false,
+    path: MPath.ADM_PLAN,
     role: [ERole.Admin],
     exact: true,
   },

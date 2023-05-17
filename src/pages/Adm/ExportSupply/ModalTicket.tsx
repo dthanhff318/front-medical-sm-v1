@@ -10,7 +10,7 @@ type Props = {
   onCancel: () => void;
 };
 
-const ModalCreateDepartment = ({ open, onCreateDepartment, onCancel }: Props) => {
+const ModalTicket = ({ open, onCreateDepartment, onCancel }: Props) => {
   const [form] = useForm();
   return (
     <Modal open={open} footer={null} onCancel={onCancel}>
@@ -58,4 +58,4 @@ const ModalCreateDepartment = ({ open, onCreateDepartment, onCancel }: Props) =>
   );
 };
 
-export default ModalCreateDepartment;
+export default ModalTicket;

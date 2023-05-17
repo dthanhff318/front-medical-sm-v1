@@ -65,7 +65,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
     {
       id: 6,
       icon: BankOutlined,
-      label: <Link to={MPath.ADM_DEPARTMENT}>Dự trù</Link>,
+      label: <Link to={MPath.ADM_PLAN}>Phiếu duyệt</Link>,
     },
   ];
 
@@ -73,7 +73,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
     {
       id: 1,
       icon: MedicineBoxOutlined,
-      label: <Link to={MPath.USER_PLAN}>Lập dự trù</Link>,
+      label: <Link to={MPath.USER_PLAN}>Cấp mới vật tư</Link>,
     },
     {
       id: 2,
