@@ -4,6 +4,7 @@ import {
   BellOutlined,
   BankOutlined,
   SnippetsOutlined,
+  FileAddOutlined,
 } from '@ant-design/icons';
 import { Badge, Layout, Menu } from 'antd';
 import React, { useState } from 'react';
@@ -28,7 +29,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
   const listSubnavAdmin = [
     {
       id: 1,
-      icon: HomeOutlined,
+      icon: FileAddOutlined,
       label: 'Nhập kho',
       children: [
         {
@@ -62,6 +63,11 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       icon: BankOutlined,
       label: <Link to={MPath.ADM_DEPARTMENT}>Khoa phong</Link>,
     },
+    {
+      id: 6,
+      icon: HomeOutlined,
+      label: <Link to={MPath.ADM_SUPPLIER}>Nhà cung cấp</Link>,
+    },
   ];
 
   const listSubnavUser = [
@@ -78,7 +84,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
     {
       id: 3,
       icon: MedicineBoxOutlined,
-      label: 'Lấy thêm vật tư',
+      label: <Link to={MPath.USER_STORE}>Kho lưu trữ vật tư</Link>,
     },
   ];
   const itemsAdmin: MenuProps['items'] = listSubnavAdmin.map((list: any, index) => {
@@ -161,7 +167,6 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
                 <BellOutlined className="bell" />
               </Badge>
             </div>
-
             <div className="user-settings" onClick={() => setOnSetting((prev) => !prev)}>
               <i className="fa-solid fa-user"></i>
             </div>
