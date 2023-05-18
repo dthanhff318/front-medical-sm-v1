@@ -142,31 +142,6 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
             onClick: () => setCollapsed(!collapsed),
           })}
           <div className="logo-user">
-            {/* <Select
-              defaultValue={languageUser}
-              style={{ width: 120 }}
-              onChange={handleChangeLanguage}
-              options={[
-                {
-                  value: "vn",
-                  label: (
-                    <>
-                      <img className="language-flag" src={vnFlag} alt="" />
-                      <span>Việt Nam</span>
-                    </>
-                  ),
-                },
-                {
-                  value: "en",
-                  label: (
-                    <>
-                      <img className="language-flag" src={enFlag} alt="" />
-                      <span>English</span>
-                    </>
-                  ),
-                },
-              ]}
-            ></Select> */}
             <div className="logo-bell">
               <Badge count={99} overflowCount={10}>
                 <BellOutlined className="bell" />

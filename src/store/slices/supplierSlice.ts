@@ -7,7 +7,18 @@ const initialState: TInitSupplierState = {
   suppliers: [],
   loading: false,
 };
-
+// Get supplier Pagination
+// export const getDepartments = createAsyncThunk(
+//   'department/getDepartments',
+//   async (query: TGetDepartments, thunkApi) => {
+//     try {
+//       const res = await departmentApi.getDepartments(query);
+//       return res.data;
+//     } catch (err) {
+//       return thunkApi.rejectWithValue({});
+//     }
+//   },
+// );
 export const findSupplier = createAsyncThunk(
   'supplier/findSupplier',
   async (value: string, thunkApi) => {

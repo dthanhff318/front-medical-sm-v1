@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
 import CommonButton from 'components/CommonButton/CommonButton';
 import ModalDelete from 'components/CommonModal/ModalDelete';
@@ -7,6 +7,7 @@ import MPath from 'routes/routes';
 import { Link } from 'react-router-dom';
 import { replacePathParams } from 'helpers/functions';
 import useService from '../DepartmentManage/service';
+import supplierApi from 'axiosConfig/api/supplier';
 
 type TModal = '' | 'delete' | 'create';
 const Supplier = () => {
@@ -51,6 +52,11 @@ const Supplier = () => {
       ),
     },
   ];
+  // useEffect(() => {
+  //   supplierApi.getListsupplier().then((res) => {
+  //     console.log('vvv');
+  //   });
+  // }, []);
   const [openModal, setOpenModal] = useState<TModal>('');
   const [selectDepartment, setSelectDepartment] = useState<number>(-1);
   const { departmentListMapping, onCreateDepartment, handleDeleteDepartment } = useService();
