@@ -6,8 +6,6 @@ import styles from './style.module.scss';
 import MPath from 'routes/routes';
 import { Link } from 'react-router-dom';
 import { replacePathParams } from 'helpers/functions';
-import useService from '../DepartmentManage/service';
-import supplierApi from 'axiosConfig/api/supplier';
 
 type TModal = '' | 'delete' | 'create';
 const Supplier = () => {
