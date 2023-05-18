@@ -59,7 +59,6 @@ const Supplier = () => {
   // }, []);
   const [openModal, setOpenModal] = useState<TModal>('');
   const [selectDepartment, setSelectDepartment] = useState<number>(-1);
-  const { departmentListMapping, onCreateDepartment, handleDeleteDepartment } = useService();
   return (
     <>
       <ModalDelete
@@ -68,7 +67,6 @@ const Supplier = () => {
         subTitle="Xoa"
         onCancel={() => setOpenModal('')}
         onOk={() => {
-          handleDeleteDepartment(selectDepartment);
           setOpenModal('');
         }}
       />
@@ -82,7 +80,7 @@ const Supplier = () => {
         <div className={styles.groupBtn}>
           <CommonButton onClick={() => setOpenModal('create')}>Them moi khoa phong</CommonButton>
         </div>
-        <Table dataSource={departmentListMapping} columns={columns} />
+        <Table dataSource={[]} columns={columns} />
       </div>
     </>
   );

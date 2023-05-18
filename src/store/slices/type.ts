@@ -1,9 +1,17 @@
 import { ERole } from 'enums';
 import { TDepartment } from 'types/department';
 
+export type TPagination = {
+  page: number;
+  limit: number;
+  totalPages: number;
+  totalResults: number;
+};
+
 export type TInitDepartmentState = {
   departmentList: Array<TDepartment>;
   departmentDetail: TDepartment;
+  pagination: TPagination;
 };
 
 export type TGetDepartments = {

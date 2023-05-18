@@ -172,7 +172,7 @@ const BiddingSupply = () => {
       <Table
         bordered
         columns={columns}
-        dataSource={listBidding.map((e) => ({ ...e, company: e.company.name }))}
+        dataSource={listBidding.map((e) => ({ ...e, company: e.company?.name }))}
         size="middle"
         scroll={{ x: 'max-content', y: '50vh' }}
         loading={loading}
