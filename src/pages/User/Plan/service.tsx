@@ -12,6 +12,7 @@ const useService = ({ value }: Props) => {
   const [listSupply, setListSupply] = useState<any>([]);
   const [search, setSearch] = useState<string>('');
   const { currentUser } = useSelector((state: RootState) => state.auth);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setSearch(value);
@@ -20,6 +21,7 @@ const useService = ({ value }: Props) => {
       clearTimeout(timer);
     };
   }, [value]);
+
   const findSupply = async (condition: { q: string }) => {
     const res = await storeApi.getSupplyFromStore(condition);
     setListSupply(res.data);

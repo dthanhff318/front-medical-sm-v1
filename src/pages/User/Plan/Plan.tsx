@@ -4,6 +4,7 @@ import { useForm } from 'antd/es/form/Form';
 import CommonButton from 'components/CommonButton/CommonButton';
 import styles from './style.module.scss';
 import useService from './service';
+import { listTypeTicket } from 'const';
 
 const columns: any = [
   {
@@ -53,6 +54,7 @@ const Plan: React.FC = () => {
   const [selectSupply, setSelectSupply] = useState<any>('');
 
   const { listSupply, handleSendPlan, currentUser } = useService({ value });
+  console.log(listSupply);
 
   const handleSelectSupply = (id: string) => {
     const supply = listSupply.find((d) => d.id === id);
@@ -103,17 +105,16 @@ const Plan: React.FC = () => {
         form={formSubmit}
         name="form-submit"
       >
-        <Row gutter={[8, 0]}>
-          <Col span={16}>
-            <span>Ghi chú</span>
-            <Form.Item noStyle name="note">
-              <Input.TextArea style={{ marginBottom: '10px' }} />
+        <Row gutter={[8, 0]} align={'bottom'} justify={'space-between'}>
+          <Col span={8} style={{ display: 'flex', flexDirection: 'column', marginBottom: '16px' }}>
+            <Form.Item name="typeTicket">
+              <span>Loại phiếu bổ sung</span>
+              <Select options={listTypeTicket} placeholder="Chọn loại phiếu" />
             </Form.Item>
           </Col>
           <Col span={8} style={{ display: 'flex', flexDirection: 'column', marginBottom: '16px' }}>
-            <span>---</span>
             <Form.Item>
-              <CommonButton isSubmit={true}>Nhập kho</CommonButton>
+              <CommonButton isSubmit={true}>Tạo phiếu cấp vật tư</CommonButton>
             </Form.Item>
           </Col>
         </Row>
@@ -126,6 +127,10 @@ const Plan: React.FC = () => {
         scroll={{ x: 'max-content', y: '500px' }}
         style={{ marginBottom: '20px' }}
       />
+      <span>Ghi chú</span>
+      <Form.Item noStyle name="note">
+        <Input.TextArea style={{ marginBottom: '30px' }} />
+      </Form.Item>
       <div className={styles.control}>
         <Form
           initialValues={{ remember: true }}

@@ -20,11 +20,11 @@ const useService = ({ value, selectCompany }: Props) => {
     };
   }, [value]);
   const findListSupplier = () => {
-    dispatch(findSupplier(search) as any);
+    if (search) dispatch(findSupplier(search) as any);
   };
 
   const findBidding = () => {
-    dispatch(findBiddingWithSupplier(selectCompany) as any);
+    if (selectCompany) dispatch(findBiddingWithSupplier(selectCompany) as any);
   };
 
   useEffect(() => {
