@@ -15,6 +15,7 @@ import StoreDepartment from 'pages/User/StoreDepartment/StoreDepartment';
 import Supplier from 'pages/Adm/Supplier/Supplier';
 import ExportSupply from 'pages/Adm/ExportSupply/ExportSupply';
 import { ERole } from 'enums';
+import SupplierDetail from 'pages/Adm/Supplier/SupplierDetail';
 
 export const routers: any = [
   {
@@ -81,6 +82,7 @@ export const routers: any = [
     role: [ERole.Admin],
     exact: true,
   },
+  //supplier
   {
     name: 'AdmSupplier',
     element: <Supplier />,
@@ -89,7 +91,14 @@ export const routers: any = [
     role: [ERole.Admin],
     exact: true,
   },
-
+  {
+    name: 'AdmSupplierDetail',
+    element: <SupplierDetail />,
+    public: false,
+    path: MPath.ADM_SUPPLIER_DETAIL,
+    role: [ERole.Admin],
+    exact: true,
+  },
   // User
   {
     name: 'USER_HOME',

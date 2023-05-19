@@ -1,5 +1,6 @@
 import { ERole } from 'enums';
 import { TDepartment } from 'types/department';
+import { TSupplier } from 'types/supplier';
 
 export type TPagination = {
   page: number;
@@ -31,7 +32,6 @@ export type TCreateUser = {
   displayName: string;
   department: number;
 };
-
 // auth
 export type TUser = {
   id?: number;
@@ -59,9 +59,15 @@ export type TInitBiddingState = {
 };
 
 // Supplier
+export type TGetSupplier = {
+  page?: number;
+  limit?: number;
+};
 export type TInitSupplierState = {
   suppliers: Array<any>;
+  supplierDetail: TSupplier;
   loading: boolean;
+  pagination: TPagination;
 };
 
 // Store

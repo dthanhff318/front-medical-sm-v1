@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Table } from 'antd';
 import CommonButton from 'components/CommonButton/CommonButton';
 import ModalDelete from 'components/CommonModal/ModalDelete';
 import styles from './style.module.scss';
 import MPath from 'routes/routes';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { replacePathParams } from 'helpers/functions';
-
+import useService from './service';
 type TModal = '' | 'delete' | 'create';
 const Supplier = () => {
   const columns = [
@@ -20,13 +20,7 @@ const Supplier = () => {
       title: 'Ten khoa phong',
       dataIndex: 'name',
       key: 'name',
-      width: '40%',
-    },
-    {
-      title: 'Truong khoa',
-      dataIndex: 'owner',
-      width: '30%',
-      key: 'owner',
+      width: '70%',
     },
     {
       title: '',
@@ -34,13 +28,14 @@ const Supplier = () => {
       key: 'action',
       render: (_, d) => (
         <div className={styles.actionBtn}>
-          <Link to={replacePathParams(MPath.ADM_DEPARTMENT_DETAIL, { id: d.id })}>
+          <Link to={replacePathParams(MPath.ADM_SUPPLIER_DETAIL, { id: d.id })}>
             <CommonButton>Chi tiet</CommonButton>
           </Link>
           <CommonButton
             danger
             onClick={() => {
-              setSelectDepartment(d.id);
+              console.log(d);
+              setSelectSupplier(d.id);
               setOpenModal('delete');
             }}
           >
@@ -50,21 +45,26 @@ const Supplier = () => {
       ),
     },
   ];
-  // useEffect(() => {
-  //   supplierApi.getListsupplier().then((res) => {
-  //     console.log('vvv');
-  //   });
-  // }, []);
   const [openModal, setOpenModal] = useState<TModal>('');
-  const [selectDepartment, setSelectDepartment] = useState<number>(-1);
+  const [selectSupplier, setSelectSupplier] = useState<number>(-1);
+  const { supplierState, handleDeleteSupplier } = useService();
+
+  const { suppliers, pagination } = supplierState;
+  const supplierListMapping =
+    suppliers.map((d) => ({
+      ...d,
+      key: d?.id,
+      owner: d?.owner ? d.owner?.displayName : '',
+    })) ?? [];
   return (
     <>
       <ModalDelete
         open={openModal === 'delete'}
-        title="Ban co chac chan xoa khong ?"
+        title="Bạn có chắc chắn xóa không ?"
         subTitle="Xoa"
         onCancel={() => setOpenModal('')}
         onOk={() => {
+          handleDeleteSupplier(selectSupplier);
           setOpenModal('');
         }}
       />
@@ -74,11 +74,11 @@ const Supplier = () => {
         onCancel={() => setOpenModal('')}
       /> */}
       <div className={styles.wrapper}>
-        <h2 className={styles.title}>Quan ly nhà cung cấp</h2>
+        <h2 className={styles.title}>Quản ly nhà cung cấp</h2>
         <div className={styles.groupBtn}>
-          <CommonButton onClick={() => setOpenModal('create')}>Them moi khoa phong</CommonButton>
+          <CommonButton onClick={() => setOpenModal('create')}>Thêm mới nhà cung cấp</CommonButton>
         </div>
-        <Table dataSource={[]} columns={columns} />
+        <Table dataSource={supplierListMapping} columns={columns} />
       </div>
     </>
   );

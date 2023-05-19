@@ -1,37 +1,28 @@
+import { parseSearchParams } from 'helpers/functions';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
 import { RootState } from 'store';
-import {
-  createNewDepartments,
-  deleteDepartment,
-  getDepartments,
-} from 'store/slices/departmentSlice';
-import { TCreateDepartments } from 'store/slices/type';
-
+import { deleteSupplier, getSupplier, getSupplierInfoDetail } from 'store/slices/supplierSlice';
 const useService = () => {
   const dispatch = useDispatch();
-  const { departmentList, departmentDetail } = useSelector((state: RootState) => state.department);
-  const departmentListMapping =
-    departmentList.map((d) => ({
-      ...d,
-      key: d?.id,
-      owner: d?.owner ? d.owner?.displayName : '',
-    })) ?? [];
-  const onCreateDepartment = (data: TCreateDepartments) => {
-    dispatch(createNewDepartments(data) as any);
-  };
-  const handleDeleteDepartment = (id: number) => {
-    dispatch(deleteDepartment(id) as any);
+  const { id } = useParams<{ id: string }>();
+  const location = useLocation();
+  const urlQueryParams = parseSearchParams(location.search);
+  const supplierState = useSelector((state: RootState) => state.supplier);
+  const handleDeleteSupplier = (id: number) => {
+    dispatch(deleteSupplier(id) as any);
   };
 
   useEffect(() => {
-    dispatch(getDepartments({ page: 1, limit: 10 }) as any);
+    dispatch(getSupplier(urlQueryParams) as any);
   }, []);
+  useEffect(() => {
+    dispatch(getSupplierInfoDetail(id ?? '') as any);
+  }, [id]);
   return {
-    departmentDetail,
-    departmentListMapping,
-    onCreateDepartment,
-    handleDeleteDepartment,
+    supplierState,
+    handleDeleteSupplier,
   };
 };
 
