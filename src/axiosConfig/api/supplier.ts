@@ -1,15 +1,22 @@
 import { axiosClient } from 'axiosConfig/axiosClient';
 import queryString from 'query-string';
+import { TGetSupplier } from 'store/slices/type';
 
 const supplierApi = {
   updatesupplier: (data: any) => {
     return axiosClient.post('/supplier', data);
   },
-  getListsupplier: () => {
-    return axiosClient.get('/supplier');
+  getListsupplier: (query: TGetSupplier) => {
+    return axiosClient.get(`/supplier?${queryString.stringify(query)}`);
   },
   findsupplier: (value: string) => {
     return axiosClient.get(`/supplier/search?q=${value}`);
+  },
+  deleteSupplier: (id: number) => {
+    return axiosClient.delete(`/supplier/${id}`);
+  },
+  getSupplierDetail: (id: string) => {
+    return axiosClient.get(`/supplier/${id}`);
   },
 };
 

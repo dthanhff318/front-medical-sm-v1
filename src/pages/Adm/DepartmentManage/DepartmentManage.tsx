@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pagination, Row, Table } from 'antd';
+import { Row, Table } from 'antd';
 import CommonButton from 'components/CommonButton/CommonButton';
 import ModalDelete from 'components/CommonModal/ModalDelete';
 import styles from './style.module.scss';
@@ -7,7 +7,7 @@ import ModalCreateDepartment from './ModalCreateDepartment';
 import MPath from 'routes/routes';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useService from './service';
-import { createQueryUrl, parseSearchParams, replacePathParams } from 'helpers/functions';
+import { createQueryUrl, replacePathParams } from 'helpers/functions';
 import PaginationCustom from 'components/PaginationCustom/PaginationCustom';
 
 type TModal = '' | 'delete' | 'create';
