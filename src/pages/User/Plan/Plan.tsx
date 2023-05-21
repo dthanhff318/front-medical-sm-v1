@@ -4,57 +4,57 @@ import { useForm } from 'antd/es/form/Form';
 import CommonButton from 'components/CommonButton/CommonButton';
 import styles from './style.module.scss';
 import useService from './service';
-import { listTypeTicket } from 'const';
-
-const columns: any = [
-  {
-    title: 'Mã',
-    dataIndex: 'id',
-    width: 100,
-  },
-  {
-    title: 'Tên vật tư',
-    width: 250,
-    dataIndex: 'name',
-    fixed: 'left',
-  },
-  {
-    title: 'Hoạt chất',
-    width: 150,
-    dataIndex: 'ingredient',
-  },
-  {
-    title: 'Đơn vị',
-    dataIndex: 'unit',
-    width: 100,
-  },
-
-  {
-    title: 'Số lượng',
-    dataIndex: 'quantity',
-    width: 100,
-  },
-  {
-    title: '',
-    fixed: 'right',
-    width: 100,
-    render: (_, record: any) => (
-      <CommonButton danger onClick={() => console.log(record)}>
-        Xóa
-      </CommonButton>
-    ),
-  },
-];
+import { listTypePlanImport } from 'const';
+import moment from 'moment';
 
 const Plan: React.FC = () => {
+  const columns: any = [
+    {
+      title: 'Mã',
+      dataIndex: 'id',
+      width: 100,
+    },
+    {
+      title: 'Tên vật tư',
+      width: 250,
+      dataIndex: 'name',
+      fixed: 'left',
+    },
+    {
+      title: 'Hoạt chất',
+      width: 150,
+      dataIndex: 'ingredient',
+    },
+    {
+      title: 'Đơn vị',
+      dataIndex: 'unit',
+      width: 100,
+    },
+
+    {
+      title: 'Số lượng',
+      dataIndex: 'quantity',
+      width: 100,
+    },
+    {
+      title: '',
+      fixed: 'right',
+      width: 100,
+      render: (_, record: any) => (
+        <CommonButton danger onClick={() => onRemove(record)}>
+          Xóa
+        </CommonButton>
+      ),
+    },
+  ];
   const [formSubmit] = useForm();
   const [form] = useForm();
   const [dataAdd, setDataAdd] = useState<any>([]);
   const [value, setValue] = useState<string>('');
   const [selectSupply, setSelectSupply] = useState<any>('');
+  const [typePlan, setTypePlan] = useState<number>(0);
 
   const { listSupply, handleSendPlan, currentUser } = useService({ value });
-  console.log(listSupply);
 
   const handleSelectSupply = (id: string) => {
     const supply = listSupply.find((d) => d.id === id);
@@ -66,10 +66,6 @@ const Plan: React.FC = () => {
       company: supply.company.name,
       unit: supply.unit,
     });
-  };
-  const handleChangeQuantity = (e) => {
-    const cost = form.getFieldValue('price');
-    form.setFieldValue('totalPrice', e * cost);
   };
 
   const handleAddData = (data: any) => {
@@ -84,20 +80,25 @@ const Plan: React.FC = () => {
     setDataAdd([...dataAdd, { ...data, name: selectSupply.name }]);
   };
 
-  const handleSubmit = (data: { note: string }) => {
-    const { note } = data;
-    const planData = {
+  const onRemove = (record) => {
+    const remainData = dataAdd.filter((d) => d.id !== record.id);
+    setDataAdd(remainData);
+  };
+  const handleSubmit = ({ note }: { note: string }) => {
+    const dataSend = {
       note,
       department: currentUser.department,
       name: currentUser.displayName,
       planList: dataAdd.map((s) => ({ id: s.id, quantity: s.quantity })),
+      typePlan,
+      createdTime: moment(Date.now()).format('DD MMM YYYY'),
     };
-    handleSendPlan(planData);
+    handleSendPlan(dataSend);
   };
 
   return (
     <div className={styles.wapper}>
-      <Divider style={{ marginTop: '0px' }}>Bảng Phiếu nhập vật tư</Divider>
+      <Divider style={{ marginTop: '0px' }}>Yêu cầu cấp vật tư</Divider>
       <Form
         initialValues={{ remember: true }}
         onFinish={handleSubmit}
@@ -107,9 +108,13 @@ const Plan: React.FC = () => {
       >
         <Row gutter={[8, 0]} align={'bottom'} justify={'space-between'}>
           <Col span={8} style={{ display: 'flex', flexDirection: 'column', marginBottom: '16px' }}>
-            <Form.Item name="typeTicket">
+            <Form.Item name="typePlan">
               <span>Loại phiếu bổ sung</span>
-              <Select options={listTypeTicket} placeholder="Chọn loại phiếu" />
+              <Select
+                onChange={(e) => setTypePlan(e)}
+                options={listTypePlanImport}
+                placeholder="Chọn loại phiếu"
+              />
             </Form.Item>
           </Col>
           <Col span={8} style={{ display: 'flex', flexDirection: 'column', marginBottom: '16px' }}>
@@ -118,19 +123,19 @@ const Plan: React.FC = () => {
             </Form.Item>
           </Col>
         </Row>
+        <Table
+          bordered
+          columns={columns}
+          dataSource={dataAdd}
+          size="middle"
+          scroll={{ x: 'max-content', y: '500px' }}
+          style={{ marginBottom: '20px' }}
+        />
+        <span>Ghi chú</span>
+        <Form.Item noStyle name="note">
+          <Input.TextArea style={{ marginBottom: '30px' }} />
+        </Form.Item>
       </Form>
-      <Table
-        bordered
-        columns={columns}
-        dataSource={dataAdd}
-        size="middle"
-        scroll={{ x: 'max-content', y: '500px' }}
-        style={{ marginBottom: '20px' }}
-      />
-      <span>Ghi chú</span>
-      <Form.Item noStyle name="note">
-        <Input.TextArea style={{ marginBottom: '30px' }} />
-      </Form.Item>
       <div className={styles.control}>
         <Form
           initialValues={{ remember: true }}
@@ -148,11 +153,7 @@ const Plan: React.FC = () => {
             </Col>
             <Col span={20}>
               <span>Tên vật tư</span>
-              <Form.Item
-                noStyle
-                name="name"
-                rules={[{ required: true, message: 'Vui lòng chọn vật tư' }]}
-              >
+              <Form.Item name="name" rules={[{ required: true, message: 'Vui lòng chọn vật tư' }]}>
                 <Select
                   showSearch
                   value={value}
@@ -199,7 +200,6 @@ const Plan: React.FC = () => {
             <Col span={4}>
               <span>Số lượng</span>
               <Form.Item
-                noStyle
                 name="quantity"
                 rules={[{ required: true, message: 'Vui long dien so luong can nhap' }]}
               >
@@ -207,9 +207,7 @@ const Plan: React.FC = () => {
                   min={1}
                   max={selectSupply ? Number(selectSupply.quantity) : 1}
                   type="number"
-                  // disabled={Number(selectSupply?.remainCount) ? false : true}
                   style={{ marginBottom: '10px', width: '100%' }}
-                  onChange={handleChangeQuantity}
                 />
               </Form.Item>
             </Col>

@@ -3,13 +3,14 @@ import { Table, Select, Row, Col } from 'antd';
 import CommonButton from 'components/CommonButton/CommonButton';
 import ModalDelete from 'components/CommonModal/ModalDelete';
 import styles from './style.module.scss';
-import ModalTicket from './ModalTicket';
+import ModalPlanDetail from './ModalPlanDetail';
 import MPath from 'routes/routes';
 import { Link } from 'react-router-dom';
 import useService from './service';
 import { replacePathParams } from 'helpers/functions';
+import { listTypes } from 'const';
 
-type TModal = '' | 'delete' | 'create';
+type TModal = '' | 'delete' | 'detail';
 const ExportSupply = () => {
   const columns = [
     {
@@ -20,7 +21,7 @@ const ExportSupply = () => {
     },
     {
       title: 'Thời gian',
-      dataIndex: 'time',
+      dataIndex: 'createdTime',
       key: 'time',
       width: '40%',
     },
@@ -36,13 +37,16 @@ const ExportSupply = () => {
       key: 'action',
       render: (_, d) => (
         <div className={styles.actionBtn}>
-          <Link to={replacePathParams(MPath.ADM_DEPARTMENT_DETAIL, { id: d.id })}>
-            <CommonButton>Chi tiết</CommonButton>
-          </Link>
+          <CommonButton
+            onClick={() => {
+              setOpenModal('detail');
+            }}
+          >
+            Chi tiết
+          </CommonButton>
           <CommonButton
             danger
             onClick={() => {
-              setSelectDepartment(d.id);
               setOpenModal('delete');
             }}
           >
@@ -53,10 +57,17 @@ const ExportSupply = () => {
     },
   ];
   const [openModal, setOpenModal] = useState<TModal>('');
-  const [selectDepartment, setSelectDepartment] = useState<number>(-1);
-  const { departmentListMapping, onCreateDepartment, handleDeleteDepartment } = useService();
+  const [department, setDepartment] = useState<number>(0);
+  const [typePlan, setTypePlan] = useState<number>(0);
+  const { departmentList, plans } = useService({ department, typePlan });
 
-  const onChangeDepartment = () => {};
+  const onChangeDepartment = (e) => {
+    setDepartment(e.value);
+  };
+
+  const onChangeTypePlan = (e) => {
+    setTypePlan(e);
+  };
   return (
     <>
       <ModalDelete
@@ -65,49 +76,38 @@ const ExportSupply = () => {
         subTitle="Xoa"
         onCancel={() => setOpenModal('')}
         onOk={() => {
-          handleDeleteDepartment(selectDepartment);
           setOpenModal('');
         }}
       />
-      <ModalTicket
-        open={openModal === 'create'}
-        onCreateDepartment={onCreateDepartment}
+      <ModalPlanDetail
+        open={openModal === 'detail'}
+        // onCreateDepartment={onCreateDepartment}
         onCancel={() => setOpenModal('')}
       />
       <div className={styles.wrapper}>
         <h2 className={styles.title}>Danh sách phiếu duyệt</h2>
         <Row gutter={[20, 20]} className={styles.groupBtn}>
-          <Col span={6}>
+          <Col span={10}>
             <p>Khoa phòng</p>
             <Select
               labelInValue={true}
               placeholder="Chọn khoa phòng"
               style={{ width: '100%' }}
               onChange={onChangeDepartment}
-              options={[
-                { value: 'jack', label: 'Jack' },
-                { value: 'lucy', label: 'Lucy' },
-                { value: 'Yiminghe', label: 'yiminghe' },
-                { value: 'disabled', label: 'Disabled', disabled: true },
-              ]}
+              options={departmentList.map((d) => ({ label: d.name, value: d.id }))}
             />
           </Col>
-          <Col span={8}>
+          <Col span={12}>
             <p>Loại phiếu</p>
             <Select
               placeholder="Chọn loại phiếu"
               style={{ width: '100%' }}
-              onChange={onChangeDepartment}
-              options={[
-                { value: 'jack', label: 'Jack' },
-                { value: 'lucy', label: 'Lucy' },
-                { value: 'Yiminghe', label: 'yiminghe' },
-                { value: 'disabled', label: 'Disabled', disabled: true },
-              ]}
+              onChange={onChangeTypePlan}
+              options={listTypes}
             />
           </Col>
         </Row>
-        <Table dataSource={departmentListMapping} columns={columns} />
+        <Table dataSource={plans} columns={columns} />
       </div>
     </>
   );

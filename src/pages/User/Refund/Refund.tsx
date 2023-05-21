@@ -1,113 +1,103 @@
 import React, { useState } from 'react';
-import { Col, DatePicker, Divider, Form, Input, InputNumber, Row, Select, Table } from 'antd';
+import { Col, Divider, Form, Input, InputNumber, Row, Select, Table } from 'antd';
 import { useForm } from 'antd/es/form/Form';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store';
 import CommonButton from 'components/CommonButton/CommonButton';
 import styles from './style.module.scss';
-import moment from 'moment';
+import useService from './service';
+import { listTypePlanExport } from 'const';
 
-const columns: any = [
-  {
-    title: 'Mã',
-    dataIndex: 'unit',
-    width: 100,
-  },
-  {
-    title: 'Tên vật tư',
-    width: 250,
-    dataIndex: 'name',
-    fixed: 'left',
-  },
-  {
-    title: 'Hoạt chất',
-    width: 150,
-    dataIndex: 'ingredient',
-  },
-  {
-    title: 'Đơn vị',
-    dataIndex: 'unit',
-    width: 100,
-  },
+const Plan: React.FC = () => {
+  const columns: any = [
+    {
+      title: 'Mã',
+      dataIndex: 'id',
+      width: 100,
+    },
+    {
+      title: 'Tên vật tư',
+      width: 250,
+      dataIndex: 'name',
+      fixed: 'left',
+    },
+    {
+      title: 'Hoạt chất',
+      width: 150,
+      dataIndex: 'ingredient',
+    },
+    {
+      title: 'Đơn vị',
+      dataIndex: 'unit',
+      width: 100,
+    },
 
-  {
-    title: 'Số lượng',
-    dataIndex: 'quantity',
-    width: 100,
-  },
-  {
-    title: '',
-    fixed: 'right',
-    width: 100,
-    render: (_, record: any) => (
-      <CommonButton danger onClick={() => console.log(record)}>
-        Xóa
-      </CommonButton>
-    ),
-  },
-];
-
-const Refund: React.FC = () => {
+    {
+      title: 'Số lượng',
+      dataIndex: 'quantity',
+      width: 100,
+    },
+    {
+      title: '',
+      fixed: 'right',
+      width: 100,
+      render: (_, record: any) => (
+        <CommonButton danger onClick={() => onRemove(record)}>
+          Xóa
+        </CommonButton>
+      ),
+    },
+  ];
   const [formSubmit] = useForm();
   const [form] = useForm();
-  const { suppliers } = useSelector((state: RootState) => state.supplier);
-  const { findBidding } = useSelector((state: RootState) => state.bidding);
-
   const [dataAdd, setDataAdd] = useState<any>([]);
   const [value, setValue] = useState<string>('');
-  const [selectCompany, setSelectCompany] = useState<string>('');
   const [selectSupply, setSelectSupply] = useState<any>('');
+  const [typePlan, setTypePlan] = useState<number>(0);
 
-  const handleSelectCompany = (id: string) => {
-    setSelectCompany(id);
-  };
+  const { listSupply, handleSendPlan, currentUser } = useService({ value });
 
   const handleSelectSupply = (id: string) => {
-    const supply = findBidding.find((d) => d.id === id);
+    const supply = listSupply.find((d) => d.id === id);
     setSelectSupply(supply);
     form.setFieldsValue({
       ingredient: supply.ingredient,
-      code: supply.code,
+      id: supply.id,
       group: supply.group,
-      brand: supply.brand,
-      company: supply.company,
-      country: supply.country,
-      biddingPrice: supply.biddingPrice,
-      biddingCount: supply.biddingCount,
+      company: supply.company.name,
       unit: supply.unit,
-      codeBidding: supply.codeBidding,
-      yearBidding: supply.yearBidding,
     });
   };
-  const handleChangeQuantity = (e) => {
-    const cost = form.getFieldValue('price');
-    form.setFieldValue('totalPrice', e * cost);
-  };
 
-  const handleChangePrice = (e) => {
-    const quantity = form.getFieldValue('quantity');
-    form.setFieldValue('totalPrice', e * quantity);
-  };
   const handleAddData = (data: any) => {
-    const dateExp = form.getFieldValue('dateExpired');
-    const price = form.getFieldValue('price');
-    const productCode = form.getFieldValue('productCode');
-    const convertDate = dateExp ? moment(dateExp).format('MMM Do YY') : '';
-    setDataAdd([
-      ...dataAdd,
-      { ...data, name: selectSupply.name, dateExpired: convertDate, unitPrice: price, productCode },
-    ]);
+    const checkExist = dataAdd.find((d) => d.id === data.id);
+    if (checkExist) {
+      const remain = dataAdd.map((d) =>
+        d.id === data.id ? { ...d, quantity: d.quantity + data.quantity } : d,
+      );
+      setDataAdd(remain);
+      return;
+    }
+    setDataAdd([...dataAdd, { ...data, name: selectSupply.name }]);
   };
 
-  const handleSubmit = (info: { company: number; codeBill: string }) => {
-    const dataBill = {
-      ...info,
-      add: dataAdd,
-    };
+  const onRemove = (record) => {
+    const remainData = dataAdd.filter((d) => d.id !== record.id);
+    setDataAdd(remainData);
   };
+
+  const handleSubmit = ({ note }: { note: string }) => {
+    const dataSend = {
+      note,
+      department: currentUser.department,
+      name: currentUser.displayName,
+      planList: dataAdd.map((s) => ({ id: s.id, quantity: s.quantity })),
+      typePlan,
+    };
+    handleSendPlan(dataSend);
+  };
+
   return (
     <div className={styles.wapper}>
-      <Divider style={{ marginTop: '0px' }}>Bảng Phiếu nhập vật tư</Divider>
+      <Divider style={{ marginTop: '0px' }}>Yêu cầu hoàn trả vật tư</Divider>
       <Form
         initialValues={{ remember: true }}
         onFinish={handleSubmit}
@@ -115,32 +105,36 @@ const Refund: React.FC = () => {
         form={formSubmit}
         name="form-submit"
       >
-        <Row gutter={[8, 0]}>
-          <Col span={16}>
-            <span>Ghi chú</span>
-            <Form.Item
-              noStyle
-              name="codeBill"
-              rules={[{ required: true, message: 'Hãy điền mã hóa đơn!' }]}
-            >
-              <Input style={{ marginBottom: '10px' }} />
+        <Row gutter={[8, 0]} align={'bottom'} justify={'space-between'}>
+          <Col span={8} style={{ display: 'flex', flexDirection: 'column', marginBottom: '16px' }}>
+            <Form.Item name="typePlan">
+              <span>Loại phiếu bổ sung</span>
+              <Select
+                onChange={(e) => setTypePlan(e)}
+                options={listTypePlanExport}
+                placeholder="Chọn loại phiếu"
+              />
             </Form.Item>
           </Col>
           <Col span={8} style={{ display: 'flex', flexDirection: 'column', marginBottom: '16px' }}>
-            <span>---</span>
             <Form.Item>
-              <CommonButton isSubmit={true}>Nhập kho</CommonButton>
+              <CommonButton isSubmit={true}>Tạo phiếu cấp vật tư</CommonButton>
             </Form.Item>
           </Col>
         </Row>
+        <Table
+          bordered
+          columns={columns}
+          dataSource={dataAdd}
+          size="middle"
+          scroll={{ x: 'max-content', y: '500px' }}
+          style={{ marginBottom: '20px' }}
+        />
+        <span>Ghi chú</span>
+        <Form.Item noStyle name="note">
+          <Input.TextArea style={{ marginBottom: '30px' }} />
+        </Form.Item>
       </Form>
-      <Table
-        bordered
-        columns={columns}
-        dataSource={dataAdd}
-        size="middle"
-        scroll={{ x: 'max-content', y: '500px' }}
-      />
       <div className={styles.control}>
         <Form
           initialValues={{ remember: true }}
@@ -152,13 +146,13 @@ const Refund: React.FC = () => {
           <Row gutter={[8, 0]}>
             <Col span={4}>
               <span>Mã</span>
-              <Form.Item noStyle name="code">
+              <Form.Item noStyle name="id">
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
             <Col span={20}>
               <span>Tên vật tư</span>
-              <Form.Item noStyle name="name">
+              <Form.Item name="name" rules={[{ required: true, message: 'Vui lòng chọn vật tư' }]}>
                 <Select
                   showSearch
                   value={value}
@@ -170,47 +164,53 @@ const Refund: React.FC = () => {
                   onSearch={(e) => setValue(e)}
                   onChange={(e) => handleSelectSupply(e)}
                   notFoundContent={null}
-                  options={
-                    value
-                      ? findBidding.map((d) => ({
-                          value: d.id,
-                          label: d.name,
-                        }))
-                      : []
-                  }
+                  options={listSupply.map((s) => ({ value: s.id, label: s.name }))}
                 />
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col span={8}>
               <span>Hoạt chất</span>
-              <Form.Item noStyle name="ingredient">
+              <Form.Item
+                noStyle
+                name="ingredient"
+                rules={[{ required: true, message: 'Vui lòng chọn vật tư' }]}
+              >
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
-
-            <Col span={4}>
-              <span>Số lượng</span>
-              <Form.Item
-                noStyle
-                name="quantity"
-                rules={[{ required: true, message: 'Vui long dien so luong can nhap' }]}
-              >
-                <InputNumber
-                  min={1}
-                  // max={selectSupply ? Number(selectSupply.remainCount) : 1}
-                  // type="number"
-                  // disabled={Number(selectSupply?.remainCount) ? false : true}
-                  style={{ marginBottom: '10px', width: '100%' }}
-                  onChange={handleChangeQuantity}
-                />
+            <Col span={8}>
+              <span>Nhóm</span>
+              <Form.Item noStyle name="group">
+                <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
-            <Col span={4}>
+            <Col span={8}>
+              <span>Nhà cung cấp</span>
+              <Form.Item noStyle name="company">
+                <Input style={{ marginBottom: '10px' }} readOnly />
+              </Form.Item>
+            </Col>
+            <Col span={6}>
               <span>Đơn vị</span>
               <Form.Item noStyle name="unit">
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
+            <Col span={4}>
+              <span>Số lượng</span>
+              <Form.Item
+                name="quantity"
+                rules={[{ required: true, message: 'Vui long dien so luong can nhap' }]}
+              >
+                <InputNumber
+                  min={1}
+                  max={selectSupply ? Number(selectSupply.quantity) : 1}
+                  type="number"
+                  style={{ marginBottom: '10px', width: '100%' }}
+                />
+              </Form.Item>
+            </Col>
+
             <Col span={24}>
               <div className={styles.bottom}>
                 <Form.Item>
@@ -225,4 +225,4 @@ const Refund: React.FC = () => {
   );
 };
 
-export default Refund;
+export default Plan;

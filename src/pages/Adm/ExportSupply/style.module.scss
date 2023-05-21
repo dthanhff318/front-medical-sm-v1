@@ -13,9 +13,12 @@
   }
 }
 
-// Modal Create User
+// Modal Detail
 .wrapperModal {
   padding: 2.5rem 1rem 0;
+  .modalTitle {
+    font-size: 16px;
+  }
   .bottom {
     margin-top: 4rem;
   }

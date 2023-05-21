@@ -1,37 +1,28 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
-import {
-  createNewDepartments,
-  deleteDepartment,
-  getDepartments,
-} from 'store/slices/departmentSlice';
-import { TCreateDepartments } from 'store/slices/type';
+import { getDepartments } from 'store/slices/departmentSlice';
+import { getPlans } from 'store/slices/planSlice';
 
-const useService = () => {
+type Props = {
+  department: number;
+  typePlan: number;
+};
+const useService = ({ department, typePlan }: Props) => {
   const dispatch = useDispatch();
-  const { departmentList, departmentDetail } = useSelector((state: RootState) => state.department);
-  const departmentListMapping =
-    departmentList.map((d) => ({
-      ...d,
-      key: d?.id,
-      owner: d?.owner ? d.owner?.displayName : '',
-    })) ?? [];
-  const onCreateDepartment = (data: TCreateDepartments) => {
-    dispatch(createNewDepartments(data) as any);
-  };
-  const handleDeleteDepartment = (id: number) => {
-    dispatch(deleteDepartment(id) as any);
-  };
+  const { departmentList } = useSelector((state: RootState) => state.department);
+  const { plans } = useSelector((state: RootState) => state.plan);
 
   useEffect(() => {
     dispatch(getDepartments({}) as any);
   }, []);
+
+  useEffect(() => {
+    dispatch(getPlans({ department, typePlan }) as any);
+  }, [department, typePlan]);
   return {
-    departmentDetail,
-    departmentListMapping,
-    onCreateDepartment,
-    handleDeleteDepartment,
+    departmentList,
+    plans,
   };
 };
 

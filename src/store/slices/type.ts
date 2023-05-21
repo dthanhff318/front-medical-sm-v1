@@ -75,3 +75,9 @@ export type TInitStoreState = {
   loading: boolean;
   stores: Array<any>;
 };
+
+// Plan
+export type TInitPlanState = {
+  loading: boolean;
+  plans: Array<any>;
+};
