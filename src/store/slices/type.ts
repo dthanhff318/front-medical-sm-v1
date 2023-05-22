@@ -1,4 +1,5 @@
 import { ERole } from 'enums';
+import { IndexedObject } from 'types/common';
 import { TDepartment } from 'types/department';
 import { TSupplier } from 'types/supplier';
 
@@ -56,6 +57,7 @@ export type TInitBiddingState = {
   loading: boolean;
   findBidding: Array<any>;
   findLoading: boolean;
+  pagination: TPagination;
 };
 
 // Supplier
@@ -74,10 +76,12 @@ export type TInitSupplierState = {
 export type TInitStoreState = {
   loading: boolean;
   stores: Array<any>;
+  pagination: TPagination;
 };
 
 // Plan
 export type TInitPlanState = {
   loading: boolean;
   plans: Array<any>;
+  planDetail: IndexedObject;
 };

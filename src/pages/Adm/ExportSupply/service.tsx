@@ -5,8 +5,8 @@ import { getDepartments } from 'store/slices/departmentSlice';
 import { getPlans } from 'store/slices/planSlice';
 
 type Props = {
-  department: number;
-  typePlan: number;
+  department?: number;
+  typePlan?: number;
 };
 const useService = ({ department, typePlan }: Props) => {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const useService = ({ department, typePlan }: Props) => {
   }, []);
 
   useEffect(() => {
-    dispatch(getPlans({ department, typePlan }) as any);
+    if (typePlan || department) dispatch(getPlans({ department, typePlan }) as any);
   }, [department, typePlan]);
   return {
     departmentList,

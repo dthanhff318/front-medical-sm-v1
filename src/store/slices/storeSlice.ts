@@ -6,6 +6,12 @@ import storeApi from 'axiosConfig/api/store';
 const initialState: TInitStoreState = {
   stores: [],
   loading: false,
+  pagination: {
+    page: 1,
+    limit: 10,
+    totalPages: 1,
+    totalResults: 0,
+  },
 };
 
 export const getSupplyStore = createAsyncThunk(
@@ -43,8 +49,10 @@ const storeSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(getSupplyStore.fulfilled, (state, action) => {
+      const { results, pagination } = action.payload;
       state.loading = false;
-      state.stores = action.payload;
+      state.stores = results;
+      state.pagination = pagination;
     });
     builder.addCase(deleteSupplyStore.pending, (state, action) => {
       state.loading = true;

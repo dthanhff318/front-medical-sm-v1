@@ -8,18 +8,27 @@ const initialState: TInitBiddingState = {
   loading: false,
   findBidding: [],
   findLoading: false,
+  pagination: {
+    page: 1,
+    limit: 10,
+    totalPages: 1,
+    totalResults: 0,
+  },
 };
 
-export const getListBidding = createAsyncThunk('bidding/getListBidding', async (_, thunkApi) => {
-  try {
-    const res = await biddingApi.getListBidding();
-    toast.success('Cap nhat thongg tin dau thau thanh cong !');
-    return res.data;
-  } catch (err: any) {
-    toast.error(`Co loi xay ra, vui long thu lai`);
-    return thunkApi.rejectWithValue({});
-  }
-});
+export const getListBidding = createAsyncThunk(
+  'bidding/getListBidding',
+  async (params: any, thunkApi) => {
+    try {
+      const res = await biddingApi.getListBidding(params);
+      toast.success('Cap nhat thongg tin dau thau thanh cong !');
+      return res.data;
+    } catch (err: any) {
+      toast.error(`Co loi xay ra, vui long thu lai`);
+      return thunkApi.rejectWithValue({});
+    }
+  },
+);
 
 export const findBiddingWithSupplier = createAsyncThunk(
   'bidding/findBiddingWithSupplier',
@@ -43,8 +52,10 @@ const biddingSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(getListBidding.fulfilled, (state, action) => {
-      state.listBidding = action.payload;
+      const { results, pagination } = action.payload;
+      state.listBidding = results;
       state.loading = false;
+      state.pagination = pagination;
     });
     builder.addCase(findBiddingWithSupplier.pending, (state, _) => {
       state.findLoading = true;

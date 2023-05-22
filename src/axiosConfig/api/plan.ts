@@ -9,6 +9,9 @@ const planApi = {
   getPlans: (params: IndexedObject) => {
     return axiosClient.get(`/plan?${queryString.stringify(params)}`);
   },
+  getPlanDetail: (id: number) => {
+    return axiosClient.get(`/plan/${id}`);
+  },
 };
 
 export default planApi;

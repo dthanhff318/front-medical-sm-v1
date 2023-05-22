@@ -4,12 +4,20 @@ import styles from './style.module.scss';
 import Search from 'antd/es/input/Search';
 import useService from './service';
 import CommonButton from 'components/CommonButton/CommonButton';
+import PaginationCustom from 'components/PaginationCustom/PaginationCustom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { createQueryUrl } from 'helpers/functions';
 
 const Store: React.FC = () => {
-  const { stores, loading, getStore, onDeleteSupplyStore } = useService();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { stores, loading, urlQueryParams, pagination, getStore, onDeleteSupplyStore } =
+    useService();
+
   const onSearch = (value: string) => {
     getStore({ q: value });
   };
+
   const columns: any = [
     {
       title: 'Tên vật tư',
@@ -79,6 +87,10 @@ const Store: React.FC = () => {
     },
   ];
 
+  const onChangePage = (page: number, limit: number) => {
+    navigate(createQueryUrl(location, { ...urlQueryParams, page, limit }));
+  };
+
   return (
     <div className={styles.wapper}>
       <Divider style={{ marginTop: '0px' }}>Tổng kho vật tư</Divider>
@@ -92,9 +104,18 @@ const Store: React.FC = () => {
         loading={loading}
         dataSource={stores.map((e) => ({ ...e, company: e.company.name }))}
         size="middle"
-        scroll={{ x: 'max-content', y: '59vh' }}
+        scroll={{ x: 'max-content', y: '60vh' }}
         rowKey="id"
+        pagination={false}
       />
+      <Row justify={'center'} style={{ marginTop: '20px' }}>
+        <PaginationCustom
+          total={pagination.totalResults}
+          current={pagination.page}
+          pageSize={pagination.limit}
+          onChange={onChangePage}
+        />
+      </Row>
     </div>
   );
 };

@@ -10,7 +10,6 @@ import useService from './service';
 import { replacePathParams } from 'helpers/functions';
 import { listTypes } from 'const';
 
-type TModal = '' | 'delete' | 'detail';
 const ExportSupply = () => {
   const columns = [
     {
@@ -39,26 +38,18 @@ const ExportSupply = () => {
         <div className={styles.actionBtn}>
           <CommonButton
             onClick={() => {
-              setOpenModal('detail');
+              setOpenModal(d.id);
             }}
           >
             Chi tiết
-          </CommonButton>
-          <CommonButton
-            danger
-            onClick={() => {
-              setOpenModal('delete');
-            }}
-          >
-            Xóa
           </CommonButton>
         </div>
       ),
     },
   ];
-  const [openModal, setOpenModal] = useState<TModal>('');
-  const [department, setDepartment] = useState<number>(0);
-  const [typePlan, setTypePlan] = useState<number>(0);
+  const [openModal, setOpenModal] = useState<number>(0);
+  const [department, setDepartment] = useState<number | undefined>(undefined);
+  const [typePlan, setTypePlan] = useState<number | undefined>(undefined);
   const { departmentList, plans } = useService({ department, typePlan });
 
   const onChangeDepartment = (e) => {
@@ -70,19 +61,10 @@ const ExportSupply = () => {
   };
   return (
     <>
-      <ModalDelete
-        open={openModal === 'delete'}
-        title="Ban co chac chan xoa khong ?"
-        subTitle="Xoa"
-        onCancel={() => setOpenModal('')}
-        onOk={() => {
-          setOpenModal('');
-        }}
-      />
       <ModalPlanDetail
-        open={openModal === 'detail'}
+        open={openModal}
         // onCreateDepartment={onCreateDepartment}
-        onCancel={() => setOpenModal('')}
+        onCancel={() => setOpenModal(0)}
       />
       <div className={styles.wrapper}>
         <h2 className={styles.title}>Danh sách phiếu duyệt</h2>

@@ -6,10 +6,15 @@ import Table, { ColumnsType } from 'antd/es/table';
 import biddingApi from 'axiosConfig/api/bidding';
 import useService from './service';
 import CommonButton from 'components/CommonButton/CommonButton';
+import PaginationCustom from 'components/PaginationCustom/PaginationCustom';
+import { createQueryUrl } from 'helpers/functions';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Row } from 'antd';
 
 const BiddingSupply = () => {
-  const { listBidding, loading, handleExcelDownload } = useService();
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { listBidding, urlQueryParams, loading, pagination, handleExcelDownload } = useService();
   // Hàm để đọc dữ liệu từ file Excel
   const handleExcelUpload = (file) => {
     const reader = new FileReader();
@@ -166,6 +171,10 @@ const BiddingSupply = () => {
     },
   ];
 
+  const onChangePage = (page: number, limit: number) => {
+    navigate(createQueryUrl(location, { ...urlQueryParams, page, limit }));
+  };
+
   return (
     <div className={s.wrapper}>
       <h2 className={s.title}>Danh sách vật tư đầu thầu</h2>
@@ -176,7 +185,17 @@ const BiddingSupply = () => {
         size="middle"
         scroll={{ x: 'max-content', y: '50vh' }}
         loading={loading}
+        pagination={false}
       />
+      <Row justify={'center'} style={{ marginTop: '20px' }}>
+        <PaginationCustom
+          total={pagination.totalResults}
+          current={pagination.page}
+          pageSize={pagination.limit}
+          onChange={onChangePage}
+        />
+      </Row>
+
       <div className={s.handleZone}>
         <div className={s.dropzone} {...getRootProps()}>
           <input {...getInputProps()} />

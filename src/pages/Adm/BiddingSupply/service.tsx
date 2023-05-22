@@ -4,10 +4,15 @@ import { RootState } from 'store';
 import * as XLSX from 'xlsx';
 
 import { getListBidding } from 'store/slices/biddingSlice';
+import { parseSearchParams } from 'helpers/functions';
+import { useLocation } from 'react-router-dom';
 
 const useService = () => {
   const dispatch = useDispatch();
-  const { listBidding, loading } = useSelector((state: RootState) => state.bidding);
+  const location = useLocation();
+  const urlQueryParams = parseSearchParams(location.search);
+
+  const { listBidding, loading, pagination } = useSelector((state: RootState) => state.bidding);
 
   const handleExcelDownload = (data) => {
     const worksheet = XLSX.utils.json_to_sheet(data);
@@ -28,12 +33,15 @@ const useService = () => {
     link.click();
     document.body.removeChild(link);
   };
+
   useEffect(() => {
-    dispatch(getListBidding() as any);
-  }, []);
+    dispatch(getListBidding(urlQueryParams) as any);
+  }, [location]);
   return {
     listBidding,
     loading,
+    urlQueryParams,
+    pagination,
     handleExcelDownload,
   };
 };
