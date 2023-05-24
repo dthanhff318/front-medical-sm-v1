@@ -16,7 +16,7 @@ const useService = ({ value }: Props) => {
 
   const findSupply = async (condition: { q: string }) => {
     const res = await storeApi.getSupplyFromStore(condition);
-    setListSupply(res.data);
+    setListSupply(res.data.results);
   };
   const handleSendPlan = async (data: any) => {
     if (!data.typePlan) {
@@ -34,7 +34,7 @@ const useService = ({ value }: Props) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setSearch(value);
-    }, 1500);
+    }, 800);
     return () => {
       clearTimeout(timer);
     };
