@@ -2,7 +2,7 @@ import { Form, Input, Modal, Row, Table, Col, InputNumber } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './style.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPlanDetail } from 'store/slices/planSlice';
+import { getPlanDetail, savePlanDetail } from 'store/slices/planSlice';
 import { RootState } from 'store';
 import CommonButton from 'components/CommonButton/CommonButton';
 import { IndexedObject } from 'types/common';
@@ -22,6 +22,8 @@ export type EditableCellProps = {
 
 const ModalPlanDetail = ({ open, onCancel }: Props) => {
   const dispatch = useDispatch();
+  const [form] = Form.useForm();
+
   const { planDetail } = useSelector((state: RootState) => state.plan);
   const [editingKey, setEditingKey] = useState(0);
 
@@ -29,7 +31,7 @@ const ModalPlanDetail = ({ open, onCancel }: Props) => {
     {
       title: 'Mã',
       dataIndex: 'code',
-      width: 100,
+      width: 80,
     },
     {
       title: 'Tên vật tư',
@@ -44,7 +46,7 @@ const ModalPlanDetail = ({ open, onCancel }: Props) => {
     {
       title: 'Đơn vị',
       dataIndex: 'unit',
-      width: 100,
+      width: 80,
     },
     {
       title: 'Số lượng',
@@ -87,18 +89,26 @@ const ModalPlanDetail = ({ open, onCancel }: Props) => {
       title: '',
       dataIndex: 'action',
       width: 100,
-      editable: true,
-      render: (_: any, record: any) => (
-        <CommonButton
-          onClick={() => {
-            console.log(record.id);
-
-            edit(record.id);
-          }}
-        >
-          Edit
-        </CommonButton>
-      ),
+      fixed: 'right',
+      render: (_: any, record: any) => {
+        return isEditingQuatity(record, editingKey) ? (
+          <CommonButton
+            onClick={() => {
+              save();
+            }}
+          >
+            Save
+          </CommonButton>
+        ) : (
+          <CommonButton
+            onClick={() => {
+              edit(record.id);
+            }}
+          >
+            Edit
+          </CommonButton>
+        );
+      },
     },
   ];
 
@@ -108,14 +118,19 @@ const ModalPlanDetail = ({ open, onCancel }: Props) => {
     children,
     ...restProps
   }) => {
-    const inputNode = <InputNumber />;
-    let rulesValidate: IndexedObject[] = [{ required: true }];
-
+    const rulesValidate = [
+      {
+        validator: (_, value) =>
+          value > 0 && value < planDetail.planList?.find((e) => e.id === editingKey).quantity
+            ? Promise.resolve()
+            : Promise.reject(new Error('Vui lòng nhập số lượng hợp lệ')),
+      },
+    ];
     return (
       <td {...restProps}>
         {editing ? (
           <Form.Item name={dataIndex} style={{ margin: 0 }} rules={rulesValidate}>
-            {inputNode}
+            <InputNumber onBlur={save} />
           </Form.Item>
         ) : (
           children
@@ -140,18 +155,19 @@ const ModalPlanDetail = ({ open, onCancel }: Props) => {
   });
   const isEditingQuatity = (record: any, editingKey: number) => record.id === editingKey;
 
-  const save = async (id: number) => {
-    // const row = (await form.validateFields()) as TUserDetail;
-    // if (row) {
-    //   setUsers({ user: { ...row, id }, groupId: currentGroup.id ?? 0 });
-    //   setEditingKey(0);
-    // }
+  const save = async () => {
+    const row = await form.validateFields();
+    if (row) {
+      const updatePlan = planDetail.planList.map((e) =>
+        e.id === editingKey ? { ...e, ...row } : e,
+      );
+      dispatch(savePlanDetail({ ...planDetail, planList: updatePlan }));
+      setEditingKey(0);
+    }
   };
   const edit = (id: number) => {
-    // form.setFieldsValue({ ...record });
     setEditingKey(id);
   };
-  console.log(editingKey);
 
   useEffect(() => {
     if (open) dispatch(getPlanDetail(open) as any);
@@ -164,26 +180,31 @@ const ModalPlanDetail = ({ open, onCancel }: Props) => {
         <p>Người gửi: {planDetail.name}</p>
         <p>Khoa phòng: {planDetail.department?.name}</p>
         <p>Ghi chú: {planDetail.note}</p>
-        <Table
-          components={{
-            body: {
-              cell: editableCell,
-            },
-          }}
-          style={{ margin: '20px 0' }}
-          columns={mergedColumns}
-          dataSource={planDetail.planList?.map((c) => ({ ...c, supplier: c.company?.name }))}
-          size="middle"
-          bordered
-          scroll={{ x: 'max-content', y: '500px' }}
-        />
+        <Form form={form} component={false}>
+          <Table
+            components={{
+              body: {
+                cell: editableCell,
+              },
+            }}
+            style={{ margin: '20px 0' }}
+            columns={mergedColumns}
+            dataSource={planDetail.planList?.map((c) => ({ ...c, supplier: c.company?.name }))}
+            size="middle"
+            bordered
+            scroll={{ x: 'max-content', y: '500px' }}
+            rowKey="id"
+          />
+        </Form>
       </div>
       <Row justify="center" gutter={[40, 40]}>
         <Col>
           <CommonButton onClick={handleAccept}>Phê duyệt</CommonButton>
         </Col>
         <Col>
-          <CommonButton danger>Hủy bỏ</CommonButton>
+          <CommonButton danger onClick={onCancel}>
+            Hủy bỏ
+          </CommonButton>
         </Col>
       </Row>
     </Modal>

@@ -39,7 +39,11 @@ export const getPlanDetail = createAsyncThunk(
 const planSlice = createSlice({
   name: 'bidding',
   initialState,
-  reducers: {},
+  reducers: {
+    savePlanDetail: (state: TInitPlanState, action) => {
+      state.planDetail = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getPlans.pending, (state, action) => {
       state.loading = true;
@@ -55,4 +59,4 @@ const planSlice = createSlice({
 });
 
 export const { actions, reducer: planReducer } = planSlice;
-export const {} = actions;
+export const { savePlanDetail } = actions;

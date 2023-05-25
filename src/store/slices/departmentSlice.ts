@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import departmentApi from 'axiosConfig/api/department';
 import userApi from 'axiosConfig/api/user';
 import { toast } from 'react-toastify';
