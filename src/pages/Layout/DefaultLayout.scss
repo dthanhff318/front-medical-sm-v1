@@ -60,11 +60,12 @@
   align-items: center;
   position: relative;
   .user-settings {
-    margin: 0 20px 0 40px;
+    margin: 0 30px 0 20px;
+    height: fit-content;
     cursor: pointer;
-    padding: 10px;
     i {
       font-size: 20px;
+      padding: 15px;
     }
     &:hover {
       transform: scale(1.1);
@@ -72,33 +73,32 @@
       transition: all 0.2s linear;
     }
   }
-  .user-settings-list {
-    position: absolute;
-    top: 70px;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    height: fit-content;
-    width: 200px;
-    z-index: 1;
-    box-shadow: 2px 2px 4px grey;
-    &:hover {
-      li {
-        background-color: rgb(223, 222, 222);
-        cursor: pointer;
-      }
-    }
-  }
+  // .user-settings-list {
+  //   position: absolute;
+  //   top: 70px;
+  //   right: 0;
+  //   display: flex;
+  //   flex-direction: column;
+  //   background-color: white;
+  //   height: fit-content;
+  //   width: 200px;
+  //   z-index: 1;
+  //   box-shadow: 2px 2px 4px grey;
+  //   &:hover {
+  //     li {
+  //       background-color: rgb(223, 222, 222);
+  //       cursor: pointer;
+  //     }
+  //   }
+  // }
 }
 .logo-bell {
   cursor: pointer;
   position: relative;
   display: flex;
   align-items: center;
-  margin: 0 12px;
+  padding: 15px;
   .bell {
-    margin-left: 15px;
     font-size: 22px;
   }
 }
@@ -119,4 +119,37 @@
 .ant-select-item-option-content {
   display: flex;
   align-items: center;
+}
+// item bell
+.item-bell{
+  width: 400px;
+  display: flex;
+  align-items: center;
+  .item-bell-icon{
+    background-color: #1890ff;
+    padding: 15px 20px;
+    border-radius: 50%;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  }
+  .item-bell-inf{
+    margin-left: 10px;
+    .item-bell-tittle{
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .item-bell-discription{
+      display: block;
+      word-wrap: break-word;
+    }
+    .item-bell-time{
+      display: block;
+      font-size: 0.7rem;
+      color: #1890ff;
+      font-weight: 500;
+      
+    }
+  }
+  
 }

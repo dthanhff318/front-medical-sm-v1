@@ -6,7 +6,7 @@ import {
   SnippetsOutlined,
   FileAddOutlined,
 } from '@ant-design/icons';
-import { Badge, Layout, Menu } from 'antd';
+import { Badge, Button, Dropdown, Layout, Menu } from 'antd';
 import React, { useState } from 'react';
 import './DefaultLayout.scss';
 import type { MenuProps } from 'antd';
@@ -24,8 +24,34 @@ type Props = {
 };
 const DefaultLayout: React.FC<Props> = ({ children }) => {
   const { onLogout, role } = useService();
-  const [onSetting, setOnSetting] = useState(false);
-
+  const items: MenuProps['items'] = [
+    {
+      key: '1',
+      label: (
+        <p style={{ padding: '3px' }} onClick={onLogout}>
+          Đăng xuất
+        </p>
+      ),
+    },
+  ];
+  //item bell
+  const itemsBell: MenuProps['items'] = [
+    {
+      key: '1',
+      label: (
+        <div className="item-bell">
+          <div className="item-bell-icon">H</div>
+          <div className="item-bell-inf">
+            <p className="item-bell-tittle">Tên khoa phòng</p>
+            <span className="item-bell-discription">
+              thông tin phiếu cần duyệt từ khoa phòng nào
+            </span>
+            <span className="item-bell-time">25-5-2023</span>
+          </div>
+        </div>
+      ),
+    },
+  ];
   const listSubnavAdmin = [
     {
       id: 1,
@@ -142,19 +168,30 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
             onClick: () => setCollapsed(!collapsed),
           })}
           <div className="logo-user">
-            <div className="logo-bell">
-              <Badge count={99} overflowCount={10}>
-                <BellOutlined className="bell" />
-              </Badge>
+            <Dropdown
+              getPopupContainer={() => {
+                return document.body;
+              }}
+              menu={{ items: itemsBell }}
+              placement="bottomRight"
+              trigger={['click']}
+            >
+              <div className="logo-bell">
+                <Badge count={99} overflowCount={9}>
+                  <BellOutlined className="bell" />
+                </Badge>
+              </div>
+            </Dropdown>
+            <div className="user-settings">
+              <Dropdown menu={{ items }} placement="bottomLeft" trigger={['click']}>
+                <i className="fa-solid fa-user"></i>
+              </Dropdown>
             </div>
-            <div className="user-settings" onClick={() => setOnSetting((prev) => !prev)}>
-              <i className="fa-solid fa-user"></i>
-            </div>
-            {onSetting && (
+            {/* {onSetting && (
               <ul className="user-settings-list">
                 <li onClick={onLogout}>Logout</li>
               </ul>
-            )}
+            )} */}
           </div>
         </Header>
         <Content
