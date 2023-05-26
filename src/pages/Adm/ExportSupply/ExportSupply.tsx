@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { Table, Select, Row, Col } from 'antd';
 import CommonButton from 'components/CommonButton/CommonButton';
-import ModalDelete from 'components/CommonModal/ModalDelete';
 import styles from './style.module.scss';
 import ModalPlanDetail from './ModalPlanDetail';
 import MPath from 'routes/routes';
 import { Link } from 'react-router-dom';
 import useService from './service';
-import { replacePathParams } from 'helpers/functions';
 import { listTypes } from 'const';
 
 const ExportSupply = () => {
@@ -59,13 +57,12 @@ const ExportSupply = () => {
   const onChangeTypePlan = (e) => {
     setTypePlan(e);
   };
+  const getClassRow = (record) => {
+    return record.isAccepted ? styles.acceptPlan : styles.pendingPlan;
+  };
   return (
     <>
-      <ModalPlanDetail
-        open={openModal}
-        // onCreateDepartment={onCreateDepartment}
-        onCancel={() => setOpenModal(0)}
-      />
+      <ModalPlanDetail open={openModal} onCancel={() => setOpenModal(0)} />
       <div className={styles.wrapper}>
         <h2 className={styles.title}>Danh sách phiếu duyệt</h2>
         <Row gutter={[20, 20]} className={styles.groupBtn}>
@@ -89,7 +86,21 @@ const ExportSupply = () => {
             />
           </Col>
         </Row>
-        <Table dataSource={plans} columns={columns} />
+        {department ? (
+          <Table
+            dataSource={plans.map((e) => ({
+              ...e,
+              status: e.isAccepted ? 'Đã duyệt' : 'Chờ duyệt',
+            }))}
+            columns={columns}
+            rowKey="id"
+            rowClassName={getClassRow}
+          />
+        ) : (
+          <div className={styles.wrapNoTable}>
+            <h2 className={styles.titleNoTable}>Vui lòng chọn một khoa phòng để xem.</h2>
+          </div>
+        )}
       </div>
     </>
   );
