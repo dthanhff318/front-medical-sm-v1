@@ -2,10 +2,11 @@ import { Form, Input, Modal, Row, Table, Col, InputNumber } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './style.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPlanDetail, savePlanDetail } from 'store/slices/planSlice';
+import { getPlanDetail, savePlanDetail, savePlans } from 'store/slices/planSlice';
 import { RootState } from 'store';
 import CommonButton from 'components/CommonButton/CommonButton';
-import { IndexedObject } from 'types/common';
+import planApi from 'axiosConfig/api/plan';
+
 type Props = {
   open: number;
   onCancel: () => void;
@@ -24,8 +25,9 @@ const ModalPlanDetail = ({ open, onCancel }: Props) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
-  const { planDetail } = useSelector((state: RootState) => state.plan);
+  const { planDetail, loading } = useSelector((state: RootState) => state.plan);
   const [editingKey, setEditingKey] = useState(0);
+  const [load, setLoad] = useState<boolean>(false);
 
   const columns: any = [
     {
@@ -97,7 +99,7 @@ const ModalPlanDetail = ({ open, onCancel }: Props) => {
               save();
             }}
           >
-            Save
+            Lưu
           </CommonButton>
         ) : (
           <CommonButton
@@ -105,7 +107,7 @@ const ModalPlanDetail = ({ open, onCancel }: Props) => {
               edit(record.id);
             }}
           >
-            Edit
+            Sửa
           </CommonButton>
         );
       },
@@ -172,7 +174,21 @@ const ModalPlanDetail = ({ open, onCancel }: Props) => {
   useEffect(() => {
     if (open) dispatch(getPlanDetail(open) as any);
   }, [open]);
-  const handleAccept = () => {};
+  const handleAccept = async () => {
+    try {
+      setLoad(true);
+      const data = planDetail.planList.map((e) => {
+        const { id, quantityExpect } = e;
+        return { id, quantityExpect };
+      });
+      const res = await planApi.acceptPlan(planDetail.id, data);
+      dispatch(savePlans(res.data));
+      onCancel();
+      setLoad(false);
+    } catch (e) {
+      setLoad(false);
+    }
+  };
   return (
     <Modal open={!!open} footer={null} onCancel={onCancel} width={'70vw'}>
       <div className={styles.wrapperModal}>
@@ -194,12 +210,15 @@ const ModalPlanDetail = ({ open, onCancel }: Props) => {
             bordered
             scroll={{ x: 'max-content', y: '500px' }}
             rowKey="id"
+            loading={loading}
           />
         </Form>
       </div>
       <Row justify="center" gutter={[40, 40]}>
         <Col>
-          <CommonButton onClick={handleAccept}>Phê duyệt</CommonButton>
+          <CommonButton onClick={handleAccept} loading={load}>
+            Phê duyệt
+          </CommonButton>
         </Col>
         <Col>
           <CommonButton danger onClick={onCancel}>

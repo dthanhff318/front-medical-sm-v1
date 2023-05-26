@@ -8,6 +8,7 @@ type Props = {
   onClick?: () => void;
   isSubmit?: boolean;
   className?: string;
+  loading?: boolean;
 };
 
 const CommonButton = ({
@@ -16,12 +17,14 @@ const CommonButton = ({
   onClick,
   isSubmit = false,
   className,
+  loading = false,
 }: Props) => {
   return (
     <Button
       onClick={onClick}
       htmlType={isSubmit ? 'submit' : 'button'}
       danger={danger}
+      loading={loading}
       className={`${styles.commonBtn} ${className}`}
     >
       {children}

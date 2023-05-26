@@ -12,6 +12,9 @@ const planApi = {
   getPlanDetail: (id: number) => {
     return axiosClient.get(`/plan/${id}`);
   },
+  acceptPlan: (id: number, planList: Array<{ id: number; quantityExpect: number }>) => {
+    return axiosClient.post(`/plan/${id}`, { planList });
+  },
 };
 
 export default planApi;
