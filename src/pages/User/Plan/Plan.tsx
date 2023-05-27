@@ -6,6 +6,7 @@ import styles from './style.module.scss';
 import useService from './service';
 import { listTypePlanImport } from 'const';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 
 const Plan: React.FC = () => {
   const columns: any = [
@@ -51,13 +52,14 @@ const Plan: React.FC = () => {
   const [form] = useForm();
   const [dataAdd, setDataAdd] = useState<any>([]);
   const [value, setValue] = useState<string>('');
-  const [selectSupply, setSelectSupply] = useState<any>('');
+  const [selectSupply, setSelectSupply] = useState<any>({});
   const [typePlan, setTypePlan] = useState<number>(0);
 
   const { listSupply, handleSendPlan, currentUser } = useService({ value });
 
   const handleSelectSupply = (id: string) => {
     const supply = listSupply.find((d) => d.id === id);
+    console.log(supply);
     setSelectSupply(supply);
     form.setFieldsValue({
       ingredient: supply.ingredient,
@@ -70,12 +72,29 @@ const Plan: React.FC = () => {
 
   const handleAddData = (data: any) => {
     const checkExist = dataAdd.find((d) => d.id === data.id);
+    // const list = dataAdd.filter((list) => {
+    //   return list.id === data.id;
+    // });
+    // if (checkExist) {
+    //   const remain = dataAdd.map((d) =>
+    //     d.id === data.id ? { ...d, quantity: d.quantity + data.quantity } : d
+    //   );
+    //   setDataAdd(remain);
+    //   return;
+    // }
     if (checkExist) {
-      const remain = dataAdd.map((d) =>
-        d.id === data.id ? { ...d, quantity: d.quantity + data.quantity } : d,
-      );
-      setDataAdd(remain);
-      return;
+      const sum = checkExist.quantity + data.quantity;
+      if (sum > 20) {
+        setDataAdd([...dataAdd]);
+        toast.error('Số lượng vật tư quá trong kho');
+        return;
+      } else {
+        const remain = dataAdd.map((d) =>
+          d.id === data.id ? { ...d, quantity: d.quantity + data.quantity } : d,
+        );
+        setDataAdd(remain);
+        return;
+      }
     }
     setDataAdd([...dataAdd, { ...data, name: selectSupply.name }]);
   };
