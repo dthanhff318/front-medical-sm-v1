@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Divider, Form, Input, InputNumber, Row, Select, Table } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import CommonButton from 'components/CommonButton/CommonButton';
@@ -55,11 +55,10 @@ const Plan: React.FC = () => {
   const [selectSupply, setSelectSupply] = useState<any>({});
   const [typePlan, setTypePlan] = useState<number>(0);
 
-  const { listSupply, handleSendPlan, currentUser } = useService({ value });
+  const { listSupply, handleSendPlan, currentUser, loadSend } = useService({ value });
 
   const handleSelectSupply = (id: string) => {
     const supply = listSupply.find((d) => d.id === id);
-    console.log(supply);
     setSelectSupply(supply);
     form.setFieldsValue({
       ingredient: supply.ingredient,
@@ -67,36 +66,29 @@ const Plan: React.FC = () => {
       group: supply.group,
       company: supply.company.name,
       unit: supply.unit,
+      quantityStore: supply.quantity,
     });
   };
 
   const handleAddData = (data: any) => {
     const checkExist = dataAdd.find((d) => d.id === data.id);
-    // const list = dataAdd.filter((list) => {
-    //   return list.id === data.id;
-    // });
-    // if (checkExist) {
-    //   const remain = dataAdd.map((d) =>
-    //     d.id === data.id ? { ...d, quantity: d.quantity + data.quantity } : d
-    //   );
-    //   setDataAdd(remain);
-    //   return;
-    // }
     if (checkExist) {
       const sum = checkExist.quantity + data.quantity;
-      if (sum > 20) {
-        setDataAdd([...dataAdd]);
-        toast.error('Số lượng vật tư quá trong kho');
+      const quantityStore = form.getFieldValue('quantityStore');
+      if (sum > quantityStore) {
+        toast.error('Số lượng vật tư yêu cầu vượt quá trong kho');
         return;
       } else {
         const remain = dataAdd.map((d) =>
           d.id === data.id ? { ...d, quantity: d.quantity + data.quantity } : d,
         );
         setDataAdd(remain);
+        form.resetFields();
         return;
       }
     }
     setDataAdd([...dataAdd, { ...data, name: selectSupply.name }]);
+    form.resetFields();
   };
 
   const onRemove = (record) => {
@@ -138,7 +130,9 @@ const Plan: React.FC = () => {
           </Col>
           <Col span={8} style={{ display: 'flex', flexDirection: 'column', marginBottom: '16px' }}>
             <Form.Item>
-              <CommonButton isSubmit={true}>Tạo phiếu cấp vật tư</CommonButton>
+              <CommonButton loading={loadSend} isSubmit={true}>
+                Tạo phiếu cấp vật tư
+              </CommonButton>
             </Form.Item>
           </Col>
         </Row>
@@ -216,7 +210,7 @@ const Plan: React.FC = () => {
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
-            <Col span={4}>
+            <Col span={6}>
               <span>Số lượng</span>
               <Form.Item
                 name="quantity"
@@ -225,6 +219,17 @@ const Plan: React.FC = () => {
                 <InputNumber
                   min={1}
                   max={selectSupply ? Number(selectSupply.quantity) : 1}
+                  type="number"
+                  style={{ marginBottom: '10px', width: '100%' }}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <span>Tồn kho</span>
+              <Form.Item name="quantityStore">
+                <InputNumber
+                  min={1}
+                  readOnly
                   type="number"
                   style={{ marginBottom: '10px', width: '100%' }}
                 />

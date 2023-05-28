@@ -77,6 +77,7 @@ export type TInitStoreState = {
   loading: boolean;
   stores: Array<any>;
   pagination: TPagination;
+  storeDepartment: Array<any>;
 };
 
 // Plan

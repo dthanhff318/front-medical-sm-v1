@@ -3,12 +3,23 @@ import { Col, Input, Space, Row, Table, Select, Divider } from 'antd';
 import styles from './style.module.scss';
 import Search from 'antd/es/input/Search';
 import CommonButton from 'components/CommonButton/CommonButton';
-import useService from 'pages/Adm/Store/service';
+import useService from './service';
+import PaginationCustom from 'components/PaginationCustom/PaginationCustom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { createQueryUrl } from 'helpers/functions';
 
 const StoreDepartment: React.FC = () => {
-  const { stores, loading, getStore, onDeleteSupplyStore } = useService();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { storeDepartment, loading, urlQueryParams, pagination, getStore, onDeleteSupplyStore } =
+    useService();
+
   const onSearch = (value: string) => {
     getStore({ q: value });
+  };
+
+  const onChangePage = (page: number, limit: number) => {
+    navigate(createQueryUrl(location, { ...urlQueryParams, page, limit }));
   };
 
   const columns: any = [
@@ -90,11 +101,20 @@ const StoreDepartment: React.FC = () => {
       <Table
         columns={columns}
         loading={loading}
-        dataSource={stores.map((e) => ({ ...e, company: e.company.name }))}
-        size="small"
-        scroll={{ x: 'max-content', y: '59vh' }}
+        dataSource={storeDepartment}
+        size="middle"
+        scroll={{ x: 'max-content', y: '60vh' }}
         rowKey="id"
+        pagination={false}
       />
+      <Row justify={'center'} style={{ marginTop: '20px' }}>
+        <PaginationCustom
+          total={pagination.totalResults}
+          current={pagination.page}
+          pageSize={pagination.limit}
+          onChange={onChangePage}
+        />
+      </Row>
     </div>
   );
 };

@@ -215,16 +215,28 @@ const ModalPlanDetail = ({ open, onCancel }: Props) => {
         </Form>
       </div>
       <Row justify="center" gutter={[40, 40]}>
-        <Col>
-          <CommonButton onClick={handleAccept} loading={load}>
-            Phê duyệt
-          </CommonButton>
-        </Col>
-        <Col>
-          <CommonButton danger onClick={onCancel}>
-            Hủy bỏ
-          </CommonButton>
-        </Col>
+        {planDetail.isAccepted ? (
+          <>
+            <Col>
+              <CommonButton danger onClick={onCancel} loading={load}>
+                Xóa phiếu
+              </CommonButton>
+            </Col>
+          </>
+        ) : (
+          <>
+            <Col>
+              <CommonButton onClick={handleAccept} loading={load}>
+                Phê duyệt
+              </CommonButton>
+            </Col>
+            <Col>
+              <CommonButton danger onClick={onCancel}>
+                Hủy bỏ
+              </CommonButton>
+            </Col>
+          </>
+        )}
       </Row>
     </Modal>
   );

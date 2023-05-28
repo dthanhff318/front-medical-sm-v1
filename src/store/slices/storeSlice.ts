@@ -12,6 +12,7 @@ const initialState: TInitStoreState = {
     totalPages: 1,
     totalResults: 0,
   },
+  storeDepartment: [],
 };
 
 export const getSupplyStore = createAsyncThunk(
@@ -21,7 +22,7 @@ export const getSupplyStore = createAsyncThunk(
       const res = await storeApi.getSupplyFromStore(conditon);
       return res.data;
     } catch (err: any) {
-      toast.error(`Co loi xay ra, vui long thu lai`);
+      toast.error(`Có lỗi xảy ra, vui lòng thử lại`);
       return thunkApi.rejectWithValue({});
     }
   },
@@ -34,7 +35,21 @@ export const deleteSupplyStore = createAsyncThunk(
       await storeApi.deleteSupply(id);
       return id;
     } catch (err: any) {
-      toast.error(`Co loi xay ra, vui long thu lai`);
+      toast.error(`Có lỗi xảy ra, vui lòng thử lại`);
+      return thunkApi.rejectWithValue({});
+    }
+  },
+);
+//  Department
+export const getStoreOfDepartment = createAsyncThunk(
+  'store/getStoreOfDepartment',
+  async (data: any, thunkApi) => {
+    try {
+      const { id, condition } = data;
+      const res = await storeApi.getStoreOfDepartment(id, condition);
+      return res.data;
+    } catch (err: any) {
+      toast.error(`Có lỗi xảy ra, vui lòng thử lại`);
       return thunkApi.rejectWithValue({});
     }
   },
@@ -52,6 +67,15 @@ const storeSlice = createSlice({
       const { results, pagination } = action.payload;
       state.loading = false;
       state.stores = results;
+      state.pagination = pagination;
+    });
+    builder.addCase(getStoreOfDepartment.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(getStoreOfDepartment.fulfilled, (state, action) => {
+      const { results, pagination } = action.payload;
+      state.loading = false;
+      state.storeDepartment = results;
       state.pagination = pagination;
     });
     builder.addCase(deleteSupplyStore.pending, (state, action) => {

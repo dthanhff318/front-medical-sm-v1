@@ -8,7 +8,7 @@ import AccountManage from 'pages/Adm/AccountManage/AccountManage';
 import DepartmentManage from 'pages/Adm/DepartmentManage/DepartmentManage';
 import Home from 'pages/Adm/Home/Home';
 import Store from 'pages/Adm/Store/Store';
-import UserHome from 'pages/User/UserHome';
+import HomeUser from 'pages/User/HomeUser/HomeUser';
 import Plan from 'pages/User/Plan/Plan';
 import Refund from 'pages/User/Refund/Refund';
 import StoreDepartment from 'pages/User/StoreDepartment/StoreDepartment';
@@ -102,7 +102,7 @@ export const routers: any = [
   // User
   {
     name: 'USER_HOME',
-    element: <UserHome />,
+    element: <HomeUser />,
     public: false,
     path: MPath.USER_HOME,
     role: [ERole.User],

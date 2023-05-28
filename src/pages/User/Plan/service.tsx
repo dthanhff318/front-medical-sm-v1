@@ -11,6 +11,7 @@ type Props = {
 const useService = ({ value }: Props) => {
   const dispatch = useDispatch();
   const [listSupply, setListSupply] = useState<any>([]);
+  const [loadSend, setLoadSend] = useState<boolean>(false);
   const [search, setSearch] = useState<string>('');
   const { currentUser } = useSelector((state: RootState) => state.auth);
 
@@ -19,11 +20,19 @@ const useService = ({ value }: Props) => {
     setListSupply(res.data.results);
   };
   const handleSendPlan = async (data: any) => {
+    setLoadSend(true);
     if (!data.typePlan) {
       toast.error('Vui lòng chọn loại phiếu !');
+      setLoadSend(false);
+      return;
+    }
+    if (!data.planList.length) {
+      toast.error('Danh sách vật tư đang trống !');
+      setLoadSend(false);
       return;
     }
     await planApi.sendPlan(data);
+    setLoadSend(false);
   };
 
   // Side effect
@@ -45,6 +54,7 @@ const useService = ({ value }: Props) => {
     listSupply,
     handleSendPlan,
     currentUser,
+    loadSend,
   };
 };
 
