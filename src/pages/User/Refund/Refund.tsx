@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Col, Divider, Form, Input, InputNumber, Row, Select, Table } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import CommonButton from 'components/CommonButton/CommonButton';
 import styles from './style.module.scss';
 import useService from './service';
-import { listTypePlanImport } from 'const';
+import { listTypePlanExport } from 'const';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 
@@ -96,6 +96,7 @@ const Plan: React.FC = () => {
     setDataAdd(remainData);
   };
   const handleSubmit = ({ note }: { note: string }) => {
+    console.log(note);
     const dataSend = {
       note,
       department: currentUser.department,
@@ -104,6 +105,7 @@ const Plan: React.FC = () => {
       typePlan,
       createdTime: moment(Date.now()).format('DD MMM YYYY'),
     };
+    console.log(dataSend);
     handleSendPlan(dataSend);
   };
 
@@ -123,7 +125,7 @@ const Plan: React.FC = () => {
               <span>Loại phiếu hoàn trả</span>
               <Select
                 onChange={(e) => setTypePlan(e)}
-                options={listTypePlanImport}
+                options={listTypePlanExport}
                 placeholder="Chọn loại phiếu"
               />
             </Form.Item>
