@@ -13,9 +13,10 @@ import Plan from 'pages/User/Plan/Plan';
 import Refund from 'pages/User/Refund/Refund';
 import StoreDepartment from 'pages/User/StoreDepartment/StoreDepartment';
 import Supplier from 'pages/Adm/Supplier/Supplier';
-import ExportSupply from 'pages/Adm/ExportSupply/ExportSupply';
+import ListTicket from 'pages/Adm/ListTicket/ListTicket';
 import { ERole } from 'enums';
 import SupplierDetail from 'pages/Adm/Supplier/SupplierDetail';
+import DetailTicket from 'pages/Adm/DetailTicket/DetailTicket';
 
 export const routers: any = [
   {
@@ -75,14 +76,22 @@ export const routers: any = [
     exact: true,
   },
   {
-    name: 'AdmPlan',
-    element: <ExportSupply />,
+    name: 'AdmListTicket',
+    element: <ListTicket />,
     public: false,
-    path: MPath.ADM_PLAN,
+    path: MPath.ADM_LIST_TICKET,
     role: [ERole.Admin],
     exact: true,
   },
-  //supplier
+  {
+    name: 'AdmDetailTicket',
+    element: <DetailTicket />,
+    public: false,
+    path: MPath.ADM_DETAIL_TICKET,
+    role: [ERole.Admin],
+    exact: true,
+  },
+  // Supplier
   {
     name: 'AdmSupplier',
     element: <Supplier />,

@@ -9,11 +9,14 @@ const planApi = {
   getPlans: (params: IndexedObject) => {
     return axiosClient.get(`/plan?${queryString.stringify(params)}`);
   },
-  getPlanDetail: (id: number) => {
+  getPlanDetail: (id: string) => {
     return axiosClient.get(`/plan/${id}`);
   },
-  acceptPlan: (id: number, planList: Array<{ id: number; quantityExpect: number }>) => {
-    return axiosClient.post(`/plan/${id}`, { planList });
+  expectPlan: (id: string) => {
+    return axiosClient.get(`/plan/expect/${id}`);
+  },
+  refundPlan: (id: string) => {
+    return axiosClient.get(`/plan/refund/${id}`);
   },
 };
 
