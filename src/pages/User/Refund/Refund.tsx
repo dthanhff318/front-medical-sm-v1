@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Divider, Form, Input, InputNumber, Row, Select, Table } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import CommonButton from 'components/CommonButton/CommonButton';
 import styles from './style.module.scss';
 import useService from './service';
-import { listTypePlanExport } from 'const';
+import { listTypePlanImport } from 'const';
+import moment from 'moment';
+import { toast } from 'react-toastify';
 
 const Plan: React.FC = () => {
   const columns: any = [
@@ -50,10 +52,10 @@ const Plan: React.FC = () => {
   const [form] = useForm();
   const [dataAdd, setDataAdd] = useState<any>([]);
   const [value, setValue] = useState<string>('');
-  const [selectSupply, setSelectSupply] = useState<any>('');
+  const [selectSupply, setSelectSupply] = useState<any>({});
   const [typePlan, setTypePlan] = useState<number>(0);
 
-  const { listSupply, handleSendPlan, currentUser } = useService({ value });
+  const { listSupply, handleSendPlan, currentUser, loadSend } = useService({ value });
 
   const handleSelectSupply = (id: string) => {
     const supply = listSupply.find((d) => d.id === id);
@@ -64,26 +66,35 @@ const Plan: React.FC = () => {
       group: supply.group,
       company: supply.company.name,
       unit: supply.unit,
+      quantityStore: supply.quantity,
     });
   };
 
   const handleAddData = (data: any) => {
     const checkExist = dataAdd.find((d) => d.id === data.id);
     if (checkExist) {
-      const remain = dataAdd.map((d) =>
-        d.id === data.id ? { ...d, quantity: d.quantity + data.quantity } : d,
-      );
-      setDataAdd(remain);
-      return;
+      const sum = checkExist.quantity + data.quantity;
+      const quantityStore = form.getFieldValue('quantityStore');
+      if (sum > quantityStore) {
+        toast.error('Số lượng vật tư yêu cầu vượt quá trong kho');
+        return;
+      } else {
+        const remain = dataAdd.map((d) =>
+          d.id === data.id ? { ...d, quantity: d.quantity + data.quantity } : d,
+        );
+        setDataAdd(remain);
+        form.resetFields();
+        return;
+      }
     }
     setDataAdd([...dataAdd, { ...data, name: selectSupply.name }]);
+    form.resetFields();
   };
 
   const onRemove = (record) => {
     const remainData = dataAdd.filter((d) => d.id !== record.id);
     setDataAdd(remainData);
   };
-
   const handleSubmit = ({ note }: { note: string }) => {
     const dataSend = {
       note,
@@ -91,6 +102,7 @@ const Plan: React.FC = () => {
       name: currentUser.displayName,
       planList: dataAdd.map((s) => ({ id: s.id, quantity: s.quantity })),
       typePlan,
+      createdTime: moment(Date.now()).format('DD MMM YYYY'),
     };
     handleSendPlan(dataSend);
   };
@@ -108,17 +120,19 @@ const Plan: React.FC = () => {
         <Row gutter={[8, 0]} align={'bottom'} justify={'space-between'}>
           <Col span={8} style={{ display: 'flex', flexDirection: 'column', marginBottom: '16px' }}>
             <Form.Item name="typePlan">
-              <span>Loại phiếu bổ sung</span>
+              <span>Loại phiếu hoàn trả</span>
               <Select
                 onChange={(e) => setTypePlan(e)}
-                options={listTypePlanExport}
+                options={listTypePlanImport}
                 placeholder="Chọn loại phiếu"
               />
             </Form.Item>
           </Col>
           <Col span={8} style={{ display: 'flex', flexDirection: 'column', marginBottom: '16px' }}>
             <Form.Item>
-              <CommonButton isSubmit={true}>Tạo phiếu cấp vật tư</CommonButton>
+              <CommonButton loading={loadSend} isSubmit={true}>
+                Tạo phiếu hoàn trả vật tư
+              </CommonButton>
             </Form.Item>
           </Col>
         </Row>
@@ -196,7 +210,7 @@ const Plan: React.FC = () => {
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
-            <Col span={4}>
+            <Col span={6}>
               <span>Số lượng</span>
               <Form.Item
                 name="quantity"
@@ -205,6 +219,17 @@ const Plan: React.FC = () => {
                 <InputNumber
                   min={1}
                   max={selectSupply ? Number(selectSupply.quantity) : 1}
+                  type="number"
+                  style={{ marginBottom: '10px', width: '100%' }}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={6}>
+              <span>Tồn kho</span>
+              <Form.Item name="quantityStore">
+                <InputNumber
+                  min={1}
+                  readOnly
                   type="number"
                   style={{ marginBottom: '10px', width: '100%' }}
                 />
