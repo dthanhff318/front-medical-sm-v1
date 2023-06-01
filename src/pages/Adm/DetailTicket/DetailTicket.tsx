@@ -1,34 +1,22 @@
-import { Form, Input, Modal, Row, Table, Col, InputNumber } from 'antd';
-import React, { useEffect, useState } from 'react';
-import styles from './style.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { getPlanDetail, savePlanDetail, savePlans } from 'store/slices/planSlice';
-import { RootState } from 'store';
+import React, { useState } from 'react';
 import CommonButton from 'components/CommonButton/CommonButton';
-import planApi from 'axiosConfig/api/plan';
+import MPath from 'routes/routes';
+import { useNavigate } from 'react-router-dom';
+import useService, { EditableCellProps } from './service';
+import styles from './style.module.scss';
+import { Col, Form, InputNumber, Row, Table } from 'antd';
+import { savePlanDetail } from 'store/slices/planSlice';
+import { useDispatch } from 'react-redux';
 
-type Props = {
-  open: number;
-  onCancel: () => void;
-};
-export type EditableCellProps = {
-  editing: boolean;
-  dataIndex: string;
-  title: any;
-  inputType: 'select' | 'text';
-  record: string;
-  index: number;
-  children: React.ReactNode;
-} & React.HTMLAttributes<HTMLElement>;
-
-const ModalPlanDetail = ({ open, onCancel }: Props) => {
+const DetailTicket = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { planDetail, loading: loadingTable, handleAcceptTicket } = useService();
+
   const [form] = Form.useForm();
 
-  const { planDetail, loading } = useSelector((state: RootState) => state.plan);
   const [editingKey, setEditingKey] = useState(0);
-  const [load, setLoad] = useState<boolean>(false);
-
   const columns: any = [
     {
       title: 'Mã',
@@ -171,75 +159,62 @@ const ModalPlanDetail = ({ open, onCancel }: Props) => {
     setEditingKey(id);
   };
 
-  useEffect(() => {
-    if (open) dispatch(getPlanDetail(open) as any);
-  }, [open]);
-  const handleAccept = async () => {
-    try {
-      setLoad(true);
-      const data = planDetail.planList.map((e) => {
-        const { id, quantityExpect } = e;
-        return { id, quantityExpect };
-      });
-      const res = await planApi.acceptPlan(planDetail.id, data);
-      dispatch(savePlans(res.data));
-      onCancel();
-      setLoad(false);
-    } catch (e) {
-      setLoad(false);
-    }
-  };
   return (
-    <Modal open={!!open} footer={null} onCancel={onCancel} width={'70vw'}>
-      <div className={styles.wrapperModal}>
-        <p className={styles.modalTitle}>Thông tin chi tiết phiếu</p>
-        <p>Người gửi: {planDetail.name}</p>
-        <p>Khoa phòng: {planDetail.department?.name}</p>
-        <p>Ghi chú: {planDetail.note}</p>
-        <Form form={form} component={false}>
-          <Table
-            components={{
-              body: {
-                cell: editableCell,
-              },
-            }}
-            style={{ margin: '20px 0' }}
-            columns={mergedColumns}
-            dataSource={planDetail.planList?.map((c) => ({ ...c, supplier: c.company?.name }))}
-            size="middle"
-            bordered
-            scroll={{ x: 'max-content', y: '500px' }}
-            rowKey="id"
-            loading={loading}
-          />
-        </Form>
+    <>
+      <div className={styles.wrapper}>
+        <h2 className={styles.title}>Chi tiết phiếu duyệt</h2>
+        <CommonButton onClick={() => navigate(MPath.ADM_LIST_TICKET)}>Quay lại</CommonButton>
+        <div className={styles.content}>
+          <p className={styles.info}>
+            Người gửi: <i>{planDetail.name}</i>
+          </p>
+          <p className={styles.info}>
+            Khoa phòng: <i>{planDetail.department?.name}</i>
+          </p>
+          <p className={styles.info}>
+            Ghi chú: <i>{planDetail.note}</i>
+          </p>
+          <Form form={form} component={false}>
+            <Table
+              components={{
+                body: {
+                  cell: editableCell,
+                },
+              }}
+              style={{ margin: '20px 0' }}
+              columns={mergedColumns}
+              dataSource={planDetail.planList?.map((c) => ({ ...c, supplier: c.company?.name }))}
+              size="middle"
+              bordered
+              scroll={{ x: 'max-content', y: '500px' }}
+              rowKey="id"
+              loading={loadingTable}
+            />
+          </Form>
+          <Row justify="center" gutter={[40, 40]}>
+            {planDetail.isAccepted ? (
+              <>
+                <Col>
+                  <CommonButton danger>Xóa phiếu</CommonButton>
+                </Col>
+              </>
+            ) : (
+              <>
+                <Col>
+                  <CommonButton onClick={handleAcceptTicket} loading={false}>
+                    Phê duyệt
+                  </CommonButton>
+                </Col>
+                <Col>
+                  <CommonButton danger>Hủy bỏ</CommonButton>
+                </Col>
+              </>
+            )}
+          </Row>
+        </div>
       </div>
-      <Row justify="center" gutter={[40, 40]}>
-        {planDetail.isAccepted ? (
-          <>
-            <Col>
-              <CommonButton danger onClick={onCancel} loading={load}>
-                Xóa phiếu
-              </CommonButton>
-            </Col>
-          </>
-        ) : (
-          <>
-            <Col>
-              <CommonButton onClick={handleAccept} loading={load}>
-                Phê duyệt
-              </CommonButton>
-            </Col>
-            <Col>
-              <CommonButton danger onClick={onCancel}>
-                Hủy bỏ
-              </CommonButton>
-            </Col>
-          </>
-        )}
-      </Row>
-    </Modal>
+    </>
   );
 };
 
-export default ModalPlanDetail;
+export default DetailTicket;

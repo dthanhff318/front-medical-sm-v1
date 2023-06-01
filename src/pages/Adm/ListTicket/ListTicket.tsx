@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { Table, Select, Row, Col } from 'antd';
 import CommonButton from 'components/CommonButton/CommonButton';
 import styles from './style.module.scss';
-import ModalPlanDetail from './ModalPlanDetail';
 import MPath from 'routes/routes';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useService from './service';
 import { listTypes } from 'const';
+import { replacePathParams } from 'helpers/functions';
 
-const ExportSupply = () => {
+const ListTicket = () => {
+  const navigate = useNavigate();
   const columns = [
     {
       title: 'ID',
@@ -36,7 +37,7 @@ const ExportSupply = () => {
         <div className={styles.actionBtn}>
           <CommonButton
             onClick={() => {
-              setOpenModal(d.id);
+              navigate(replacePathParams(MPath.ADM_DETAIL_TICKET, { id: d.id }));
             }}
           >
             Chi tiết
@@ -45,7 +46,6 @@ const ExportSupply = () => {
       ),
     },
   ];
-  const [openModal, setOpenModal] = useState<number>(0);
   const [department, setDepartment] = useState<number | undefined>(undefined);
   const [typePlan, setTypePlan] = useState<number | undefined>(undefined);
   const { departmentList, plans } = useService({ department, typePlan });
@@ -62,7 +62,6 @@ const ExportSupply = () => {
   };
   return (
     <>
-      <ModalPlanDetail open={openModal} onCancel={() => setOpenModal(0)} />
       <div className={styles.wrapper}>
         <h2 className={styles.title}>Danh sách phiếu duyệt</h2>
         <Row gutter={[20, 20]} className={styles.groupBtn}>
@@ -105,4 +104,4 @@ const ExportSupply = () => {
     </>
   );
 };
-export default ExportSupply;
+export default ListTicket;

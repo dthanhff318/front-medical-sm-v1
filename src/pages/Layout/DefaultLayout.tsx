@@ -92,7 +92,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
     {
       id: 6,
       icon: BankOutlined,
-      label: <Link to={MPath.ADM_PLAN}>Phiếu duyệt</Link>,
+      label: <Link to={MPath.ADM_LIST_TICKET}>Phiếu duyệt</Link>,
     },
     {
       id: 6,

@@ -25,7 +25,7 @@ export const getPlans = createAsyncThunk(
 
 export const getPlanDetail = createAsyncThunk(
   'plan/getPlanDetail',
-  async (id: number, thunkApi) => {
+  async (id: string, thunkApi) => {
     try {
       const res = await planApi.getPlanDetail(id);
       return res.data;

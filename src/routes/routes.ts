@@ -9,13 +9,13 @@ const MPath = {
   ADM_SUPPLIER_DETAIL: '/adm/supplier/:id',
   ADM_DEPOT: '/adm/depot',
   ADM_DEPARTMENT_DETAIL: '/adm/department/:id',
-  ADM_PLAN: '/adm/plan',
+  ADM_LIST_TICKET: '/adm/ticket',
+  ADM_DETAIL_TICKET: '/adm/ticket/:id',
   // User
   USER_HOME: '/',
   USER_PLAN: '/plan',
   USER_REFUND: '/refund',
   USER_STORE: '/store/department',
-
 };
 
 export default MPath;
