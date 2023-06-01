@@ -16,8 +16,10 @@ const useService = ({ value }: Props) => {
   const { currentUser } = useSelector((state: RootState) => state.auth);
 
   const findSupply = async (condition: { q: string }) => {
-    const res = await storeApi.getSupplyFromStore(condition);
-    setListSupply(res.data.results);
+    if (currentUser.department) {
+      const res = await storeApi.getStoreOfDepartment(currentUser.department, condition);
+      setListSupply(res.data.results);
+    }
   };
   const handleSendPlan = async (data: any) => {
     setLoadSend(true);
