@@ -48,7 +48,7 @@ const ListTicket = () => {
   ];
   const [department, setDepartment] = useState<number | undefined>(undefined);
   const [typePlan, setTypePlan] = useState<number | undefined>(undefined);
-  const { departmentList, plans } = useService({ department, typePlan });
+  const { departmentList, plans, loading } = useService({ department, typePlan });
 
   const onChangeDepartment = (e) => {
     setDepartment(e.value);
@@ -94,6 +94,7 @@ const ListTicket = () => {
             columns={columns}
             rowKey="id"
             rowClassName={getClassRow}
+            loading={loading}
           />
         ) : (
           <div className={styles.wrapNoTable}>

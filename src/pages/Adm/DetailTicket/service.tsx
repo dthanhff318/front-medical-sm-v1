@@ -31,7 +31,7 @@ const useService = () => {
   const handleAcceptTicket = async () => {
     try {
       if (id) {
-        const res = await planApi.expectPlan(id);
+        await planApi.acceptPlan(id);
         navigate(MPath.ADM_LIST_TICKET);
         toast.success('Duyệt phiếu thành công');
       }

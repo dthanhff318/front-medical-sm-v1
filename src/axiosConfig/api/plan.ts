@@ -12,8 +12,8 @@ const planApi = {
   getPlanDetail: (id: string) => {
     return axiosClient.get(`/plan/${id}`);
   },
-  expectPlan: (id: string) => {
-    return axiosClient.get(`/plan/expect/${id}`);
+  acceptPlan: (id: string) => {
+    return axiosClient.get(`/plan/accept/${id}`);
   },
   refundPlan: (id: string) => {
     return axiosClient.get(`/plan/refund/${id}`);

@@ -11,7 +11,7 @@ type Props = {
 const useService = ({ department, typePlan }: Props) => {
   const dispatch = useDispatch();
   const { departmentList } = useSelector((state: RootState) => state.department);
-  const { plans } = useSelector((state: RootState) => state.plan);
+  const { plans, loading } = useSelector((state: RootState) => state.plan);
 
   useEffect(() => {
     dispatch(getDepartments({}) as any);
@@ -23,6 +23,7 @@ const useService = ({ department, typePlan }: Props) => {
   return {
     departmentList,
     plans,
+    loading,
   };
 };
 
