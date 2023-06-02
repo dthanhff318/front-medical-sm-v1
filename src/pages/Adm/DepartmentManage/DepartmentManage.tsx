@@ -87,7 +87,7 @@ const DepartmentManage = () => {
         onCancel={() => setOpenModal('')}
       />
       <div className={styles.wrapper}>
-        <h2 className={styles.title}>Quan ly khoa phong</h2>
+        <h2 className={styles.title}>Quản lý khoa phòng</h2>
         <div className={styles.groupBtn}>
           <CommonButton onClick={() => setOpenModal('create')}>Them moi khoa phong</CommonButton>
         </div>

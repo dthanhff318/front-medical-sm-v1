@@ -1,12 +1,17 @@
 import { Descriptions, Table } from 'antd';
 import CommonButton from 'components/CommonButton/CommonButton';
 import ModalDelete from 'components/CommonModal/ModalDelete';
+import { useNavigate } from 'react-router-dom';
+
 import React, { useState } from 'react';
 import styles from './style.module.scss';
 import useService from './service';
 import { toast } from 'react-toastify';
+import { RollbackOutlined } from '@ant-design/icons';
+import MPath from 'routes/routes';
 type TModal = '' | 'delete' | 'create';
 const SupplierDetail = () => {
+  const navigate = useNavigate();
   const dataSource = [
     {
       key: '1',
@@ -83,7 +88,11 @@ const SupplierDetail = () => {
         </h2>
         <div className={styles.infoDepartment}>
           <Descriptions
-            title="Thông tin"
+            title={
+              <CommonButton onClick={() => navigate(MPath.ADM_SUPPLIER)}>
+                <RollbackOutlined />
+              </CommonButton>
+            }
             layout="horizontal"
             bordered
             column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
