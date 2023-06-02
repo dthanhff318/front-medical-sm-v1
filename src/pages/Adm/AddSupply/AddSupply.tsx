@@ -158,7 +158,7 @@ const AddSupply: React.FC = () => {
   ];
   return (
     <div className={styles.wapper}>
-      <Divider style={{ marginTop: '0px' }}>Bảng Phiếu nhập vật tư</Divider>
+      <h2 className={styles.title}>Phiếu nhập kho</h2>
       <Form
         initialValues={{ remember: true }}
         onFinish={handleSubmit}

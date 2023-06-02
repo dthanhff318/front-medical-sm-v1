@@ -93,7 +93,7 @@ const Store: React.FC = () => {
 
   return (
     <div className={styles.wapper}>
-      <Divider style={{ marginTop: '0px' }}>Tổng kho vật tư</Divider>
+      <h2 className={styles.title}>Tổng kho</h2>
       <Row gutter={[8, 0]} style={{ marginBottom: '20px' }}>
         <Col span={8}>
           <Search placeholder="Nhập tên vật tư" onSearch={onSearch} style={{ width: '100%' }} />
