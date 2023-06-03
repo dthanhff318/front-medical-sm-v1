@@ -5,8 +5,9 @@ import {
   BankOutlined,
   SnippetsOutlined,
   FileAddOutlined,
+  CheckSquareOutlined,
 } from '@ant-design/icons';
-import { Badge, Button, Dropdown, Layout, Menu } from 'antd';
+import { Badge, Dropdown, Layout, Menu } from 'antd';
 import React, { useState } from 'react';
 import './DefaultLayout.scss';
 import type { MenuProps } from 'antd';
@@ -38,6 +39,111 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
   const itemsBell: MenuProps['items'] = [
     {
       key: '1',
+      label: (
+        <div className="item-bell">
+          <div className="item-bell-icon">H</div>
+          <div className="item-bell-inf">
+            <p className="item-bell-tittle">Tên khoa phòng</p>
+            <span className="item-bell-discription">
+              thông tin phiếu cần duyệt từ khoa phòng nào
+            </span>
+            <span className="item-bell-time">25-5-2023</span>
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: '2',
+      label: (
+        <div className="item-bell">
+          <div className="item-bell-icon">H</div>
+          <div className="item-bell-inf">
+            <p className="item-bell-tittle">Tên khoa phòng</p>
+            <span className="item-bell-discription">
+              thông tin phiếu cần duyệt từ khoa phòng nào
+            </span>
+            <span className="item-bell-time">25-5-2023</span>
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: '3',
+      label: (
+        <div className="item-bell">
+          <div className="item-bell-icon">H</div>
+          <div className="item-bell-inf">
+            <p className="item-bell-tittle">Tên khoa phòng</p>
+            <span className="item-bell-discription">
+              thông tin phiếu cần duyệt từ khoa phòng nào
+            </span>
+            <span className="item-bell-time">25-5-2023</span>
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: '4',
+      label: (
+        <div className="item-bell">
+          <div className="item-bell-icon">H</div>
+          <div className="item-bell-inf">
+            <p className="item-bell-tittle">Tên khoa phòng</p>
+            <span className="item-bell-discription">
+              thông tin phiếu cần duyệt từ khoa phòng nào
+            </span>
+            <span className="item-bell-time">25-5-2023</span>
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: '5',
+      label: (
+        <div className="item-bell">
+          <div className="item-bell-icon">H</div>
+          <div className="item-bell-inf">
+            <p className="item-bell-tittle">Tên khoa phòng</p>
+            <span className="item-bell-discription">
+              thông tin phiếu cần duyệt từ khoa phòng nào
+            </span>
+            <span className="item-bell-time">25-5-2023</span>
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: '6',
+      label: (
+        <div className="item-bell">
+          <div className="item-bell-icon">H</div>
+          <div className="item-bell-inf">
+            <p className="item-bell-tittle">Tên khoa phòng</p>
+            <span className="item-bell-discription">
+              thông tin phiếu cần duyệt từ khoa phòng nào
+            </span>
+            <span className="item-bell-time">25-5-2023</span>
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: '7',
+      label: (
+        <div className="item-bell">
+          <div className="item-bell-icon">H</div>
+          <div className="item-bell-inf">
+            <p className="item-bell-tittle">Tên khoa phòng</p>
+            <span className="item-bell-discription">
+              thông tin phiếu cần duyệt từ khoa phòng nào
+            </span>
+            <span className="item-bell-time">25-5-2023</span>
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: '7',
       label: (
         <div className="item-bell">
           <div className="item-bell-icon">H</div>
@@ -91,7 +197,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
     },
     {
       id: 6,
-      icon: BankOutlined,
+      icon: CheckSquareOutlined,
       label: <Link to={MPath.ADM_LIST_TICKET}>Phiếu duyệt</Link>,
     },
     {
@@ -172,6 +278,11 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
               getPopupContainer={() => {
                 return document.body;
               }}
+              overlayStyle={{
+                maxHeight: '500px',
+                overflow: 'auto',
+                boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+              }}
               menu={{ items: itemsBell }}
               placement="bottomRight"
               trigger={['click']}
@@ -187,11 +298,6 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
                 <i className="fa-solid fa-user"></i>
               </Dropdown>
             </div>
-            {/* {onSetting && (
-              <ul className="user-settings-list">
-                <li onClick={onLogout}>Logout</li>
-              </ul>
-            )} */}
           </div>
         </Header>
         <Content

@@ -6,9 +6,13 @@ import styles from './style.module.scss';
 import ModalCreateUser from './ModalCreateUser';
 import useService from './service';
 import { toast } from 'react-toastify';
+import { RollbackOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+import MPath from 'routes/routes';
 
 type TModal = '' | 'delete' | 'create';
 const AccountManage = () => {
+  const navigate = useNavigate();
   const dataSource = [
     {
       key: '1',
@@ -90,7 +94,15 @@ const AccountManage = () => {
           Thong tin chi tiet khoa phong
         </h2>
         <div className={styles.infoDepartment}>
-          <Descriptions bordered title="Custom Size" size="small">
+          <Descriptions
+            bordered
+            title={
+              <CommonButton onClick={() => navigate(MPath.ADM_DEPARTMENT)}>
+                <RollbackOutlined />
+              </CommonButton>
+            }
+            size="small"
+          >
             <Descriptions.Item label="Ten khoa">{departmentDetail.name}</Descriptions.Item>
             <Descriptions.Item label="Vi tri">{departmentDetail.location}</Descriptions.Item>
             <Descriptions.Item label="Gmail">childlik@gmail.com</Descriptions.Item>

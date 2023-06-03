@@ -5,7 +5,7 @@ import styles from './style.module.scss';
 import MPath from 'routes/routes';
 import { useNavigate } from 'react-router-dom';
 import useService from './service';
-import { listTypes } from 'const';
+import { listTypePlanImport, listTypes } from 'const';
 import { replacePathParams } from 'helpers/functions';
 
 const ListTicket = () => {
@@ -21,7 +21,13 @@ const ListTicket = () => {
       title: 'Thời gian',
       dataIndex: 'createdTime',
       key: 'time',
-      width: '40%',
+      width: '30%',
+    },
+    {
+      title: 'Loại phiếu',
+      dataIndex: 'typePlan',
+      key: 'type',
+      width: '30%',
     },
     {
       title: 'Trạng thái',
@@ -49,7 +55,7 @@ const ListTicket = () => {
   const [department, setDepartment] = useState<number | undefined>(undefined);
   const [typePlan, setTypePlan] = useState<number | undefined>(undefined);
   const { departmentList, plans, loading } = useService({ department, typePlan });
-
+  console.log(plans);
   const onChangeDepartment = (e) => {
     setDepartment(e.value);
   };
@@ -87,10 +93,24 @@ const ListTicket = () => {
         </Row>
         {department ? (
           <Table
-            dataSource={plans.map((e) => ({
-              ...e,
-              status: e.isAccepted ? 'Đã duyệt' : 'Chờ duyệt',
-            }))}
+            dataSource={plans.map((e) => {
+              const type = e.typePlan;
+              let namePlan;
+              if (type === 1) {
+                namePlan = 'Yêu cầu hao phí';
+              } else if (type === 2) {
+                namePlan = 'Yêu cầu Cơ số tủ trực';
+              } else if (type === 3) {
+                namePlan = 'Hoàn trả Hao phí';
+              } else if (type === 4) {
+                namePlan = 'Hoàn trả Cơ số tủ trực';
+              }
+              return {
+                ...e,
+                status: e.isAccepted ? 'Đã duyệt' : 'Chờ duyệt',
+                typePlan: namePlan,
+              };
+            })}
             columns={columns}
             rowKey="id"
             rowClassName={getClassRow}
