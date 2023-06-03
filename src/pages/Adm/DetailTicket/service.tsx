@@ -21,12 +21,11 @@ const useService = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const { departmentList } = useSelector((state: RootState) => state.department);
   const { planDetail, loading } = useSelector((state: RootState) => state.plan);
 
   useEffect(() => {
     if (id) dispatch(getPlanDetail(id) as any);
-  }, []);
+  }, [id]);
 
   const handleAcceptTicket = async () => {
     try {
