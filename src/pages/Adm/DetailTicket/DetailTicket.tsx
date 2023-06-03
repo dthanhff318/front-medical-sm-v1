@@ -7,15 +7,13 @@ import styles from './style.module.scss';
 import { Col, Form, InputNumber, Row, Table } from 'antd';
 import { savePlanDetail } from 'store/slices/planSlice';
 import { useDispatch } from 'react-redux';
+import { RollbackOutlined } from '@ant-design/icons';
 
 const DetailTicket = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const { planDetail, loading: loadingTable, handleAcceptTicket } = useService();
-
   const [form] = Form.useForm();
-
   const [editingKey, setEditingKey] = useState(0);
   const columns: any = [
     {
@@ -163,7 +161,9 @@ const DetailTicket = () => {
     <>
       <div className={styles.wrapper}>
         <h2 className={styles.title}>Chi tiết phiếu duyệt</h2>
-        <CommonButton onClick={() => navigate(MPath.ADM_LIST_TICKET)}>Quay lại</CommonButton>
+        <CommonButton onClick={() => navigate(MPath.ADM_LIST_TICKET)}>
+          <RollbackOutlined />
+        </CommonButton>
         <div className={styles.content}>
           <p className={styles.info}>
             Người gửi: <i>{planDetail.name}</i>
