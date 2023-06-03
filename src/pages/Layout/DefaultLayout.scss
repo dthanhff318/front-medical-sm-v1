@@ -73,24 +73,6 @@
       transition: all 0.2s linear;
     }
   }
-  // .user-settings-list {
-  //   position: absolute;
-  //   top: 70px;
-  //   right: 0;
-  //   display: flex;
-  //   flex-direction: column;
-  //   background-color: white;
-  //   height: fit-content;
-  //   width: 200px;
-  //   z-index: 1;
-  //   box-shadow: 2px 2px 4px grey;
-  //   &:hover {
-  //     li {
-  //       background-color: rgb(223, 222, 222);
-  //       cursor: pointer;
-  //     }
-  //   }
-  // }
 }
 .logo-bell {
   cursor: pointer;
@@ -121,11 +103,34 @@
   align-items: center;
 }
 // item bell
-.item-bell{
+.wrapper-noti {
+  background-color: #fff;
+  padding: 0.5rem;
+  overflow: scroll;
+  height: 500px;
+  .noti-desc {
+    display: block;
+    text-align: center;
+    padding: 0.25rem 0 0;
+    font-size: 14px;
+  }
+}
+.item-bell {
   width: 400px;
   display: flex;
   align-items: center;
-  .item-bell-icon{
+  margin: 0.25rem 0;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  &.unread {
+    background-color: #e7e7e7;
+  }
+  &:hover {
+    border: 1px solid rgb(176, 176, 176);
+  }
+  .item-bell-icon {
     background-color: #1890ff;
     padding: 15px 20px;
     border-radius: 50%;
@@ -133,25 +138,23 @@
     font-weight: 600;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   }
-  .item-bell-inf{
+  .item-bell-inf {
     margin-left: 10px;
-    .item-bell-tittle{
+    .item-bell-tittle {
       text-align: left;
       font-size: 0.9rem;
       font-weight: 500;
     }
-    .item-bell-discription{
+    .item-bell-discription {
       display: block;
       word-wrap: break-word;
     }
-    .item-bell-time{
+    .item-bell-time {
       text-align: left;
       display: block;
       font-size: 0.7rem;
       color: #1890ff;
       font-weight: 500;
-      
     }
   }
-  
 }

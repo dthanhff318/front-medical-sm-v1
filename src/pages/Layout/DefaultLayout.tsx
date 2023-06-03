@@ -17,6 +17,7 @@ import MPath from 'routes/routes';
 import { getPublicUrl } from 'helpers/functions';
 import useService from './service';
 import { ERole } from 'enums';
+import NotiMain from 'components/NotiMain/NotiMain';
 
 const { Header, Sider, Content } = Layout;
 
@@ -24,7 +25,7 @@ type Props = {
   children: JSX.Element;
 };
 const DefaultLayout: React.FC<Props> = ({ children }) => {
-  const { onLogout, role } = useService();
+  const { onLogout, role, notis, numberSeen, notiRef, loading } = useService();
   const items: MenuProps['items'] = [
     {
       key: '1',
@@ -35,129 +36,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       ),
     },
   ];
-  //item bell
-  const itemsBell: MenuProps['items'] = [
-    {
-      key: '1',
-      label: (
-        <div className="item-bell">
-          <div className="item-bell-icon">H</div>
-          <div className="item-bell-inf">
-            <p className="item-bell-tittle">Tên khoa phòng</p>
-            <span className="item-bell-discription">
-              thông tin phiếu cần duyệt từ khoa phòng nào
-            </span>
-            <span className="item-bell-time">25-5-2023</span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      key: '2',
-      label: (
-        <div className="item-bell">
-          <div className="item-bell-icon">H</div>
-          <div className="item-bell-inf">
-            <p className="item-bell-tittle">Tên khoa phòng</p>
-            <span className="item-bell-discription">
-              thông tin phiếu cần duyệt từ khoa phòng nào
-            </span>
-            <span className="item-bell-time">25-5-2023</span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      key: '3',
-      label: (
-        <div className="item-bell">
-          <div className="item-bell-icon">H</div>
-          <div className="item-bell-inf">
-            <p className="item-bell-tittle">Tên khoa phòng</p>
-            <span className="item-bell-discription">
-              thông tin phiếu cần duyệt từ khoa phòng nào
-            </span>
-            <span className="item-bell-time">25-5-2023</span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      key: '4',
-      label: (
-        <div className="item-bell">
-          <div className="item-bell-icon">H</div>
-          <div className="item-bell-inf">
-            <p className="item-bell-tittle">Tên khoa phòng</p>
-            <span className="item-bell-discription">
-              thông tin phiếu cần duyệt từ khoa phòng nào
-            </span>
-            <span className="item-bell-time">25-5-2023</span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      key: '5',
-      label: (
-        <div className="item-bell">
-          <div className="item-bell-icon">H</div>
-          <div className="item-bell-inf">
-            <p className="item-bell-tittle">Tên khoa phòng</p>
-            <span className="item-bell-discription">
-              thông tin phiếu cần duyệt từ khoa phòng nào
-            </span>
-            <span className="item-bell-time">25-5-2023</span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      key: '6',
-      label: (
-        <div className="item-bell">
-          <div className="item-bell-icon">H</div>
-          <div className="item-bell-inf">
-            <p className="item-bell-tittle">Tên khoa phòng</p>
-            <span className="item-bell-discription">
-              thông tin phiếu cần duyệt từ khoa phòng nào
-            </span>
-            <span className="item-bell-time">25-5-2023</span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      key: '7',
-      label: (
-        <div className="item-bell">
-          <div className="item-bell-icon">H</div>
-          <div className="item-bell-inf">
-            <p className="item-bell-tittle">Tên khoa phòng</p>
-            <span className="item-bell-discription">
-              thông tin phiếu cần duyệt từ khoa phòng nào
-            </span>
-            <span className="item-bell-time">25-5-2023</span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      key: '7',
-      label: (
-        <div className="item-bell">
-          <div className="item-bell-icon">H</div>
-          <div className="item-bell-inf">
-            <p className="item-bell-tittle">Tên khoa phòng</p>
-            <span className="item-bell-discription">
-              thông tin phiếu cần duyệt từ khoa phòng nào
-            </span>
-            <span className="item-bell-time">25-5-2023</span>
-          </div>
-        </div>
-      ),
-    },
-  ];
+
   const listSubnavAdmin = [
     {
       id: 1,
@@ -279,20 +158,19 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
                 return document.body;
               }}
               overlayStyle={{
-                maxHeight: '500px',
-                overflow: 'auto',
                 boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
               }}
-              menu={{ items: itemsBell }}
               placement="bottomRight"
               trigger={['click']}
+              dropdownRender={() => <NotiMain notiRef={notiRef} notis={notis} loading={loading} />}
             >
               <div className="logo-bell">
-                <Badge count={99} overflowCount={9}>
+                <Badge count={numberSeen} overflowCount={100}>
                   <BellOutlined className="bell" />
                 </Badge>
               </div>
             </Dropdown>
+            {/* */}
             <div className="user-settings">
               <Dropdown menu={{ items }} placement="bottomLeft" trigger={['click']}>
                 <i className="fa-solid fa-user"></i>
