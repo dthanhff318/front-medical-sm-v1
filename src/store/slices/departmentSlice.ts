@@ -14,6 +14,7 @@ const initialState: TInitDepartmentState = {
     totalPages: 1,
     totalResults: 0,
   },
+  loading: '',
 };
 
 // Get Departments Pagination
@@ -91,7 +92,7 @@ export const deleteUserDepartment = createAsyncThunk(
   async (id: number) => {
     try {
       await userApi.deleteUser(id);
-      toast.success('Da xoa nguoi dung !');
+      toast.success('Đã xóa người dùng !');
       return id;
     } catch (err) {
       console.log(err);
@@ -110,7 +111,6 @@ const departmentSlice = createSlice({
       state.pagination = pagination;
     });
     builder.addCase(createNewDepartments.fulfilled, (state: TInitDepartmentState, action) => {
-      console.log(456);
       state.departmentList.push(action.payload);
     });
     builder.addCase(deleteDepartment.fulfilled, (state, action) => {
@@ -119,11 +119,19 @@ const departmentSlice = createSlice({
       );
       state.departmentList = remainDepartments;
     });
+    builder.addCase(getDepartmentInfoDetail.pending, (state, action) => {
+      state.loading = 'user';
+    });
     builder.addCase(getDepartmentInfoDetail.fulfilled, (state, action) => {
       state.departmentDetail = action.payload;
+      state.loading = '';
     });
     // User
+    builder.addCase(createUserDepartment.pending, (state, action) => {
+      state.loading = 'user';
+    });
     builder.addCase(createUserDepartment.fulfilled, (state, action) => {
+      state.loading = '';
       state.departmentDetail.member?.push(action.payload);
     });
     builder.addCase(deleteUserDepartment.fulfilled, (state, action) => {

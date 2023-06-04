@@ -11,7 +11,7 @@ import {
 const useService = () => {
   const dispatch = useDispatch();
   const { id } = useParams<{ id: string }>();
-  const { departmentDetail } = useSelector((state: RootState) => state.department);
+  const { departmentDetail, loading } = useSelector((state: RootState) => state.department);
   const handleCreateUser = (data) => {
     const extraInfoUser = { ...data, department: id };
     dispatch(createUserDepartment(extraInfoUser) as any);
@@ -22,7 +22,7 @@ const useService = () => {
   useEffect(() => {
     dispatch(getDepartmentInfoDetail(id ?? '') as any);
   }, [id]);
-  return { departmentDetail, handleCreateUser, handleDeleteUser };
+  return { departmentDetail, handleCreateUser, handleDeleteUser, loading };
 };
 
 export default useService;

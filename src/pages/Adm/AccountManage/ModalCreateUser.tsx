@@ -8,9 +8,10 @@ type Props = {
   open: boolean;
   onCreateUser: (data: TCreateUser) => void;
   onCancel: () => void;
+  loading: 'department' | 'user' | '';
 };
 
-const ModalCreateUser = ({ open, onCreateUser, onCancel }: Props) => {
+const ModalCreateUser = ({ open, onCreateUser, onCancel, loading }: Props) => {
   const [form] = useForm();
   return (
     <Modal open={open} footer={null} onCancel={onCancel}>
@@ -30,6 +31,13 @@ const ModalCreateUser = ({ open, onCreateUser, onCancel }: Props) => {
           <Form.Item
             name="displayName"
             rules={[{ required: true, message: 'Please input your displayname!' }]}
+          >
+            <Input />
+          </Form.Item>
+          <span>Email</span>
+          <Form.Item
+            name="email"
+            rules={[{ type: 'email', required: true, message: 'Vui lòng nhập đúng email' }]}
           >
             <Input />
           </Form.Item>
@@ -77,7 +85,9 @@ const ModalCreateUser = ({ open, onCreateUser, onCancel }: Props) => {
 
           <div className={styles.bottom}>
             <Form.Item>
-              <CommonButton isSubmit={true}>Tao tai khoan</CommonButton>
+              <CommonButton loading={loading === 'user'} isSubmit={true}>
+                Tao tai khoan
+              </CommonButton>
             </Form.Item>
           </div>
         </Form>
