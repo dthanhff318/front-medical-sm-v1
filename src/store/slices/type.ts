@@ -14,6 +14,7 @@ export type TInitDepartmentState = {
   departmentList: Array<TDepartment>;
   departmentDetail: TDepartment;
   pagination: TPagination;
+  loading: 'department' | 'user' | '';
 };
 
 export type TGetDepartments = {

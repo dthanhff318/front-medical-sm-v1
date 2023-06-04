@@ -66,7 +66,7 @@ const AccountManage = () => {
   ];
   const [openModal, setOpenModal] = useState<TModal>('');
   const [selectUser, setSelectUser] = useState<any>();
-  const { departmentDetail, handleCreateUser, handleDeleteUser } = useService();
+  const { departmentDetail, handleCreateUser, handleDeleteUser, loading } = useService();
   const listUserDepartment = departmentDetail.member?.map((u) => ({
     ...u,
     key: u?.id,
@@ -88,10 +88,11 @@ const AccountManage = () => {
         open={openModal === 'create'}
         onCreateUser={handleCreateUser}
         onCancel={() => setOpenModal('')}
+        loading={loading}
       />
       <div className={styles.wrapper}>
         <h2 className={styles.title} onClick={notify}>
-          Thong tin chi tiet khoa phong
+          Thông tin chi tiết khoa phòng
         </h2>
         <div className={styles.infoDepartment}>
           <Descriptions
@@ -113,7 +114,7 @@ const AccountManage = () => {
         <div className={styles.groupBtn}>
           <CommonButton onClick={() => setOpenModal('create')}>Them nguoi dung moi</CommonButton>
         </div>
-        <Table dataSource={listUserDepartment} columns={columns} />
+        <Table loading={loading === 'user'} dataSource={listUserDepartment} columns={columns} />
       </div>
     </>
   );
