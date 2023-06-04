@@ -19,7 +19,6 @@ const NotiMain = ({ notis, notiRef, loading, onClose }: Props) => {
     await notiApi.markAsSeenNoti([e.id]);
     navigate(replacePathParams(MPath.ADM_DETAIL_TICKET, { id: e.ticket.id }));
   };
-  console.log(notis);
   return (
     <div className="wrapper-noti">
       <span></span>

@@ -1,28 +1,16 @@
-import notiApi from 'axiosConfig/api/noti';
 import { ERole } from 'enums';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { logout } from 'store/slices/authSlice';
-import { TNoti } from 'types/noti';
+import { getNotis } from 'store/slices/noti';
 
 const useService = () => {
   const dispatch = useDispatch();
   const { role, id } = useSelector((state: RootState) => state.auth.currentUser);
+  const { loading, notis, dataFetch, numberSeen } = useSelector((state: RootState) => state.noti);
   const { ref: notiRef, inView } = useInView();
-  const [notis, setNotis] = useState<TNoti[]>([]);
-  const [numberSeen, setNumberSeen] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [dataFetch, setDataFetch] = useState<{
-    offset: number;
-    hasMore: boolean;
-    firstFetch: boolean;
-  }>({
-    offset: 1,
-    hasMore: true,
-    firstFetch: true,
-  });
 
   const onLogout = () => {
     dispatch(logout({}) as any);
@@ -30,28 +18,10 @@ const useService = () => {
   const getListNoti = async () => {
     if (role && dataFetch.hasMore) {
       try {
-        setLoading(true);
         const notiFor = role === ERole.Admin ? 'admin' : 'user';
-        const res = await notiApi.getNotis({ notiFor, offset: dataFetch.offset });
-        const { listNoti, unread, isHasMore } = res.data;
-        if (dataFetch.firstFetch) {
-          setDataFetch({
-            firstFetch: false,
-            hasMore: isHasMore,
-            offset: dataFetch.offset + 1,
-          });
-        } else {
-          setDataFetch({
-            ...dataFetch,
-            hasMore: isHasMore,
-            offset: dataFetch.offset + 1,
-          });
-        }
-        setNotis([...notis, ...listNoti]);
-        setNumberSeen(unread);
-        setLoading(false);
+        dispatch(getNotis({ notiFor, offset: dataFetch.offset }) as any);
       } catch (err) {
-        setLoading(false);
+        console.log(err);
       }
     }
   };

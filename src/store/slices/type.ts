@@ -1,6 +1,7 @@
 import { ERole } from 'enums';
 import { IndexedObject } from 'types/common';
 import { TDepartment } from 'types/department';
+import { TNoti } from 'types/noti';
 import { TSupplier } from 'types/supplier';
 
 export type TPagination = {
@@ -90,5 +91,11 @@ export type TInitPlanState = {
 //noti
 export type TInitNotiState = {
   loading: boolean;
-  noti: Array<any>;
+  notis: Array<TNoti>;
+  dataFetch: {
+    offset: number;
+    hasMore: boolean;
+    firstFetch: boolean;
+  };
+  numberSeen: number;
 };
