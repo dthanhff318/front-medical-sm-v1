@@ -5,6 +5,7 @@ import { biddingReducer } from './slices/biddingSlice';
 import { supplierReducer } from './slices/supplierSlice';
 import { storeReducer } from './slices/storeSlice';
 import { planReducer } from './slices/planSlice';
+import { notiReducer } from './slices/noti';
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     supplier: supplierReducer,
     store: storeReducer,
     plan: planReducer,
+    noti: notiReducer,
   },
 });
 

@@ -7,7 +7,7 @@ const notiApi = {
     return axiosClient.get(`/noti?${queryString.stringify(query)}`);
   },
   markAsSeenNoti: (listNoti: number[]) => {
-    return axiosClient.patch(`/noti`, { listNoti });
+    return axiosClient.patch(`/noti/mark-as-seen`, { listNoti });
   },
 };
 

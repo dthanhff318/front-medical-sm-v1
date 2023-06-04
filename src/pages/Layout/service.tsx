@@ -27,8 +27,6 @@ const useService = () => {
   const onLogout = () => {
     dispatch(logout({}) as any);
   };
-  console.log(dataFetch);
-
   const getListNoti = async () => {
     if (role && dataFetch.hasMore) {
       try {

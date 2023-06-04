@@ -87,3 +87,8 @@ export type TInitPlanState = {
   plans: Array<any>;
   planDetail: IndexedObject;
 };
+//noti
+export type TInitNotiState = {
+  loading: boolean;
+  noti: Array<any>;
+};

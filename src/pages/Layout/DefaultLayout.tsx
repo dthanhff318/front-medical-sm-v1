@@ -130,7 +130,15 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
   });
 
   const [collapsed, setCollapsed] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
 
+  const handleDropdownVisibleChange = (visible) => {
+    setDropdownVisible(visible);
+  };
+
+  const closeDropdown = () => {
+    setDropdownVisible(false);
+  };
   return (
     <Layout className="defaultlayout-wapper">
       <Sider className="sider-wapper" trigger={null} collapsible collapsed={collapsed}>
@@ -157,12 +165,21 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
               getPopupContainer={() => {
                 return document.body;
               }}
+              onOpenChange={handleDropdownVisibleChange}
               overlayStyle={{
                 boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
               }}
+              open={dropdownVisible}
               placement="bottomRight"
               trigger={['click']}
-              dropdownRender={() => <NotiMain notiRef={notiRef} notis={notis} loading={loading} />}
+              dropdownRender={() => (
+                <NotiMain
+                  notiRef={notiRef}
+                  notis={notis}
+                  loading={loading}
+                  onClose={closeDropdown}
+                />
+              )}
             >
               <div className="logo-bell">
                 <Badge count={numberSeen} overflowCount={100}>
