@@ -17,14 +17,13 @@ const SupplierDetail = () => {
   const [descriptions, setDescriptions] = useState<TSupplier>({
     name: '',
     phone: '',
-    email: 'supplierDetail.email',
+    email: '',
     location: '',
   });
 
-  const { supplierState } = useService();
+  const { supplierState, handleUpdateSupplier } = useService();
 
-  const { supplierDetail } = supplierState;
-  console.log(supplierDetail);
+  const { supplierDetail, loading } = supplierState;
   const notify = () => toast('Wow so easy !');
   const handleEditClick = () => {
     setIsEditing(true);
@@ -32,6 +31,7 @@ const SupplierDetail = () => {
 
   const handleSaveClick = () => {
     setIsEditing(false);
+    handleUpdateSupplier(descriptions);
   };
 
   const handleInputChange = (e, key: string) => {
@@ -62,17 +62,20 @@ const SupplierDetail = () => {
         <div className={styles.infoDepartment}>
           <div className={styles.groupBtn}>
             <Row>
-              <Col span={5}>
-                <CommonButton onClick={handleEditClick}>
-                  <EditOutlined /> Chỉnh sửa
-                </CommonButton>
-              </Col>
-              <Col span={6}>
-                <CommonButton onClick={handleSaveClick}>
-                  <SaveOutlined />
-                  Lưu
-                </CommonButton>
-              </Col>
+              {!isEditing ? (
+                <Col span={5}>
+                  <CommonButton onClick={handleEditClick}>
+                    <EditOutlined /> Chỉnh sửa
+                  </CommonButton>
+                </Col>
+              ) : (
+                <Col span={6}>
+                  <CommonButton loading={loading} onClick={handleSaveClick}>
+                    <SaveOutlined />
+                    Lưu
+                  </CommonButton>
+                </Col>
+              )}
             </Row>
           </div>
           <Descriptions

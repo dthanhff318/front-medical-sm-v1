@@ -12,6 +12,9 @@ const supplierApi = {
   findsupplier: (value: string) => {
     return axiosClient.get(`/supplier/search?q=${value}`);
   },
+  updateSupplier: (id: number, data: any) => {
+    return axiosClient.patch(`/supplier/${id}`, data);
+  },
   deleteSupplier: (id: number) => {
     return axiosClient.delete(`/supplier/${id}`);
   },
