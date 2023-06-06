@@ -6,11 +6,13 @@ import notiApi from 'axiosConfig/api/noti';
 
 const initialState: TInitNotiState = {
   loading: false,
-  noti: [],
+  notis: [],
+  numberSeen: 0,
+  dataFetch: { offset: 1, hasMore: true, firstFetch: true },
 };
 export const getNotis = createAsyncThunk(
   'noti/getNoti',
-  async (params: IndexedObject, thunkApi) => {
+  async (params: IndexedObject, thunkApi: any) => {
     try {
       const res = await notiApi.getNotis(params);
       return res.data;
@@ -25,17 +27,30 @@ const notiSlice = createSlice({
   name: 'noti',
   initialState,
   reducers: {
+    setDataFetch: (state, action) => {
+      state.dataFetch = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getNotis.pending, (state, action) => {
       state.loading = true;
     });
     builder.addCase(getNotis.fulfilled, (state, action) => {
-      state.noti = action.payload;
-      state.loading = false;
+      const { listNoti, unread, isHasMore } = action.payload;
+      return {
+        ...state,
+        loading: false,
+        notis: [...state.notis, ...listNoti],
+        numberSeen: unread,
+        dataFetch: {
+          firstFetch: false,
+          hasMore: isHasMore,
+          offset: state.dataFetch.offset + 1,
+        },
+      };
     });
   },
 });
 
 export const { actions, reducer: notiReducer } = notiSlice;
-export const {} = actions;
+export const { setDataFetch } = actions;

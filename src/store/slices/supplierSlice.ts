@@ -27,18 +27,25 @@ export const getSupplier = createAsyncThunk(
     }
   },
 );
+// Update supplier
+export const updateSupplier = createAsyncThunk('supplier/updateSupplier', async (data: any) => {
+  try {
+    const { id, ...body } = data;
+    const res = await supplierApi.updateSupplier(id, body);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+});
 // Delete supplier
-export const deleteSupplier = createAsyncThunk(
-  'supplier/deleteSupplier',
-  async (id: number) => {
-    try {
-      await supplierApi.deleteSupplier(id);
-      return id;
-    } catch (err) {
-      console.log(err);
-    }
-  },
-);
+export const deleteSupplier = createAsyncThunk('supplier/deleteSupplier', async (id: number) => {
+  try {
+    await supplierApi.deleteSupplier(id);
+    return id;
+  } catch (err) {
+    console.log(err);
+  }
+});
 // get detail supplier
 export const getSupplierInfoDetail = createAsyncThunk(
   'supplier/getSupplierInfoDetail',
@@ -67,7 +74,11 @@ export const findSupplier = createAsyncThunk(
 const supplierSlice = createSlice({
   name: 'supplier',
   initialState,
-  reducers: {},
+  reducers: {
+    saveSupplierDetail: (state, action) => {
+      state.supplierDetail = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getSupplier.fulfilled, (state, action) => {
       const { results, pagination } = action.payload;
@@ -75,9 +86,7 @@ const supplierSlice = createSlice({
       state.pagination = pagination;
     });
     builder.addCase(deleteSupplier.fulfilled, (state, action) => {
-      const remainSupplier = state.suppliers.filter(
-        (d: TSupplier) => d.id !== action.payload,
-      );
+      const remainSupplier = state.suppliers.filter((d: TSupplier) => d.id !== action.payload);
       state.suppliers = remainSupplier;
     });
     builder.addCase(getSupplierInfoDetail.fulfilled, (state, action) => {
@@ -86,8 +95,15 @@ const supplierSlice = createSlice({
     builder.addCase(findSupplier.fulfilled, (state, action) => {
       state.suppliers = action.payload;
     });
+    builder.addCase(updateSupplier.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(updateSupplier.fulfilled, (state, action) => {
+      state.loading = false;
+      state.supplierDetail = action.payload;
+    });
   },
 });
 
 export const { actions, reducer: supplierReducer } = supplierSlice;
-export const {} = actions;
+export const { saveSupplierDetail } = actions;

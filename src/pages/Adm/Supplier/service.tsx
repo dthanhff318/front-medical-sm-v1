@@ -3,7 +3,13 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import { RootState } from 'store';
-import { deleteSupplier, getSupplier, getSupplierInfoDetail } from 'store/slices/supplierSlice';
+import {
+  deleteSupplier,
+  getSupplier,
+  getSupplierInfoDetail,
+  updateSupplier,
+} from 'store/slices/supplierSlice';
+import { TSupplier } from 'types/supplier';
 const useService = () => {
   const dispatch = useDispatch();
   const { id } = useParams<{ id: string }>();
@@ -20,8 +26,13 @@ const useService = () => {
   useEffect(() => {
     dispatch(getSupplierInfoDetail(id ?? '') as any);
   }, [id]);
+
+  const handleUpdateSupplier = (data: TSupplier) => {
+    dispatch(updateSupplier({ id, ...data }) as any);
+  };
   return {
     supplierState,
+    handleUpdateSupplier,
     handleDeleteSupplier,
   };
 };
