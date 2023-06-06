@@ -17,6 +17,7 @@ import ListTicket from 'pages/Adm/ListTicket/ListTicket';
 import { ERole } from 'enums';
 import SupplierDetail from 'pages/Adm/Supplier/SupplierDetail';
 import DetailTicket from 'pages/Adm/DetailTicket/DetailTicket';
+import TicketHistory from 'pages/User/TicketHistory/TicketHistory';
 
 export const routers: any = [
   {
@@ -138,6 +139,14 @@ export const routers: any = [
     element: <StoreDepartment />,
     public: false,
     path: MPath.USER_STORE,
+    role: [ERole.User],
+    exact: true,
+  },
+  {
+    name: 'USER_TICKET_HISTORY',
+    element: <TicketHistory />,
+    public: false,
+    path: MPath.USER_TICKET_HISTORY,
     role: [ERole.User],
     exact: true,
   },
