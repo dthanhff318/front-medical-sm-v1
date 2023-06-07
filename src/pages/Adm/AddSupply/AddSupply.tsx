@@ -19,7 +19,6 @@ const AddSupply: React.FC = () => {
   const [selectCompany, setSelectCompany] = useState<string>('');
   const [selectSupply, setSelectSupply] = useState<any>('');
   const { handleAddSupplyToStore } = useService({ value, selectCompany });
-
   const handleSelectCompany = (id: string) => {
     setSelectCompany(id);
   };

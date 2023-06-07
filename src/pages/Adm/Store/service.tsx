@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteSupplyStore, getSupplyStore } from 'store/slices/storeSlice';
 import { parseSearchParams } from 'helpers/functions';
 import { useLocation } from 'react-router-dom';
+import storeApi from 'axiosConfig/api/store';
 
 const useService = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,9 @@ const useService = () => {
   const getStore = (condition?: any) => {
     dispatch(getSupplyStore(condition) as any);
   };
-
+  const handleAddSupplyToStore = async (data: any) => {
+    await storeApi.addSupplyToStore(data);
+  };
   const onDeleteSupplyStore = (id: number) => dispatch(deleteSupplyStore(id) as any);
   useEffect(() => {
     getStore(urlQueryParams);
@@ -26,6 +29,7 @@ const useService = () => {
     pagination,
     getStore,
     onDeleteSupplyStore,
+    handleAddSupplyToStore,
   };
 };
 
