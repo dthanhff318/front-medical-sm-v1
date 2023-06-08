@@ -4,9 +4,12 @@ import styles from './style.module.scss';
 import CommonButton from 'components/CommonButton/CommonButton';
 import { TCreateDepartments } from 'store/slices/type';
 import { useForm } from 'antd/es/form/Form';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { TSupply } from 'types/supply';
+import { SaveOutlined } from '@ant-design/icons';
+import useService from './service';
+import { updateSupply } from 'store/slices/storeSlice';
 type Props = {
   open: boolean;
   onCancel: () => void;
@@ -29,10 +32,12 @@ type Props = {
 };
 
 const ModalCreateDepartment = ({ itemSupply, open, onCancel }: Props) => {
+  console.log(itemSupply);
   const [form] = useForm();
+  const dispatch = useDispatch();
   const [value, setValue] = useState<string>('');
+  const { loading } = useService();
   const { suppliers } = useSelector((state: RootState) => state.supplier);
-
   const values = {
     name: itemSupply.name,
     brand: itemSupply.brand,
@@ -58,8 +63,13 @@ const ModalCreateDepartment = ({ itemSupply, open, onCancel }: Props) => {
           initialValues={{ remember: true }}
           onFinish={(data: TSupply) => {
             console.log(data);
-            // onCreateDepartment(data);
-            // form.resetFields();
+            dispatch(
+              updateSupply({
+                id: itemSupply.id,
+                ...data,
+                company: data.idcompany,
+              }) as any,
+            );
             onCancel();
           }}
           autoComplete="off"
@@ -84,7 +94,7 @@ const ModalCreateDepartment = ({ itemSupply, open, onCancel }: Props) => {
                 <Input />
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col span={11}>
               <span>Nhóm</span>
               <Form.Item
                 name="group"
@@ -122,7 +132,7 @@ const ModalCreateDepartment = ({ itemSupply, open, onCancel }: Props) => {
                 />
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col span={11}>
               <span>Tên hãng</span>
               <Form.Item
                 name="brand"
@@ -131,7 +141,7 @@ const ModalCreateDepartment = ({ itemSupply, open, onCancel }: Props) => {
                 <Input />
               </Form.Item>
             </Col>
-            <Col span={8}>
+            <Col span={7}>
               <span>Tên nước</span>
               <Form.Item
                 name="country"
@@ -140,7 +150,7 @@ const ModalCreateDepartment = ({ itemSupply, open, onCancel }: Props) => {
                 <Input />
               </Form.Item>
             </Col>
-            <Col span={8}>
+            <Col span={7}>
               <span>Đơn vị</span>
               <Form.Item
                 name="unit"
@@ -149,16 +159,16 @@ const ModalCreateDepartment = ({ itemSupply, open, onCancel }: Props) => {
                 <Input />
               </Form.Item>
             </Col>
-            <Col span={8}>
+            <Col span={7}>
               <span>Hạn sử dụng</span>
               <Form.Item
                 name="dateExpired"
-                rules={[{ required: true, message: 'Vui long dien ten khoa phong!' }]}
+                rules={[{ required: false, message: 'Vui long dien ten khoa phong!' }]}
               >
                 <Input />
               </Form.Item>
             </Col>
-            <Col span={8}>
+            <Col span={7}>
               <span>Lô SX</span>
               <Form.Item
                 name="productCode"
@@ -167,7 +177,7 @@ const ModalCreateDepartment = ({ itemSupply, open, onCancel }: Props) => {
                 <Input />
               </Form.Item>
             </Col>
-            <Col span={8}>
+            <Col span={7}>
               <span>Mã thầu</span>
               <Form.Item
                 name="codeBidding"
@@ -176,7 +186,7 @@ const ModalCreateDepartment = ({ itemSupply, open, onCancel }: Props) => {
                 <Input />
               </Form.Item>
             </Col>
-            <Col span={8}>
+            <Col span={7}>
               <span>Số lượng</span>
               <Form.Item
                 name="quantity"
@@ -188,9 +198,16 @@ const ModalCreateDepartment = ({ itemSupply, open, onCancel }: Props) => {
           </Row>
 
           <div className={styles.bottom}>
-            <Form.Item>
-              <CommonButton isSubmit={true}>Lưu vật tư</CommonButton>
-            </Form.Item>
+            <Row>
+              <Col span={6}>
+                <Form.Item>
+                  <CommonButton isSubmit={true} loading={loading}>
+                    <SaveOutlined />
+                    Lưu
+                  </CommonButton>
+                </Form.Item>
+              </Col>
+            </Row>
           </div>
         </Form>
       </div>
