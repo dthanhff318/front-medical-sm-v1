@@ -87,6 +87,7 @@ export type TInitPlanState = {
   loading: boolean;
   plans: Array<any>;
   planDetail: IndexedObject;
+  pagination: TPagination;
 };
 //noti
 export type TInitNotiState = {

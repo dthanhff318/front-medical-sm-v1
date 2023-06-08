@@ -17,6 +17,7 @@ const MPath = {
   USER_REFUND: '/refund',
   USER_STORE: '/store/department',
   USER_TICKET_HISTORY: '/store/ticket-history',
+  USER_TICKET_HISTORY_DETAIL: '/store/ticket-history/:id',
 };
 
 export default MPath;

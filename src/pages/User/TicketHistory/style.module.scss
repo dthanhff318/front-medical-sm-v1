@@ -1,0 +1,46 @@
+.actionBtn {
+  display: flex;
+  align-items: center;
+  gap: 0 1rem;
+}
+.wrapper {
+  .title {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+  .groupBtn {
+    margin: 1rem 0;
+  }
+  .wrapNoTable {
+    height: 200px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url('https://cdn.pixabay.com/photo/2015/11/03/09/09/magnifying-glass-1020141_960_720.jpg');
+  }
+  .titleNoTable {
+    margin: 5rem 0;
+    text-align: center;
+    font-size: 20px;
+  }
+  .acceptPlan {
+    background-color: rgb(188, 232, 157);
+  }
+  .pendingPlan {
+    background-color: rgb(210, 211, 209);
+  }
+}
+
+// Modal Detail
+.wrapperModal {
+  padding: 1rem 1rem 0;
+  .modalTitle {
+    font-size: 16px;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: 600;
+  }
+  .bottom {
+    margin-top: 4rem;
+  }
+}

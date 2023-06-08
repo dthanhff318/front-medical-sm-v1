@@ -4,37 +4,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteSupplyStore, getStoreOfDepartment } from 'store/slices/storeSlice';
 import { parseSearchParams } from 'helpers/functions';
 import { useLocation } from 'react-router-dom';
+import { getTicketDepartment } from 'store/slices/planSlice';
 
 const useService = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { stores, storeDepartment, loading, pagination } = useSelector(
-    (state: RootState) => state.store,
-  );
+  const { plans, loading, pagination } = useSelector((state: RootState) => state.plan);
   const { currentUser } = useSelector((state: RootState) => state.auth);
   const urlQueryParams = parseSearchParams(location.search);
-  console.log(storeDepartment);
-
-  const getStore = (condition?: any) => {
-    dispatch(getStoreOfDepartment(condition) as any);
-  };
-
-  const onDeleteSupplyStore = (id: number) => dispatch(deleteSupplyStore(id) as any);
 
   useEffect(() => {
     if (currentUser.department)
-      getStore({
-        id: currentUser.department,
-        condition: urlQueryParams,
-      });
+      dispatch(
+        getTicketDepartment({
+          id: currentUser.department,
+          params: urlQueryParams,
+        }) as any,
+      );
   }, [location]);
   return {
-    storeDepartment,
+    plans,
     loading,
     urlQueryParams,
     pagination,
-    getStore,
-    onDeleteSupplyStore,
   };
 };
 

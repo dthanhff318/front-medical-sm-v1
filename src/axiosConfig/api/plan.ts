@@ -18,6 +18,10 @@ const planApi = {
   refundPlan: (id: string) => {
     return axiosClient.get(`/plan/refund/${id}`);
   },
+  // Department ticket
+  getPlansDepartment: (id: string, params: IndexedObject) => {
+    return axiosClient.get(`/plan/department/${id}?${queryString.stringify(params)}`);
+  },
 };
 
 export default planApi;

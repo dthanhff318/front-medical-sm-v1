@@ -14,10 +14,11 @@ import Refund from 'pages/User/Refund/Refund';
 import StoreDepartment from 'pages/User/StoreDepartment/StoreDepartment';
 import Supplier from 'pages/Adm/Supplier/Supplier';
 import ListTicket from 'pages/Adm/ListTicket/ListTicket';
-import { ERole } from 'enums';
 import SupplierDetail from 'pages/Adm/Supplier/SupplierDetail';
 import DetailTicket from 'pages/Adm/DetailTicket/DetailTicket';
 import TicketHistory from 'pages/User/TicketHistory/TicketHistory';
+import TicketHistoryDetail from 'pages/User/TicketHistoryDetail/TicketHistoryDetail';
+import { ERole } from 'enums';
 
 export const routers: any = [
   {
@@ -147,6 +148,14 @@ export const routers: any = [
     element: <TicketHistory />,
     public: false,
     path: MPath.USER_TICKET_HISTORY,
+    role: [ERole.User],
+    exact: true,
+  },
+  {
+    name: 'USER_TICKET_HISTORY_DETAIL',
+    element: <TicketHistoryDetail />,
+    public: false,
+    path: MPath.USER_TICKET_HISTORY_DETAIL,
     role: [ERole.User],
     exact: true,
   },

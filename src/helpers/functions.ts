@@ -45,3 +45,19 @@ export const createQueryUrl = (location: any, params: IndexedObject) => {
   const query = queryString.stringify(params);
   return `${pathname}?${query}`;
 };
+
+export const getNameByTicketType = (typePlan: number) => {
+  let namePlan;
+  if (typePlan === 1) {
+    namePlan = 'Yêu cầu hao phí';
+  } else if (typePlan === 2) {
+    namePlan = 'Yêu cầu Cơ số tủ trực';
+  } else if (typePlan === 3) {
+    namePlan = 'Hoàn trả Hao phí';
+  } else if (typePlan === 4) {
+    namePlan = 'Hoàn trả Cơ số tủ trực';
+  } else {
+    return '';
+  }
+  return namePlan;
+};

@@ -8,6 +8,12 @@ const initialState: TInitPlanState = {
   loading: false,
   plans: [],
   planDetail: {},
+  pagination: {
+    page: 1,
+    limit: 10,
+    totalPages: 1,
+    totalResults: 0,
+  },
 };
 
 export const getPlans = createAsyncThunk(
@@ -35,7 +41,20 @@ export const getPlanDetail = createAsyncThunk(
     }
   },
 );
+export const getTicketDepartment = createAsyncThunk(
+  'plan/getTicketDepartment',
+  async (data: IndexedObject, thunkApi) => {
+    try {
+      const { id, params } = data;
 
+      const res = await planApi.getPlansDepartment(id, params);
+      return res.data;
+    } catch (err: any) {
+      toast.error(`Co loi xay ra, vui long thu lai`);
+      return thunkApi.rejectWithValue({});
+    }
+  },
+);
 const planSlice = createSlice({
   name: 'bidding',
   initialState,
@@ -68,6 +87,16 @@ const planSlice = createSlice({
     });
     builder.addCase(getPlanDetail.fulfilled, (state, action) => {
       state.planDetail = action.payload;
+      state.loading = false;
+    });
+    // Department
+    builder.addCase(getTicketDepartment.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(getTicketDepartment.fulfilled, (state, action) => {
+      const { results, pagination } = action.payload;
+      state.pagination = pagination;
+      state.plans = results;
       state.loading = false;
     });
   },

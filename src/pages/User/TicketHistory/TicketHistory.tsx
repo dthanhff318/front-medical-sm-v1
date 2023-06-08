@@ -1,118 +1,97 @@
 import React from 'react';
-import { Col, Input, Space, Row, Table, Select, Divider } from 'antd';
-import styles from './style.module.scss';
-import Search from 'antd/es/input/Search';
+import { Col, Row, Table } from 'antd';
 import CommonButton from 'components/CommonButton/CommonButton';
 import useService from './service';
 import PaginationCustom from 'components/PaginationCustom/PaginationCustom';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { createQueryUrl } from 'helpers/functions';
+import { createQueryUrl, getNameByTicketType, replacePathParams } from 'helpers/functions';
+import styles from './style.module.scss';
+import MPath from 'routes/routes';
 
 const TicketHistory: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const {} = useService();
+  const { pagination, urlQueryParams, loading, plans } = useService();
 
-  // const onSearch = (value: string) => {
-  //   getStore({ q: value });
-  // };
-
-  // const onChangePage = (page: number, limit: number) => {
-  //   navigate(createQueryUrl(location, { ...urlQueryParams, page, limit }));
-  // };
+  const onChangePage = (page: number, limit: number) => {
+    navigate(createQueryUrl(location, { ...urlQueryParams, page, limit }));
+  };
 
   const columns: any = [
     {
-      title: 'Tên vật tư',
-      width: 250,
+      title: 'Loại dự trù',
+      width: 200,
+      dataIndex: 'typePlan',
+    },
+    {
+      title: 'Người gửi',
+      width: 230,
       dataIndex: 'name',
-      fixed: 'left',
     },
     {
-      title: 'Hoạt chất',
-      width: 150,
-      dataIndex: 'ingredient',
+      title: 'Trạng thái',
+      dataIndex: 'status',
+      width: 120,
     },
     {
-      title: 'Đơn vị',
-      dataIndex: 'unit',
-      width: 100,
-    },
-    {
-      title: 'Nhóm',
-      dataIndex: 'group',
-      width: 250,
-    },
-    {
-      title: 'Tên hãng',
-      dataIndex: 'brand',
+      title: 'Thời gian',
+      dataIndex: 'createdTime',
       width: 200,
     },
     {
-      title: 'Tên công ty',
-      dataIndex: 'company',
-      width: 200,
-    },
-    {
-      title: 'Tên nước',
-      dataIndex: 'country',
-      width: 150,
-    },
-    {
-      title: 'Hạn sử dụng',
-      dataIndex: 'dateExpired',
-      width: 150,
-    },
-    {
-      title: 'Lô SX',
-      dataIndex: 'productCode',
-      width: 150,
-    },
-    {
-      title: 'Mã thầu',
-      dataIndex: 'codeBidding',
-      width: 150,
-    },
-    {
-      title: 'Số lượng',
-      dataIndex: 'quantity',
+      title: '',
+      fixed: 'right',
       width: 100,
+      render: (_, record: any) => (
+        <CommonButton
+          onClick={() =>
+            navigate(replacePathParams(MPath.USER_TICKET_HISTORY_DETAIL, { id: record.id }))
+          }
+        >
+          Chi tiết
+        </CommonButton>
+      ),
     },
-    // {
-    //   title: '',
-    //   fixed: 'right',
-    //   width: 100,
-    //   render: (_, record: any) => (
-    //     <CommonButton danger onClick={() => onDeleteSupplyStore(record.id)}>
-    //       Xóa
-    //     </CommonButton>
-    //   ),
-    // },
   ];
   return (
-    <div className={styles.wapper}>
-      <Divider style={{ marginTop: '0px' }}>Tổng kho vật tư</Divider>
+    <div className={styles.wrapper}>
+      <h2 className={styles.title}>Danh sách phiếu gửi</h2>
       <Row gutter={[8, 0]} style={{ marginBottom: '20px' }}>
-        <Col span={8}>
-          {/* <Search placeholder="Nhập tên vật tư" onSearch={onSearch} style={{ width: '100%' }} /> */}
-        </Col>
+        <Col span={8}></Col>
       </Row>
-      {/* <Table
+      <Table
         columns={columns}
         loading={loading}
-        dataSource={TicketHistory}
+        dataSource={plans.map((e) => {
+          const type = e.typePlan;
+          let namePlan;
+          if (type === 1) {
+            namePlan = 'Yêu cầu hao phí';
+          } else if (type === 2) {
+            namePlan = 'Yêu cầu Cơ số tủ trực';
+          } else if (type === 3) {
+            namePlan = 'Hoàn trả Hao phí';
+          } else if (type === 4) {
+            namePlan = 'Hoàn trả Cơ số tủ trực';
+          }
+          return {
+            ...e,
+            status: e.isAccepted ? 'Đã duyệt' : 'Chờ duyệt',
+            typePlan: getNameByTicketType(e.typePlan),
+          };
+        })}
         size="middle"
         scroll={{ x: 'max-content', y: '60vh' }}
         rowKey="id"
         pagination={false}
-      /> */}
+      />
       <Row justify={'center'} style={{ marginTop: '20px' }}>
-        {/* <PaginationCustom
+        <PaginationCustom
           total={pagination.totalResults}
           current={pagination.page}
           pageSize={pagination.limit}
           onChange={onChangePage}
-        /> */}
+        />
       </Row>
     </div>
   );
