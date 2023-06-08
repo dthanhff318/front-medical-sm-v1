@@ -2,7 +2,8 @@ export type TSupply = {
     brand?: string;
     code?: string;
     codeBidding?: string;
-    company?: string;
+    company?: number;
+    idcompany?: number;
     country?: string;
     dateExpired?: string;
     group?: string;

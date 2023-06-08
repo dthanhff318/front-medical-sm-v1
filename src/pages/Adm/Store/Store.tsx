@@ -21,7 +21,7 @@ const Store: React.FC = () => {
   const onSearch = (value: string) => {
     getStore({ q: value });
   };
-
+  console.log(stores);
   const columns: any = [
     {
       title: 'Tên vật tư',
@@ -88,7 +88,6 @@ const Store: React.FC = () => {
           <CommonButton
             onClick={() => {
               setListSupply(record);
-              console.log(record);
               setOpenModal('create');
             }}
           >
@@ -122,7 +121,7 @@ const Store: React.FC = () => {
       <Table
         columns={columns}
         loading={loading}
-        dataSource={stores.map((e) => ({ ...e, company: e.company.name }))}
+        dataSource={stores.map((e) => ({ ...e, company: e.company.name, idcompany: e.company.id }))}
         size="middle"
         scroll={{ x: 'max-content', y: '60vh' }}
         rowKey="id"
