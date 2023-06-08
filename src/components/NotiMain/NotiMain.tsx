@@ -5,15 +5,17 @@ import MPath from 'routes/routes';
 import { LoadingOutlined } from '@ant-design/icons';
 import { TNoti } from 'types/noti';
 import notiApi from 'axiosConfig/api/noti';
+import { ERole } from 'enums';
 
 type Props = {
   notis: TNoti[];
   notiRef: (node?: Element | null | undefined) => void;
   loading: boolean;
   onClose: () => void;
+  role?: string;
 };
 
-const NotiMain = ({ notis, notiRef, loading, onClose }: Props) => {
+const NotiMain = ({ notis, notiRef, loading, onClose, role }: Props) => {
   const navigate = useNavigate();
   const onNextTicketPage = async (e) => {
     await notiApi.markAsSeenNoti([e.id]);
@@ -22,37 +24,71 @@ const NotiMain = ({ notis, notiRef, loading, onClose }: Props) => {
   return (
     <div className="wrapper-noti">
       <span></span>
-      {notis.map((e) => {
-        const type = e.ticket?.typePlan;
-        let namePlan;
-        if (type === 1) {
-          namePlan = 'bổ sung hao phí';
-        } else if (type === 2) {
-          namePlan = 'bổ sung cơ số tủ trực';
-        } else if (type === 3) {
-          namePlan = 'hoàn trả hao phí';
-        } else if (type === 4) {
-          namePlan = 'hoàn trả cơ số tủ trực';
-        }
-        return (
-          <div
-            className={`item-bell ${e.seen ? '' : 'unread'}`}
-            onClick={() => {
-              onNextTicketPage(e);
-              onClose();
-            }}
-            key={e.id}
-            ref={e.id === notis[notis.length - 1].id ? notiRef : undefined}
-          >
-            <div className="item-bell-icon">H</div>
-            <div className="item-bell-inf">
-              <p className="item-bell-tittle">{e.department?.name}</p>
-              <span className="item-bell-discription">Đã yêu cầu duyệt phiếu {namePlan}</span>
-              <span className="item-bell-time">{e.createdTime}</span>
+      {role === ERole.Admin &&
+        notis.map((e) => {
+          const type = e.ticket?.typePlan;
+          let namePlan;
+          if (type === 1) {
+            namePlan = 'bổ sung hao phí';
+          } else if (type === 2) {
+            namePlan = 'bổ sung cơ số tủ trực';
+          } else if (type === 3) {
+            namePlan = 'hoàn trả hao phí';
+          } else if (type === 4) {
+            namePlan = 'hoàn trả cơ số tủ trực';
+          }
+          return (
+            <div
+              className={`item-bell ${e.seen ? '' : 'unread'}`}
+              onClick={() => {
+                onNextTicketPage(e);
+                onClose();
+              }}
+              key={e.id}
+              ref={e.id === notis[notis.length - 1].id ? notiRef : undefined}
+            >
+              <div className="item-bell-icon">H</div>
+              <div className="item-bell-inf">
+                <p className="item-bell-tittle">{e.department?.name}</p>
+                <span className="item-bell-discription">Đã yêu cầu duyệt phiếu {namePlan}</span>
+                <span className="item-bell-time">{e.createdTime}</span>
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      {role === ERole.User &&
+        notis.map((e) => {
+          const type = e.ticket?.typePlan;
+          let namePlanDepartment;
+          if (type === 1) {
+            namePlanDepartment = 'bổ sung hao phí';
+          } else if (type === 2) {
+            namePlanDepartment = 'bổ sung cơ số tủ trực';
+          } else if (type === 3) {
+            namePlanDepartment = 'hoàn trả hao phí';
+          } else if (type === 4) {
+            namePlanDepartment = 'hoàn trả cơ số tủ trực';
+          }
+          return (
+            <div
+              className={`item-bell ${e.seen ? '' : 'unread'}`}
+              onClick={() => {
+                onClose();
+              }}
+              key={e.id}
+              ref={e.id === notis[notis.length - 1].id ? notiRef : undefined}
+            >
+              <div className="item-bell-icon">H</div>
+              <div className="item-bell-inf">
+                <p className="item-bell-tittle">{e.department?.name}</p>
+                <span className="item-bell-discription">
+                  {`Phiếu ${namePlanDepartment} đã được phê duyệt`}{' '}
+                </span>
+                <span className="item-bell-time">{e.createdTime}</span>
+              </div>
+            </div>
+          );
+        })}
       {loading && (
         <div className="noti-desc">
           <LoadingOutlined style={{ fontSize: '20px' }} />

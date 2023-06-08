@@ -107,7 +107,8 @@
   background-color: #fff;
   padding: 0.5rem;
   overflow: scroll;
-  height: 500px;
+  height: fit-content;
+  max-height: 500px;
   .noti-desc {
     display: block;
     text-align: center;

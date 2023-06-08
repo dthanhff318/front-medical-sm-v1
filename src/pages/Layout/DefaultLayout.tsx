@@ -102,6 +102,11 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       icon: MedicineBoxOutlined,
       label: <Link to={MPath.USER_STORE}>Kho lưu trữ vật tư</Link>,
     },
+    {
+      id: 4,
+      icon: MedicineBoxOutlined,
+      label: <Link to={MPath.USER_TICKET_HISTORY}>Phiếu gửi</Link>,
+    },
   ];
   const itemsAdmin: MenuProps['items'] = listSubnavAdmin.map((list: any, index) => {
     const key = String(index + 1);
@@ -178,6 +183,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
                   notis={notis}
                   loading={loading}
                   onClose={closeDropdown}
+                  role={role}
                 />
               )}
             >

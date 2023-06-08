@@ -16,6 +16,7 @@ const MPath = {
   USER_PLAN: '/plan',
   USER_REFUND: '/refund',
   USER_STORE: '/store/department',
+  USER_TICKET_HISTORY: '/store/ticket-history',
 };
 
 export default MPath;
