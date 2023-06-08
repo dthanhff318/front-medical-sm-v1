@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Col, Input, Space, Row, Table, Select, Divider } from 'antd';
 import styles from './style.module.scss';
 import Search from 'antd/es/input/Search';
@@ -7,17 +7,21 @@ import CommonButton from 'components/CommonButton/CommonButton';
 import PaginationCustom from 'components/PaginationCustom/PaginationCustom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { createQueryUrl } from 'helpers/functions';
-
+import ModalDetailStore from './ModalDetailStore';
+type TModal = '' | 'create';
 const Store: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [openModal, setOpenModal] = useState<TModal>('');
+  const [listSupply, setListSupply] = useState<any>({});
+
   const { stores, loading, urlQueryParams, pagination, getStore, onDeleteSupplyStore } =
     useService();
 
   const onSearch = (value: string) => {
     getStore({ q: value });
   };
-
+  console.log(stores);
   const columns: any = [
     {
       title: 'Tên vật tư',
@@ -80,9 +84,19 @@ const Store: React.FC = () => {
       fixed: 'right',
       width: 100,
       render: (_, record: any) => (
-        <CommonButton danger onClick={() => onDeleteSupplyStore(record.id)}>
-          Xóa
-        </CommonButton>
+        <div className={styles.actionBtn}>
+          <CommonButton
+            onClick={() => {
+              setListSupply(record);
+              setOpenModal('create');
+            }}
+          >
+            Chi tiết
+          </CommonButton>
+          <CommonButton danger onClick={() => onDeleteSupplyStore(record.id)}>
+            Xóa
+          </CommonButton>
+        </div>
       ),
     },
   ];
@@ -99,10 +113,15 @@ const Store: React.FC = () => {
           <Search placeholder="Nhập tên vật tư" onSearch={onSearch} style={{ width: '100%' }} />
         </Col>
       </Row>
+      <ModalDetailStore
+        itemSupply={listSupply}
+        open={openModal === 'create'}
+        onCancel={() => setOpenModal('')}
+      />
       <Table
         columns={columns}
         loading={loading}
-        dataSource={stores.map((e) => ({ ...e, company: e.company.name }))}
+        dataSource={stores.map((e) => ({ ...e, company: e.company.name, idcompany: e.company.id }))}
         size="middle"
         scroll={{ x: 'max-content', y: '60vh' }}
         rowKey="id"

@@ -13,6 +13,9 @@ const storeApi = {
   deleteSupply: (id: number) => {
     return axiosClient.delete(`/store/${id}`);
   },
+  updateSupply: (id: number, data: any) => {
+    return axiosClient.patch(`/store/${id}`, data);
+  },
   // department
   getStoreOfDepartment: (id: number, condition: IndexedObject) => {
     const queryStr = queryString.stringify(condition);

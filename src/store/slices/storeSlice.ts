@@ -40,6 +40,19 @@ export const deleteSupplyStore = createAsyncThunk(
     }
   },
 );
+//update
+export const updateSupply = createAsyncThunk(
+  'store/updateSupply', 
+  async (data: any) => {
+  try {
+    const { id, ...body } = data;
+    const res = await storeApi.updateSupply(id, body);
+    console.log(res.data)
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+});
 //  Department
 export const getStoreOfDepartment = createAsyncThunk(
   'store/getStoreOfDepartment',
@@ -47,6 +60,7 @@ export const getStoreOfDepartment = createAsyncThunk(
     try {
       const { id, condition } = data;
       const res = await storeApi.getStoreOfDepartment(id, condition);
+      console.log(res.data)
       return res.data;
     } catch (err: any) {
       toast.error(`Có lỗi xảy ra, vui lòng thử lại`);
@@ -83,6 +97,23 @@ const storeSlice = createSlice({
     });
     builder.addCase(deleteSupplyStore.fulfilled, (state, action) => {
       const remainList = state.stores.filter((s) => s.id !== action.payload);
+      return {
+        ...state,
+        loading: false,
+        stores: remainList,
+      };
+    });
+    builder.addCase(updateSupply.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(updateSupply.fulfilled, (state, action) => {
+      console.log(action.payload)
+      const remainList = state.stores.map((s) => {
+        if(s.id === action.payload.id){
+          return action.payload;
+        }
+        return s;
+      });
       return {
         ...state,
         loading: false,
