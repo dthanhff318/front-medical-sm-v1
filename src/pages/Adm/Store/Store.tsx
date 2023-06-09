@@ -13,7 +13,7 @@ const Store: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [openModal, setOpenModal] = useState<TModal>('');
-  const [listSupply, setListSupply] = useState<any>({});
+  const [itemSupply, setItemSupply] = useState<any>({});
 
   const { stores, loading, urlQueryParams, pagination, getStore, onDeleteSupplyStore } =
     useService();
@@ -21,7 +21,6 @@ const Store: React.FC = () => {
   const onSearch = (value: string) => {
     getStore({ q: value });
   };
-  console.log(stores);
   const columns: any = [
     {
       title: 'Tên vật tư',
@@ -87,7 +86,7 @@ const Store: React.FC = () => {
         <div className={styles.actionBtn}>
           <CommonButton
             onClick={() => {
-              setListSupply(record);
+              setItemSupply(record);
               setOpenModal('create');
             }}
           >
@@ -114,7 +113,7 @@ const Store: React.FC = () => {
         </Col>
       </Row>
       <ModalDetailStore
-        itemSupply={listSupply}
+        itemSupply={itemSupply}
         open={openModal === 'create'}
         onCancel={() => setOpenModal('')}
       />
