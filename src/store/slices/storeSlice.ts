@@ -47,7 +47,6 @@ export const updateSupply = createAsyncThunk(
   try {
     const { id, ...body } = data;
     const res = await storeApi.updateSupply(id, body);
-    console.log(res.data)
     return res.data;
   } catch (err) {
     console.log(err);
@@ -107,9 +106,8 @@ const storeSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(updateSupply.fulfilled, (state, action) => {
-      console.log(action.payload)
       const remainList = state.stores.map((s) => {
-        if(s.id === action.payload.id){
+        if(s.id === action.payload?.id){
           return action.payload;
         }
         return s;

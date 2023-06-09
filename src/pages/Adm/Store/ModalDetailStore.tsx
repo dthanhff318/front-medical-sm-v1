@@ -1,5 +1,5 @@
 import { Col, Form, Input, Modal, Row, Select } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './style.module.scss';
 import CommonButton from 'components/CommonButton/CommonButton';
 import { TCreateDepartments } from 'store/slices/type';
@@ -10,6 +10,9 @@ import { TSupply } from 'types/supply';
 import { SaveOutlined } from '@ant-design/icons';
 import useService from './service';
 import { updateSupply } from 'store/slices/storeSlice';
+import { getSupplier } from 'store/slices/supplierSlice';
+import { parseSearchParams } from 'helpers/functions';
+import { useLocation } from 'react-router-dom';
 type Props = {
   open: boolean;
   onCancel: () => void;
@@ -17,7 +20,8 @@ type Props = {
     brand?: string;
     code?: string;
     codeBidding?: string;
-    company?: string;
+    company?: number;
+    idcompany?: number;
     country?: string;
     dateExpired?: string;
     group?: string;
@@ -32,18 +36,22 @@ type Props = {
 };
 
 const ModalCreateDepartment = ({ itemSupply, open, onCancel }: Props) => {
-  console.log(itemSupply);
   const [form] = useForm();
   const dispatch = useDispatch();
   const [value, setValue] = useState<string>('');
+  const location = useLocation();
+  const urlQueryParams = parseSearchParams(location.search);
   const { loading } = useService();
+  useEffect(() => {
+    dispatch(getSupplier(urlQueryParams) as any);
+  }, []);
   const { suppliers } = useSelector((state: RootState) => state.supplier);
   const values = {
     name: itemSupply.name,
     brand: itemSupply.brand,
     code: itemSupply.code,
     codeBidding: itemSupply.codeBidding,
-    company: itemSupply.company,
+    company: itemSupply.idcompany,
     country: itemSupply.country,
     dateExpired: itemSupply.dateExpired,
     group: itemSupply.group,
@@ -62,12 +70,11 @@ const ModalCreateDepartment = ({ itemSupply, open, onCancel }: Props) => {
           style={{ maxWidth: 900 }}
           initialValues={{ remember: true }}
           onFinish={(data: TSupply) => {
-            console.log(data);
             dispatch(
               updateSupply({
                 id: itemSupply.id,
                 ...data,
-                company: data.idcompany,
+                company: data.company,
               }) as any,
             );
             onCancel();
@@ -112,7 +119,7 @@ const ModalCreateDepartment = ({ itemSupply, open, onCancel }: Props) => {
               >
                 <Select
                   showSearch
-                  value={value}
+                  //value={value}
                   placeholder="Chọn nhà cung cấp"
                   style={{ width: '100%' }}
                   defaultActiveFirstOption={false}
