@@ -6,8 +6,8 @@ const notiApi = {
   getNotis: (query: IndexedObject) => {
     return axiosClient.get(`/noti?${queryString.stringify(query)}`);
   },
-  markAsSeenNoti: (listNoti: number[]) => {
-    return axiosClient.patch(`/noti/mark-as-seen`, { listNoti });
+  markAsSeenNoti: (idNoti: number) => {
+    return axiosClient.patch(`/noti/mark-as-seen`, { idNoti });
   },
 };
 

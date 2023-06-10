@@ -23,6 +23,18 @@ export const getNotis = createAsyncThunk(
   },
 );
 
+export const markAsReadNoti = createAsyncThunk(
+  'noti/markAsReadNoti',
+  async (idNoti: number, thunkApi: any) => {
+    try {
+      const res = await notiApi.markAsSeenNoti(idNoti);
+      return res.data;
+    } catch (err: any) {
+      toast.error(`Co loi xay ra, vui long thu lai`);
+      return thunkApi.rejectWithValue({});
+    }
+  },
+);
 const notiSlice = createSlice({
   name: 'noti',
   initialState,
@@ -47,6 +59,14 @@ const notiSlice = createSlice({
           hasMore: isHasMore,
           offset: state.dataFetch.offset + 1,
         },
+      };
+    });
+    builder.addCase(markAsReadNoti.fulfilled, (state, action) => {
+      const updateList = state.notis.map((n) => (n.id === action.payload.id ? action.payload : n));
+      return {
+        ...state,
+        notis: updateList,
+        numberSeen: state.numberSeen - 1,
       };
     });
   },

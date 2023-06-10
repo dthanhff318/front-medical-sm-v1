@@ -6,6 +6,8 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { TNoti } from 'types/noti';
 import notiApi from 'axiosConfig/api/noti';
 import { ERole } from 'enums';
+import { useDispatch } from 'react-redux';
+import { markAsReadNoti } from 'store/slices/noti';
 
 type Props = {
   notis: TNoti[];
@@ -17,8 +19,9 @@ type Props = {
 
 const NotiMain = ({ notis, notiRef, loading, onClose, role }: Props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const onNextTicketPage = async (e) => {
-    await notiApi.markAsSeenNoti([e.id]);
+    dispatch(markAsReadNoti(e.id) as any);
     if (role && role === ERole.Admin) {
       navigate(replacePathParams(MPath.ADM_DETAIL_TICKET, { id: e.ticket.id }));
     } else {
