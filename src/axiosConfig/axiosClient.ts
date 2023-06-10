@@ -36,14 +36,6 @@ const injectToken = (config: AxiosRequestConfig): any => {
     config.headers.Authorization = `Bearer ${token}`;
   }
 
-  // const language = "en";
-  // if (language && config) {
-  //   if (!config.headers) {
-  //     config.headers = {};
-  //   }
-  //   config.headers["Accept-Language"] = language;
-  // }
-
   return config;
 };
 
