@@ -1,57 +1,37 @@
+import React from 'react';
 import { Col, Form, Input, Modal, Row, Select } from 'antd';
-import React, { useEffect, useState } from 'react';
 import styles from './style.module.scss';
 import CommonButton from 'components/CommonButton/CommonButton';
-import { TCreateDepartments } from 'store/slices/type';
 import { useForm } from 'antd/es/form/Form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { TSupply } from 'types/supply';
+import { TSupplyResponse } from 'types/supply';
 import { SaveOutlined } from '@ant-design/icons';
-import useService from './service';
-import { updateSupply } from 'store/slices/storeSlice';
-import { getSupplier } from 'store/slices/supplierSlice';
-import { parseSearchParams } from 'helpers/functions';
-import { useLocation } from 'react-router-dom';
 type Props = {
   open: boolean;
   onCancel: () => void;
-  itemSupply: {
-    brand?: string;
-    code?: string;
-    codeBidding?: string;
-    company?: number;
-    idcompany?: number;
-    country?: string;
-    dateExpired?: string;
-    group?: string;
-    id?: number;
-    ingredient?: string;
-    name?: string;
-    productCode?: string;
-    quantity?: number;
-    unit?: string;
-    yearBidding?: number;
-  };
+  itemSupply: TSupplyResponse;
+  value: string;
+  setValueSearch: (e: string) => void;
+  handleUpdateSupplyStore: (data: any) => void;
 };
 
-const ModalCreateDepartment = ({ itemSupply, open, onCancel }: Props) => {
+const ModalCreateDepartment = ({
+  itemSupply,
+  open,
+  handleUpdateSupplyStore,
+  onCancel,
+  value,
+  setValueSearch,
+}: Props) => {
   const [form] = useForm();
-  const dispatch = useDispatch();
-  const [value, setValue] = useState<string>('');
-  const location = useLocation();
-  const urlQueryParams = parseSearchParams(location.search);
-  const { loading } = useService();
-  useEffect(() => {
-    dispatch(getSupplier(urlQueryParams) as any);
-  }, []);
   const { suppliers } = useSelector((state: RootState) => state.supplier);
   const values = {
     name: itemSupply.name,
     brand: itemSupply.brand,
     code: itemSupply.code,
     codeBidding: itemSupply.codeBidding,
-    company: itemSupply.idcompany,
+    company: itemSupply.company?.id,
     country: itemSupply.country,
     dateExpired: itemSupply.dateExpired,
     group: itemSupply.group,
@@ -69,14 +49,12 @@ const ModalCreateDepartment = ({ itemSupply, open, onCancel }: Props) => {
         <Form
           style={{ maxWidth: 900 }}
           initialValues={{ remember: true }}
-          onFinish={(data: TSupply) => {
-            dispatch(
-              updateSupply({
-                id: itemSupply.id,
-                ...data,
-                company: data.company,
-              }) as any,
-            );
+          onFinish={(data: any) => {
+            handleUpdateSupplyStore({
+              id: itemSupply.id,
+              ...data,
+              company: data.company,
+            });
             onCancel();
           }}
           autoComplete="off"
@@ -119,23 +97,18 @@ const ModalCreateDepartment = ({ itemSupply, open, onCancel }: Props) => {
               >
                 <Select
                   showSearch
-                  //value={value}
                   placeholder="Chọn nhà cung cấp"
+                  value={value}
                   style={{ width: '100%' }}
                   defaultActiveFirstOption={false}
                   showArrow={true}
                   filterOption={false}
-                  onSearch={(e) => setValue(e)}
-                  //onChange={(e) => handleSelectCompany(e)}
+                  onSearch={setValueSearch}
                   notFoundContent={null}
-                  options={
-                    value
-                      ? suppliers.map((d) => ({
-                          value: d.id,
-                          label: d.name,
-                        }))
-                      : []
-                  }
+                  options={suppliers.map((d) => ({
+                    value: d.id,
+                    label: d.name,
+                  }))}
                 />
               </Form.Item>
             </Col>
@@ -208,7 +181,7 @@ const ModalCreateDepartment = ({ itemSupply, open, onCancel }: Props) => {
             <Row>
               <Col span={6}>
                 <Form.Item>
-                  <CommonButton isSubmit={true} loading={loading}>
+                  <CommonButton isSubmit={true}>
                     <SaveOutlined />
                     Lưu
                   </CommonButton>

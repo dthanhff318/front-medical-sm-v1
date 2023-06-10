@@ -12,8 +12,7 @@ import { getNameByTicketType } from 'helpers/functions';
 
 const TicketHistoryDetail = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { planDetail, loading: loadingTable, handleAcceptTicket } = useService();
+  const { planDetail, loading: loadingTable, deleteTicket, id: idTicket } = useService();
   const [form] = Form.useForm();
   const [editingKey, setEditingKey] = useState(0);
   const columns: any = [
@@ -73,90 +72,7 @@ const TicketHistoryDetail = () => {
       dataIndex: 'productCode',
       width: 100,
     },
-    {
-      key: 'action',
-      title: '',
-      dataIndex: 'action',
-      width: 100,
-      fixed: 'right',
-      render: (_: any, record: any) => {
-        return isEditingQuatity(record, editingKey) ? (
-          <CommonButton
-            onClick={() => {
-              save();
-            }}
-          >
-            Lưu
-          </CommonButton>
-        ) : (
-          <CommonButton
-            onClick={() => {
-              edit(record.id);
-            }}
-          >
-            Sửa
-          </CommonButton>
-        );
-      },
-    },
   ];
-
-  const editableCell: React.FC<EditableCellProps> = ({
-    editing,
-    dataIndex,
-    children,
-    ...restProps
-  }) => {
-    const rulesValidate = [
-      {
-        validator: (_, value) =>
-          value > 0 && value < planDetail.planList?.find((e) => e.id === editingKey).quantity
-            ? Promise.resolve()
-            : Promise.reject(new Error('Vui lòng nhập số lượng hợp lệ')),
-      },
-    ];
-    return (
-      <td {...restProps}>
-        {editing ? (
-          <Form.Item name={dataIndex} style={{ margin: 0 }} rules={rulesValidate}>
-            <InputNumber onBlur={save} />
-          </Form.Item>
-        ) : (
-          children
-        )}
-      </td>
-    );
-  };
-
-  const mergedColumns = columns.map((col) => {
-    if (!col.editable) {
-      return col;
-    }
-    return {
-      ...col,
-      onCell: (record: any) => ({
-        record,
-        dataIndex: col.dataIndex,
-        title: col.title,
-        editing: isEditingQuatity(record, editingKey),
-      }),
-    };
-  });
-  const isEditingQuatity = (record: any, editingKey: number) => record.id === editingKey;
-
-  const save = async () => {
-    const row = await form.validateFields();
-    if (row) {
-      const updatePlan = planDetail.planList.map((e) =>
-        e.id === editingKey ? { ...e, ...row } : e,
-      );
-      dispatch(savePlanDetail({ ...planDetail, planList: updatePlan }));
-      setEditingKey(0);
-    }
-  };
-  const edit = (id: number) => {
-    setEditingKey(id);
-  };
 
   return (
     <>
@@ -177,13 +93,8 @@ const TicketHistoryDetail = () => {
           </p>
           <Form form={form} component={false}>
             <Table
-              components={{
-                body: {
-                  cell: editableCell,
-                },
-              }}
               style={{ margin: '20px 0' }}
-              columns={mergedColumns}
+              columns={columns}
               dataSource={planDetail.planList?.map((c) => ({ ...c, supplier: c.company?.name }))}
               size="middle"
               bordered
@@ -193,21 +104,12 @@ const TicketHistoryDetail = () => {
             />
           </Form>
           <Row justify="center" gutter={[40, 40]}>
-            {planDetail.isAccepted ? (
+            {!planDetail.isAccepted && (
               <>
                 <Col>
-                  <CommonButton danger>Xóa phiếu</CommonButton>
-                </Col>
-              </>
-            ) : (
-              <>
-                <Col>
-                  <CommonButton onClick={handleAcceptTicket} loading={false}>
-                    Phê duyệt
+                  <CommonButton danger onClick={() => deleteTicket(Number(idTicket))}>
+                    Xóa phiếu
                   </CommonButton>
-                </Col>
-                <Col>
-                  <CommonButton danger>Hủy bỏ</CommonButton>
                 </Col>
               </>
             )}

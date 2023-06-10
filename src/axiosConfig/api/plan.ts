@@ -18,6 +18,9 @@ const planApi = {
   refundPlan: (id: string) => {
     return axiosClient.get(`/plan/refund/${id}`);
   },
+  deleteTicket: (id: number) => {
+    return axiosClient.delete(`/plan/${id}`);
+  },
   // Department ticket
   getPlansDepartment: (id: string, params: IndexedObject) => {
     return axiosClient.get(`/plan/department/${id}?${queryString.stringify(params)}`);

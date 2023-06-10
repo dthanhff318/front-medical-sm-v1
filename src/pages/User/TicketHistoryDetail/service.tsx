@@ -38,10 +38,22 @@ const useService = () => {
       toast.error('Duyệt phiếu không thành công, thử lại');
     }
   };
+
+  const deleteTicket = async (id: number) => {
+    try {
+      await planApi.deleteTicket(id);
+      navigate(MPath.USER_TICKET_HISTORY);
+      toast.success('Đã xóa phiếu');
+    } catch (err) {
+      toast.error('Xóa không thành công, thử lại');
+    }
+  };
   return {
     planDetail,
     loading,
     handleAcceptTicket,
+    deleteTicket,
+    id,
   };
 };
 

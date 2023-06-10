@@ -66,6 +66,7 @@ export type TInitBiddingState = {
 export type TGetSupplier = {
   page?: number;
   limit?: number;
+  q?: string;
 };
 export type TInitSupplierState = {
   suppliers: Array<any>;

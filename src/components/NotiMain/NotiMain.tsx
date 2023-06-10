@@ -19,11 +19,15 @@ const NotiMain = ({ notis, notiRef, loading, onClose, role }: Props) => {
   const navigate = useNavigate();
   const onNextTicketPage = async (e) => {
     await notiApi.markAsSeenNoti([e.id]);
-    navigate(replacePathParams(MPath.ADM_DETAIL_TICKET, { id: e.ticket.id }));
+    if (role && role === ERole.Admin) {
+      navigate(replacePathParams(MPath.ADM_DETAIL_TICKET, { id: e.ticket.id }));
+    } else {
+      navigate(replacePathParams(MPath.USER_TICKET_HISTORY_DETAIL, { id: e.ticket.id }));
+    }
   };
+
   return (
     <div className="wrapper-noti">
-      <span></span>
       {role === ERole.Admin &&
         notis.map((e) => {
           const type = e.ticket?.typePlan;
@@ -47,7 +51,7 @@ const NotiMain = ({ notis, notiRef, loading, onClose, role }: Props) => {
               key={e.id}
               ref={e.id === notis[notis.length - 1].id ? notiRef : undefined}
             >
-              <div className="item-bell-icon">H</div>
+              <div className="item-bell-icon">{e.department?.name?.split(' ')[1][0]}</div>
               <div className="item-bell-inf">
                 <p className="item-bell-tittle">{e.department?.name}</p>
                 <span className="item-bell-discription">Đã yêu cầu duyệt phiếu {namePlan}</span>
@@ -73,12 +77,13 @@ const NotiMain = ({ notis, notiRef, loading, onClose, role }: Props) => {
             <div
               className={`item-bell ${e.seen ? '' : 'unread'}`}
               onClick={() => {
+                onNextTicketPage(e);
                 onClose();
               }}
               key={e.id}
               ref={e.id === notis[notis.length - 1].id ? notiRef : undefined}
             >
-              <div className="item-bell-icon">H</div>
+              <div className="item-bell-icon">{e.department?.name?.split(' ')[1][0]}</div>
               <div className="item-bell-inf">
                 <p className="item-bell-tittle">{e.department?.name}</p>
                 <span className="item-bell-discription">

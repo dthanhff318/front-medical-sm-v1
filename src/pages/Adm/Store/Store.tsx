@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, Input, Space, Row, Table, Select, Divider } from 'antd';
+import { Col, Row, Table } from 'antd';
 import styles from './style.module.scss';
 import Search from 'antd/es/input/Search';
 import useService from './service';
@@ -9,18 +9,28 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { createQueryUrl } from 'helpers/functions';
 import ModalDetailStore from './ModalDetailStore';
 type TModal = '' | 'create';
+
 const Store: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [openModal, setOpenModal] = useState<TModal>('');
   const [itemSupply, setItemSupply] = useState<any>({});
+  const [value, setValue] = useState<string>('');
 
-  const { stores, loading, urlQueryParams, pagination, getStore, onDeleteSupplyStore } =
-    useService();
+  const {
+    stores,
+    loading,
+    urlQueryParams,
+    pagination,
+    getStore,
+    handleUpdateSupplyStore,
+    onDeleteSupplyStore,
+  } = useService({ value });
 
   const onSearch = (value: string) => {
     getStore({ q: value });
   };
+
   const columns: any = [
     {
       title: 'Tên vật tư',
@@ -86,8 +96,10 @@ const Store: React.FC = () => {
         <div className={styles.actionBtn}>
           <CommonButton
             onClick={() => {
-              setItemSupply(record);
+              const dataRaw = stores.find((e) => e.id === record.id);
+              setItemSupply(dataRaw);
               setOpenModal('create');
+              setValueSearch('');
             }}
           >
             Chi tiết
@@ -103,7 +115,9 @@ const Store: React.FC = () => {
   const onChangePage = (page: number, limit: number) => {
     navigate(createQueryUrl(location, { ...urlQueryParams, page, limit }));
   };
-
+  const setValueSearch = (e: string) => {
+    setValue(e);
+  };
   return (
     <div className={styles.wapper}>
       <h2 className={styles.title}>Tổng kho</h2>
@@ -116,11 +130,14 @@ const Store: React.FC = () => {
         itemSupply={itemSupply}
         open={openModal === 'create'}
         onCancel={() => setOpenModal('')}
+        value={value}
+        setValueSearch={setValueSearch}
+        handleUpdateSupplyStore={handleUpdateSupplyStore}
       />
       <Table
         columns={columns}
         loading={loading}
-        dataSource={stores.map((e) => ({ ...e, company: e.company.name, idcompany: e.company.id }))}
+        dataSource={stores.map((e) => ({ ...e, company: e.company.name }))}
         size="middle"
         scroll={{ x: 'max-content', y: '60vh' }}
         rowKey="id"
