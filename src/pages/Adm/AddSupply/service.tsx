@@ -11,6 +11,7 @@ type Props = {
 const useService = ({ value, selectCompany }: Props) => {
   const dispatch = useDispatch();
   const [search, setSearch] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
     const timer = setTimeout(() => {
       setSearch(value);
@@ -20,7 +21,7 @@ const useService = ({ value, selectCompany }: Props) => {
     };
   }, [value]);
   const findListSupplier = () => {
-    if (search) dispatch(findSupplier(search) as any);
+    dispatch(findSupplier(search) as any);
   };
 
   const findBidding = () => {
@@ -36,11 +37,14 @@ const useService = ({ value, selectCompany }: Props) => {
   }, [selectCompany]);
 
   const handleAddSupplyToStore = async (data: any) => {
+    setLoading(true);
     await storeApi.addSupplyToStore(data);
+    setLoading(false);
   };
   return {
     search,
     handleAddSupplyToStore,
+    loading,
   };
 };
 

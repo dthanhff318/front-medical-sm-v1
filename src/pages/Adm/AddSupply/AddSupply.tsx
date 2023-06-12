@@ -7,6 +7,7 @@ import { RootState } from 'store';
 import CommonButton from 'components/CommonButton/CommonButton';
 import styles from './style.module.scss';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 
 const AddSupply: React.FC = () => {
   const [formSubmit] = useForm();
@@ -18,7 +19,24 @@ const AddSupply: React.FC = () => {
   const [value, setValue] = useState<string>('');
   const [selectCompany, setSelectCompany] = useState<string>('');
   const [selectSupply, setSelectSupply] = useState<any>('');
-  const { handleAddSupplyToStore } = useService({ value, selectCompany });
+  const { handleAddSupplyToStore, loading } = useService({ value, selectCompany });
+
+  const rulesValidate = [
+    {
+      required: true,
+      validator: (_, value) => {
+        const quantityBiddingRemain = form.getFieldValue('biddingCount');
+        if (!value) {
+          return Promise.reject(new Error('Vui lòng nhập số lượng hợp lệ'));
+        }
+        if (value > quantityBiddingRemain) {
+          return Promise.reject(new Error('Vui lòng nhập số lượng không vượt quá số lượng thầu'));
+        }
+        return Promise.resolve();
+      },
+    },
+  ];
+
   const handleSelectCompany = (id: string) => {
     setSelectCompany(id);
   };
@@ -70,6 +88,10 @@ const AddSupply: React.FC = () => {
   };
 
   const handleSubmit = (info: { company: number; codeBill: string }) => {
+    if (!dataAdd.length) {
+      toast.warning('Yêu cầu điền vật tư cần nhập');
+      return;
+    }
     const dataBill = {
       ...info,
       add: dataAdd,
@@ -169,7 +191,6 @@ const AddSupply: React.FC = () => {
           <Col span={12} style={{ display: 'flex', flexDirection: 'column', marginBottom: '16px' }}>
             <span>Nhà cung cấp</span>
             <Form.Item
-              noStyle
               name="company"
               rules={[{ required: true, message: 'Vui long chọn nhà cung cấp' }]}
             >
@@ -184,21 +205,17 @@ const AddSupply: React.FC = () => {
                 onSearch={(e) => setValue(e)}
                 onChange={(e) => handleSelectCompany(e)}
                 notFoundContent={null}
-                options={
-                  value
-                    ? suppliers.map((d) => ({
-                        value: d.id,
-                        label: d.name,
-                      }))
-                    : []
-                }
+                options={suppliers.map((d) => ({
+                  value: d.id,
+                  label: d.name,
+                }))}
+                listHeight={250}
               />
             </Form.Item>
           </Col>
           <Col span={4}>
             <span>Mã hóa đơn</span>
             <Form.Item
-              noStyle
               name="codeBill"
               rules={[{ required: true, message: 'Hãy điền mã hóa đơn!' }]}
             >
@@ -208,7 +225,9 @@ const AddSupply: React.FC = () => {
           <Col span={8} style={{ display: 'flex', flexDirection: 'column', marginBottom: '16px' }}>
             <span>---</span>
             <Form.Item>
-              <CommonButton isSubmit={true}>Nhập kho</CommonButton>
+              <CommonButton isSubmit={true} loading={loading}>
+                Nhập kho
+              </CommonButton>
             </Form.Item>
           </Col>
         </Row>
@@ -232,7 +251,7 @@ const AddSupply: React.FC = () => {
           <Row gutter={[8, 0]}>
             <Col span={12}>
               <span>Tên vật tư</span>
-              <Form.Item noStyle name="name">
+              <Form.Item name="name">
                 <Select
                   showSearch
                   value={value}
@@ -244,59 +263,49 @@ const AddSupply: React.FC = () => {
                   onSearch={(e) => setValue(e)}
                   onChange={(e) => handleSelectSupply(e)}
                   notFoundContent={null}
-                  options={
-                    value
-                      ? findBidding.map((d) => ({
-                          value: d.id,
-                          label: d.name,
-                        }))
-                      : []
-                  }
+                  options={findBidding.map((d) => ({
+                    value: d.id,
+                    label: d.name,
+                  }))}
+                  listHeight={250}
                 />
               </Form.Item>
             </Col>
             <Col span={12}>
               <span>Hoạt chất</span>
-              <Form.Item noStyle name="ingredient">
+              <Form.Item name="ingredient">
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
             <Col span={6}>
               <span>Nhóm</span>
-              <Form.Item noStyle name="group">
+              <Form.Item name="group">
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
             <Col span={6}>
               <span>Hãng sản xuất</span>
-              <Form.Item noStyle name="brand">
+              <Form.Item name="brand">
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
             <Col span={6}>
               <span>Nước SX</span>
-              <Form.Item noStyle name="country">
+              <Form.Item name="country">
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
             <Col span={4}>
               <span>Mã</span>
-              <Form.Item noStyle name="code">
+              <Form.Item name="code">
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
             <Col span={4}>
               <span>Số lượng</span>
-              <Form.Item
-                noStyle
-                name="quantity"
-                rules={[{ required: true, message: 'Vui long dien so luong can nhap' }]}
-              >
+              <Form.Item name="quantity" rules={rulesValidate}>
                 <InputNumber
                   min={1}
-                  // max={selectSupply ? Number(selectSupply.remainCount) : 1}
-                  // type="number"
-                  // disabled={Number(selectSupply?.remainCount) ? false : true}
                   style={{ marginBottom: '10px', width: '100%' }}
                   onChange={handleChangeQuantity}
                 />
@@ -304,35 +313,34 @@ const AddSupply: React.FC = () => {
             </Col>
             <Col span={4}>
               <span>Số lượng thầu</span>
-              <Form.Item noStyle name="biddingCount">
+              <Form.Item name="biddingCount">
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
             <Col span={4}>
               <span>Đơn vị</span>
-              <Form.Item noStyle name="unit">
+              <Form.Item name="unit">
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
             <Col span={4}>
               <span>Lô SX</span>
               <Form.Item
-                noStyle
                 name="productCode"
-                rules={[{ required: true, message: 'Vui long dien ten khoa phong!' }]}
+                rules={[{ required: true, message: 'Điền lô sản xuất' }]}
               >
                 <Input style={{ marginBottom: '10px' }} />
               </Form.Item>
             </Col>
             <Col span={6}>
               <span>Mã thầu</span>
-              <Form.Item noStyle name="codeBidding">
+              <Form.Item name="codeBidding">
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
             <Col span={6}>
               <span>Năm thầu</span>
-              <Form.Item noStyle name="yearBidding">
+              <Form.Item name="yearBidding">
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
@@ -341,7 +349,7 @@ const AddSupply: React.FC = () => {
               style={{ display: 'flex', flexDirection: 'column', marginBottom: '16px' }}
             >
               <span>Ngày hết hạn</span>
-              <Form.Item noStyle name="dateExpired">
+              <Form.Item name="dateExpired">
                 <DatePicker defaultValue={undefined} style={{ marginBottom: '10px' }} />
               </Form.Item>
             </Col>
@@ -350,11 +358,7 @@ const AddSupply: React.FC = () => {
               style={{ display: 'flex', flexDirection: 'column', marginBottom: '16px' }}
             >
               <span>Giá vật tư</span>
-              <Form.Item
-                noStyle
-                name="price"
-                rules={[{ required: true, message: 'Vui long dien !' }]}
-              >
+              <Form.Item name="price" rules={[{ required: true, message: 'Vui long dien !' }]}>
                 <InputNumber
                   type="number"
                   style={{ marginBottom: '10px', width: '100%' }}
@@ -364,7 +368,7 @@ const AddSupply: React.FC = () => {
             </Col>
             <Col span={6}>
               <span>Tổng tiền</span>
-              <Form.Item noStyle name="totalPrice">
+              <Form.Item name="totalPrice">
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>

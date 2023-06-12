@@ -10,10 +10,13 @@ import PaginationCustom from 'components/PaginationCustom/PaginationCustom';
 import { createQueryUrl } from 'helpers/functions';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Row } from 'antd';
+import { useDispatch } from 'react-redux';
+import { getListBidding } from 'store/slices/biddingSlice';
 
 const BiddingSupply = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
   const { listBidding, urlQueryParams, loading, pagination, handleExcelDownload } = useService();
   // Hàm để đọc dữ liệu từ file Excel
   const handleExcelUpload = (file) => {
@@ -33,14 +36,13 @@ const BiddingSupply = () => {
         brand: r[5],
         country: r[6],
         company: r[7],
-        unitPrice: r[8],
-        yearBidding: r[9],
-        codeBidding: r[10],
-        biddingCount: r[11],
-        buyCount: r[12],
-        remainCount: r[13],
-        biddingPrice: r[14],
-        contract: r[15],
+        yearBidding: r[8],
+        codeBidding: r[9],
+        biddingCount: r[10],
+        buyCount: r[11],
+        remainCount: r[12],
+        biddingPrice: r[13],
+        contract: r[14],
       }));
       const dataSlice = mappingData.slice(1);
 
@@ -52,6 +54,7 @@ const BiddingSupply = () => {
           bidding: chunk,
         });
       }
+      dispatch(getListBidding(urlQueryParams) as any);
     };
     reader.readAsArrayBuffer(file);
   };
@@ -118,11 +121,6 @@ const BiddingSupply = () => {
       width: 200,
     },
     {
-      title: 'Đơn giá',
-      dataIndex: 'unitPrice',
-      width: 200,
-    },
-    {
       title: 'Năm thầu',
       dataIndex: 'yearBidding',
       width: 200,
@@ -186,6 +184,7 @@ const BiddingSupply = () => {
         scroll={{ x: 'max-content', y: '50vh' }}
         loading={loading}
         pagination={false}
+        rowKey="id"
       />
       <Row justify={'center'} style={{ marginTop: '20px' }}>
         <PaginationCustom
