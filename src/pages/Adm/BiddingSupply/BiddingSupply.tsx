@@ -18,10 +18,12 @@ const BiddingSupply = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { listBidding, urlQueryParams, loading, pagination, handleExcelDownload } = useService();
+  const [loadingUpload, setLoadingUpload] = useState(false);
   // Hàm để đọc dữ liệu từ file Excel
   const handleExcelUpload = (file) => {
     const reader = new FileReader();
     reader.onload = async (e) => {
+      setLoadingUpload(true);
       const data = new Uint8Array(e.target?.result as ArrayBufferLike);
       const workbook = XLSX.read(data, { type: 'array' });
       const sheetName = workbook.SheetNames[0];
@@ -54,6 +56,7 @@ const BiddingSupply = () => {
           bidding: chunk,
         });
       }
+      setLoadingUpload(false);
       dispatch(getListBidding(urlQueryParams) as any);
     };
     reader.readAsArrayBuffer(file);
@@ -182,7 +185,7 @@ const BiddingSupply = () => {
         dataSource={listBidding.map((e) => ({ ...e, company: e.company?.name }))}
         size="middle"
         scroll={{ x: 'max-content', y: '50vh' }}
-        loading={loading}
+        loading={loading || loadingUpload}
         pagination={false}
         rowKey="id"
       />
