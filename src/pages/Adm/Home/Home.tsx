@@ -1,6 +1,5 @@
 import { Col, Divider, Row, Table } from 'antd';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
 import s from './Home.module.scss';
 import { ColumnsType } from 'antd/es/table';
 import useService from './service';
@@ -75,7 +74,6 @@ const columns: ColumnsType<DataType> = [
   },
 ];
 export default function Home(props: IHomePageProps) {
-  const [dashboardOverview, setDashboardOverview] = useState<DashboardOverview>({});
   const { dataService } = useService();
   const data: DataType[] = [];
   for (let i = 0; i < 5; i++) {
