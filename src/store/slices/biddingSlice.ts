@@ -21,7 +21,6 @@ export const getListBidding = createAsyncThunk(
   async (params: any, thunkApi) => {
     try {
       const res = await biddingApi.getListBidding(params);
-      toast.success('Cap nhat thongg tin dau thau thanh cong !');
       return res.data;
     } catch (err: any) {
       toast.error(`Co loi xay ra, vui long thu lai`);

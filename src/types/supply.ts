@@ -6,6 +6,7 @@ export type TSupplyResponse = {
   country?: string;
   dateExpired?: string;
   group?: string;
+  isLoss?: boolean;
   id?: number;
   ingredient?: string;
   name?: string;
