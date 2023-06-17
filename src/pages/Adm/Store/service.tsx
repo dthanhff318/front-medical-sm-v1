@@ -6,6 +6,7 @@ import { parseSearchParams } from 'helpers/functions';
 import { useLocation } from 'react-router-dom';
 import storeApi from 'axiosConfig/api/store';
 import { getSupplier } from 'store/slices/supplierSlice';
+import { fetchInfoCommon } from 'store/slices/commonSlice';
 
 type Props = {
   value: string;
@@ -38,7 +39,6 @@ const useService = ({ value }: Props) => {
   useEffect(() => {
     dispatch(getSupplier({ q: search }) as any);
   }, [search]);
-
   useEffect(() => {
     const timeOut = setTimeout(() => {
       setSearch(value);
