@@ -13,6 +13,7 @@ import { Col, Row, Select } from 'antd';
 import { useDispatch } from 'react-redux';
 import { getListBidding } from 'store/slices/biddingSlice';
 import Search from 'antd/es/input/Search';
+import ModalDelete from 'components/CommonModal/ModalDelete';
 type TModal = '' | 'delete' | 'create';
 
 const BiddingSupply = () => {
@@ -171,7 +172,9 @@ const BiddingSupply = () => {
       fixed: 'right',
       render: (_, data) => (
         <div className={s.actionBtn}>
-          <CommonButton danger>Xóa</CommonButton>
+          <CommonButton onClick={()=>{
+            setOpenModal('delete');
+          }} danger>Xóa</CommonButton>
         </div>
       ),
     },
@@ -183,6 +186,16 @@ const BiddingSupply = () => {
 
   return (
     <div className={s.wrapper}>
+      <ModalDelete
+        open={openModal === 'delete'}
+        title="Bạn có chắc muốn xóa vật tư ?"
+        subTitle="Xóa"
+        onCancel={() => setOpenModal('')}
+        onOk={() => {
+          //onDeleteSupplyStore(selectSupply)
+          setOpenModal('');
+        }}
+      />
       <h2 className={s.title}>Danh sách vật tư đầu thầu</h2>
       <Row gutter={[8, 0]} style={{ marginBottom: '20px' }}>
         <Col span={8}>
