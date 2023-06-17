@@ -27,7 +27,7 @@ const ReportExport = () => {
         form={form}
         name="form-add"
       >
-        <Row gutter={[0, 0]}>
+        <Row gutter={[0, 0]} justify="space-around" align="bottom">
           <Col span={12}>
             <span>Chọn thời gian :</span>
             <Form.Item name="totalPrice">
@@ -36,7 +36,9 @@ const ReportExport = () => {
           </Col>
           <Col span={12}>
             <Form.Item>
-              <CommonButton isSubmit={true}>Xem</CommonButton>
+              <CommonButton isSubmit={true}>
+                <strong>Xem</strong>
+              </CommonButton>
             </Form.Item>
           </Col>
 
