@@ -10,17 +10,15 @@ const ReportExport = () => {
   const handleMonthChange = (dates: any) => {
     console.log(dates.map((date) => moment(date).format('DD MM YY')));
   };
-  const handleAddData = (data: any) => {}
+  const handleAddData = (data: any) => {};
   const onChange = (checkedValues: CheckboxValueType[]) => {
     console.log('checked = ', checkedValues);
   };
   return (
     <div className={s.wapper}>
-      <div>
-        
-      </div>
+      <div></div>
       <Col className={s.title} span={24}>
-        Báo cáo xuất kho chi tiết theo khoa phòng
+        <h2>Báo cáo xuất kho chi tiết theo khoa phòng</h2>
       </Col>
       <Form
         initialValues={{ remember: true }}
@@ -31,97 +29,127 @@ const ReportExport = () => {
       >
         <Row gutter={[0, 0]}>
           <Col span={12}>
-            {/* <span>Chọn thời</span> */}
+            <span>Chọn thời gian :</span>
             <Form.Item name="totalPrice">
               <DatePicker.RangePicker format="DD-MM-YYYY" onChange={handleMonthChange} />
             </Form.Item>
-              <Col span={12} className={s.selection_group}>
-                {/* <span>Chọn thời</span> */}
-                  <Form.Item name="radio-group" >
-                    <Checkbox.Group style={{ width: '100%' }} onChange={onChange}>
-                      <Row gutter={[0, 10]}>
-                        <Col span={24}>
-                          <Checkbox value="A">Khoa Nhi</Checkbox>
-                        </Col>
-                        <Col span={24}>
-                          <Checkbox value="B">Khoa cấp cứu</Checkbox>
-                        </Col>
-                        <Col span={24}>
-                          <Checkbox value="C">Khoa thở</Checkbox>
-                        </Col>
-                        <Col span={24}>
-                          <Checkbox value="D">Khoa thanh đần</Checkbox>
-                        </Col>
-                        <Col span={24}>
-                          <Checkbox value="E">Khoa e</Checkbox>
-                        </Col>
-                        
-                      </Row>
-                    </Checkbox.Group>
-                </Form.Item>
-              </Col>
           </Col>
-          <Col span={12} className={s.selection_department}>
-            {/* <span>Chọn khoa ph</span> */}
-            <Form.Item name="radio-group" >
-              <Checkbox.Group style={{ width: '100%' }} onChange={onChange}>
-                <Row gutter={[0, 10]}>
-                  <Col span={24}>
-                    <Checkbox value="A">Khoa Nhi</Checkbox>
-                  </Col>
-                  <Col span={24}>
-                    <Checkbox value="B">Khoa cấp cứu</Checkbox>
-                  </Col>
-                  <Col span={24}>
-                    <Checkbox value="C">Khoa thở</Checkbox>
-                  </Col>
-                  <Col span={24}>
-                    <Checkbox value="D">Khoa thanh đần</Checkbox>
-                  </Col>
-                  <Col span={24}>
-                    <Checkbox value="E">Khoa e</Checkbox>
-                  </Col>
-                  <Col span={24}>
-                    <Checkbox value="A">Khoa Nhi</Checkbox>
-                  </Col>
-                  <Col span={24}>
-                    <Checkbox value="B">Khoa cấp cứu</Checkbox>
-                  </Col>
-                  <Col span={24}>
-                    <Checkbox value="C">Khoa thở</Checkbox>
-                  </Col>
-                  <Col span={24}>
-                    <Checkbox value="D">Khoa thanh đần</Checkbox>
-                  </Col>
-                  <Col span={24}>
-                    <Checkbox value="E">Khoa e</Checkbox>
-                  </Col>
-                  <Col span={24}>
-                    <Checkbox value="A">Khoa Nhi</Checkbox>
-                  </Col>
-                  <Col span={24}>
-                    <Checkbox value="B">Khoa cấp cứu</Checkbox>
-                  </Col>
-                  <Col span={24}>
-                    <Checkbox value="C">Khoa thở</Checkbox>
-                  </Col>
-                  <Col span={24}>
-                    <Checkbox value="D">Khoa thanh đần</Checkbox>
-                  </Col>
-                  <Col span={24}>
-                    <Checkbox value="E">Khoa e</Checkbox>
-                  </Col>
-                </Row>
-              </Checkbox.Group>
+          <Col span={12}>
+            <Form.Item>
+              <CommonButton isSubmit={true}>Xem</CommonButton>
             </Form.Item>
           </Col>
-          <Col span={24}>
-            <div className={s.bottom}>
-              <Form.Item>
-                <CommonButton isSubmit={true}>Xem</CommonButton>
+
+          <Row gutter={[40, 40]}>
+            <Col span={12}>
+              <span className={s.titleCheckbox}>Chọn khoa phòng</span>
+              <Form.Item name="radio-group" className={s.selection_group}>
+                <Checkbox.Group style={{ width: '100%' }} onChange={onChange}>
+                  <Row gutter={[0, 10]}>
+                    <Col span={24}>
+                      <Checkbox value="A">Khoa Nhi</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="B">Khoa cấp cứu</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="C">Khoa thở</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="D">Khoa thanh đần</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="E">Khoa e</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="A">Khoa Nhi</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="B">Khoa cấp cứu</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="C">Khoa thở</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="D">Khoa thanh đần</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="E">Khoa e</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="A">Khoa Nhi</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="B">Khoa cấp cứu</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="C">Khoa thở</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="D">Khoa thanh đần</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="E">Khoa e</Checkbox>
+                    </Col>
+                  </Row>
+                </Checkbox.Group>
               </Form.Item>
-            </div>
-          </Col>
+            </Col>
+            <Col span={12}>
+              <span className={s.titleCheckbox}>Chọn loại vật tư</span>
+              <Form.Item name="radio-group" className={s.selection_department}>
+                <Checkbox.Group style={{ width: '100%' }} onChange={onChange}>
+                  <Row gutter={[0, 10]}>
+                    <Col span={24}>
+                      <Checkbox value="A">Khoa Nhi</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="B">Khoa cấp cứu</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="C">Khoa thở</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="D">Khoa thanh đần</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="E">Khoa e</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="A">Khoa Nhi</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="B">Khoa cấp cứu</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="C">Khoa thở</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="D">Khoa thanh đần</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="E">Khoa e</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="A">Khoa Nhi</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="B">Khoa cấp cứu</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="C">Khoa thở</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="D">Khoa thanh đần</Checkbox>
+                    </Col>
+                    <Col span={24}>
+                      <Checkbox value="E">Khoa e</Checkbox>
+                    </Col>
+                  </Row>
+                </Checkbox.Group>
+              </Form.Item>
+            </Col>
+          </Row>
         </Row>
       </Form>
     </div>

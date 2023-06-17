@@ -1,29 +1,32 @@
-.wapper{
-    width: 90%;
-    height: 84vh;
-    margin: auto auto;
-    padding-top:  0.5rem;
-    padding-left:  2rem;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    .title{
-        line-height: 30px;
-        font-size: 1rem;
-        font-weight: 400;
-        margin-bottom: 0.7rem;
-        //background-color: beige;
-    }
-    .bottom{
-        margin: auto;
-    }
-    .selection_group{
-        overflow: scroll;
-        height: 57vh;
-        margin-bottom: 2px;
-        
-    }
-    .selection_department{
-        overflow: scroll;
-        height: 68vh;
-        margin-bottom: 2px;
-    }
+.wapper {
+  width: 90%;
+  height: 84vh;
+  margin: auto auto;
+  padding-top: 0.5rem;
+  padding-left: 2rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  .title {
+    line-height: 30px;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 0.7rem;
+    //background-color: beige;
+  }
+  .bottom {
+    margin: auto;
+  }
+  .titleCheckbox {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .selection_group {
+    overflow: scroll;
+    height: 60vh;
+    margin-bottom: 2px;
+  }
+  .selection_department {
+    overflow: scroll;
+    height: 60vh;
+    margin-bottom: 2px;
+  }
 }

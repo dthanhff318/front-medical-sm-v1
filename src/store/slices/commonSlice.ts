@@ -4,6 +4,7 @@ import serviceApi from 'axiosConfig/api/service';
 const initialState: any = {
   groups: [],
   units: [],
+  suppliers: [],
 };
 
 export const fetchInfoCommon = createAsyncThunk(
@@ -23,11 +24,12 @@ const commonSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchInfoCommon.fulfilled, (state, action) => {
-      const { groups, inits } = action.payload;
+      const { groups, inits, suppliers } = action.payload;
       return {
         ...state,
         groups,
         inits,
+        suppliers,
       };
     });
   },

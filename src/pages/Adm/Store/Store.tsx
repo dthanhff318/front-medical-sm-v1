@@ -114,9 +114,12 @@ const Store: React.FC = () => {
           >
             Chi tiết
           </CommonButton>
-          <CommonButton danger onClick={() => {
-            setSelectSupply(record.id);
-            setOpenModal('delete');}}
+          <CommonButton
+            danger
+            onClick={() => {
+              setSelectSupply(record.id);
+              setOpenModal('delete');
+            }}
           >
             Xóa
           </CommonButton>
@@ -140,7 +143,7 @@ const Store: React.FC = () => {
         subTitle="Xóa"
         onCancel={() => setOpenModal('')}
         onOk={() => {
-          onDeleteSupplyStore(selectSupply)
+          onDeleteSupplyStore(selectSupply);
           setOpenModal('');
         }}
       />
@@ -151,7 +154,7 @@ const Store: React.FC = () => {
         </Col>
         <Col span={5}>
           <Select
-            placeholder = "Chọn nhà cung cấp"
+            placeholder="Chọn nhà cung cấp"
             style={{ width: '100%' }}
             onChange={()=>{}}
             options={
@@ -164,9 +167,9 @@ const Store: React.FC = () => {
         </Col>
         <Col span={5}>
           <Select
-            placeholder = "Chọn Nhóm vật tư"
+            placeholder="Chọn Nhóm vật tư"
             style={{ width: '100%' }}
-            onChange={()=>{}}
+            onChange={() => {}}
             options={[
               { value: 'jack', label: 'Jack' },
               { value: 'lucy', label: 'Lucy' },
