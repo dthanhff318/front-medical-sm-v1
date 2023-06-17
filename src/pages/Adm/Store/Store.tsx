@@ -21,7 +21,6 @@ const Store: React.FC = () => {
   const [selectSupply, setSelectSupply] = useState<any>();
   const [value, setValue] = useState<string>('');
   const infoSelect = useSelector((state: RootState) => state.common);
-  console.log(infoSelect)
   const {
     stores,
     loading,
@@ -156,9 +155,10 @@ const Store: React.FC = () => {
           <Select
             placeholder="Chọn nhà cung cấp"
             style={{ width: '100%' }}
+            listHeight = {250}
             onChange={()=>{}}
             options={
-              infoSelect.supplier?.map((e)=>({
+              infoSelect.suppliers?.map((e)=>({
                 value: e.id,
                 label: e.name,
               }))
@@ -169,11 +169,14 @@ const Store: React.FC = () => {
           <Select
             placeholder="Chọn Nhóm vật tư"
             style={{ width: '100%' }}
+            listHeight = {250}
             onChange={() => {}}
-            options={[
-              { value: 'jack', label: 'Jack' },
-              { value: 'lucy', label: 'Lucy' },
-            ]}
+            options={
+              infoSelect.groups?.map((e)=>({
+                value: e.id,
+                label: e.name,
+              }))
+            }
           />
         </Col>
         <Col span={5}>

@@ -24,11 +24,11 @@ const commonSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchInfoCommon.fulfilled, (state, action) => {
-      const { groups, inits, suppliers } = action.payload;
+      const { groups, units, suppliers } = action.payload;
       return {
         ...state,
         groups,
-        inits,
+        units,
         suppliers,
       };
     });

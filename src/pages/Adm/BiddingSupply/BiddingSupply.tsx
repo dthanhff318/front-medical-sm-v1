@@ -3,6 +3,7 @@ import * as XLSX from 'xlsx';
 import { Accept, useDropzone } from 'react-dropzone';
 import s from './BiddingSupply.module.scss';
 import Table, { ColumnsType } from 'antd/es/table';
+import { useSelector } from 'react-redux';
 import biddingApi from 'axiosConfig/api/bidding';
 import useService from './service';
 import CommonButton from 'components/CommonButton/CommonButton';
@@ -14,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { getListBidding } from 'store/slices/biddingSlice';
 import Search from 'antd/es/input/Search';
 import ModalDelete from 'components/CommonModal/ModalDelete';
+import { RootState } from 'store';
 type TModal = '' | 'delete' | 'create';
 
 const BiddingSupply = () => {
@@ -23,7 +25,7 @@ const BiddingSupply = () => {
   const { listBidding, urlQueryParams, loading, pagination, handleExcelDownload } = useService();
   const [loadingUpload, setLoadingUpload] = useState(false);
   const [openModal, setOpenModal] = useState<TModal>('');
-
+  const infoSelect = useSelector((state: RootState) => state.common);
   // Hàm để đọc dữ liệu từ file Excel
   const handleExcelUpload = (file) => {
     const reader = new FileReader();
@@ -208,10 +210,12 @@ const BiddingSupply = () => {
             placeholder = "Chọn nhà cung cấp"
             style={{ width: '100%' }}
             onChange={()=>{}}
-            options={[
-              { value: 'jack', label: 'Jack' },
-              { value: 'lucy', label: 'Lucy' },
-            ]}
+            options={
+              infoSelect.suppliers?.map((e)=>({
+                value: e.id,
+                label: e.name,
+              }))
+            }
           />
         </Col>
         <Col span={5}>
@@ -219,10 +223,12 @@ const BiddingSupply = () => {
             placeholder = "Chọn Nhóm vật tư"
             style={{ width: '100%' }}
             onChange={()=>{}}
-            options={[
-              { value: 'jack', label: 'Jack' },
-              { value: 'lucy', label: 'Lucy' },
-            ]}
+            options={
+              infoSelect.groups?.map((e)=>({
+                value: e.id,
+                label: e.name,
+              }))
+            }
           />
         </Col>
         <Col span={5}>
