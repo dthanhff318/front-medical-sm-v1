@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Row, Table } from 'antd';
+import { Col, Row, Table } from 'antd';
 import CommonButton from 'components/CommonButton/CommonButton';
+import Search from 'antd/es/input/Search';
 import ModalDelete from 'components/CommonModal/ModalDelete';
 import styles from './style.module.scss';
 import ModalCreateDepartment from './ModalCreateDepartment';
@@ -63,6 +64,8 @@ const DepartmentManage = () => {
   const onChangePage = (page: number, limit: number) => {
     navigate(createQueryUrl(location, { ...urlQueryParams, page, limit }));
   };
+  const onSearch = (value: string) => {
+  };
   const departmentListMapping =
     departmentList.map((d) => ({
       ...d,
@@ -88,9 +91,17 @@ const DepartmentManage = () => {
       />
       <div className={styles.wrapper}>
         <h2 className={styles.title}>Quản lý khoa phòng</h2>
-        <div className={styles.groupBtn}>
+        <Row gutter={[8, 0]} justify = 'space-between'style={{ marginBottom: '20px' }}>
+          <Col span={8}>
+            <Search placeholder="Nhập tên vật tư" onSearch={onSearch} style={{ width: '100%' }} />
+          </Col>
+          <Col span={4}>
+            <CommonButton onClick={() => setOpenModal('create')}>Thêm mới khoa phòng</CommonButton>
+          </Col>
+        </Row>
+        {/* <div className={styles.groupBtn}>
           <CommonButton onClick={() => setOpenModal('create')}>Them moi khoa phong</CommonButton>
-        </div>
+        </div> */}
         <Table dataSource={departmentListMapping} columns={columns} pagination={false} />
         <Row justify={'center'} style={{ marginTop: '20px' }}>
           <PaginationCustom

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, Row, Table } from 'antd';
+import { Col, Row, Select, Table } from 'antd';
 import styles from './style.module.scss';
 import Search from 'antd/es/input/Search';
 import useService from './service';
@@ -8,15 +8,16 @@ import PaginationCustom from 'components/PaginationCustom/PaginationCustom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { createQueryUrl } from 'helpers/functions';
 import ModalDetailStore from './ModalDetailStore';
-type TModal = '' | 'create';
+import ModalDelete from 'components/CommonModal/ModalDelete';
+type TModal = '' | 'delete' | 'create';
 
 const Store: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [openModal, setOpenModal] = useState<TModal>('');
   const [itemSupply, setItemSupply] = useState<any>({});
+  const [selectSupply, setSelectSupply] = useState<any>();
   const [value, setValue] = useState<string>('');
-
   const {
     stores,
     loading,
@@ -104,9 +105,13 @@ const Store: React.FC = () => {
           >
             Chi tiết
           </CommonButton>
-          <CommonButton danger onClick={() => onDeleteSupplyStore(record.id)}>
+          <CommonButton danger onClick={() => {
+            setSelectSupply(record.id);
+            setOpenModal('delete');}}
+          >
             Xóa
           </CommonButton>
+          {/* onDeleteSupplyStore(record.id) */}
         </div>
       ),
     },
@@ -120,10 +125,45 @@ const Store: React.FC = () => {
   };
   return (
     <div className={styles.wapper}>
+      <ModalDelete
+        open={openModal === 'delete'}
+        title="Bạn có chắc muốn xóa vật tư ?"
+        subTitle="Xóa"
+        onCancel={() => setOpenModal('')}
+        onOk={() => {
+          onDeleteSupplyStore(selectSupply)
+          setOpenModal('');
+        }}
+      />
       <h2 className={styles.title}>Tổng kho</h2>
       <Row gutter={[8, 0]} style={{ marginBottom: '20px' }}>
         <Col span={8}>
           <Search placeholder="Nhập tên vật tư" onSearch={onSearch} style={{ width: '100%' }} />
+        </Col>
+        <Col span={5}>
+          <Select
+            placeholder = "Chọn nhà cung cấp"
+            style={{ width: '100%' }}
+            onChange={()=>{}}
+            options={[
+              { value: 'jack', label: 'Jack' },
+              { value: 'lucy', label: 'Lucy' },
+            ]}
+          />
+        </Col>
+        <Col span={5}>
+          <Select
+            placeholder = "Chọn Nhóm vật tư"
+            style={{ width: '100%' }}
+            onChange={()=>{}}
+            options={[
+              { value: 'jack', label: 'Jack' },
+              { value: 'lucy', label: 'Lucy' },
+            ]}
+          />
+        </Col>
+        <Col span={5}>
+          <CommonButton onClick={() => setOpenModal('create')}>Tìm kiếm</CommonButton>
         </Col>
       </Row>
       <ModalDetailStore
