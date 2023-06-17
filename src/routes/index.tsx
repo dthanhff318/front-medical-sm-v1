@@ -19,6 +19,7 @@ import DetailTicket from 'pages/Adm/DetailTicket/DetailTicket';
 import TicketHistory from 'pages/User/TicketHistory/TicketHistory';
 import TicketHistoryDetail from 'pages/User/TicketHistoryDetail/TicketHistoryDetail';
 import { ERole } from 'enums';
+import ReportExport from 'pages/Adm/Report/ReportExport/ReportExport';
 
 export const routers: any = [
   {
@@ -107,6 +108,16 @@ export const routers: any = [
     element: <SupplierDetail />,
     public: false,
     path: MPath.ADM_SUPPLIER_DETAIL,
+    role: [ERole.Admin],
+    exact: true,
+  },
+
+  //report
+  {
+    name: 'ReportExport',
+    element: <ReportExport />,
+    public: false,
+    path: MPath.ADM_REPORT_EXPORT,
     role: [ERole.Admin],
     exact: true,
   },

@@ -11,6 +11,7 @@ const MPath = {
   ADM_DEPARTMENT_DETAIL: '/adm/department/:id',
   ADM_LIST_TICKET: '/adm/ticket',
   ADM_DETAIL_TICKET: '/adm/ticket/:id',
+  ADM_REPORT_EXPORT: '/adm/report/export',
   // User
   USER_HOME: '/',
   USER_PLAN: '/plan',

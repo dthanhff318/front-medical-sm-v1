@@ -57,15 +57,17 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       label: <Link to={MPath.ADM_BIDDING}>Cập nhật đấu thầu</Link>,
     },
     {
+      id: 3,
+      icon: SnippetsOutlined,
+      label: <Link to={MPath.ADM_DEPOT}>Tổng kho</Link>,
+    },
+    {
       id: 4,
       icon: SnippetsOutlined,
       label: 'Báo cáo',
       children: [
         {
-          label: <Link to={MPath.ADM_DEPOT}>Tổng kho</Link>,
-        },
-        {
-          label: <Link to={MPath.ADM_ADD_SUPPLY}>Công nợ</Link>,
+          label: <Link to={MPath.ADM_REPORT_EXPORT}>Xuất kho theo khoa phòng</Link>,
         },
       ],
     },
