@@ -9,9 +9,11 @@ import CommonButton from 'components/CommonButton/CommonButton';
 import PaginationCustom from 'components/PaginationCustom/PaginationCustom';
 import { createQueryUrl } from 'helpers/functions';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Row } from 'antd';
+import { Col, Row, Select } from 'antd';
 import { useDispatch } from 'react-redux';
 import { getListBidding } from 'store/slices/biddingSlice';
+import Search from 'antd/es/input/Search';
+type TModal = '' | 'delete' | 'create';
 
 const BiddingSupply = () => {
   const navigate = useNavigate();
@@ -19,6 +21,8 @@ const BiddingSupply = () => {
   const dispatch = useDispatch();
   const { listBidding, urlQueryParams, loading, pagination, handleExcelDownload } = useService();
   const [loadingUpload, setLoadingUpload] = useState(false);
+  const [openModal, setOpenModal] = useState<TModal>('');
+
   // Hàm để đọc dữ liệu từ file Excel
   const handleExcelUpload = (file) => {
     const reader = new FileReader();
@@ -72,7 +76,8 @@ const BiddingSupply = () => {
       handleExcelUpload(acceptedFiles[0]);
     },
   });
-
+  const onSearch = (value: string) => {
+  };
   const columns: any = [
     {
       title: 'ID ',
@@ -181,6 +186,36 @@ const BiddingSupply = () => {
   return (
     <div className={s.wrapper}>
       <h2 className={s.title}>Danh sách vật tư đầu thầu</h2>
+      <Row gutter={[8, 0]} style={{ marginBottom: '20px' }}>
+        <Col span={8}>
+          <Search placeholder="Nhập tên vật tư" onSearch={onSearch} style={{ width: '100%' }} />
+        </Col>
+        <Col span={5}>
+          <Select
+            placeholder = "Chọn nhà cung cấp"
+            style={{ width: '100%' }}
+            onChange={()=>{}}
+            options={[
+              { value: 'jack', label: 'Jack' },
+              { value: 'lucy', label: 'Lucy' },
+            ]}
+          />
+        </Col>
+        <Col span={5}>
+          <Select
+            placeholder = "Chọn Nhóm vật tư"
+            style={{ width: '100%' }}
+            onChange={()=>{}}
+            options={[
+              { value: 'jack', label: 'Jack' },
+              { value: 'lucy', label: 'Lucy' },
+            ]}
+          />
+        </Col>
+        <Col span={5}>
+          <CommonButton onClick={() => setOpenModal('create')}>Tìm kiếm</CommonButton>
+        </Col>
+      </Row>
       <Table
         bordered
         columns={columns}

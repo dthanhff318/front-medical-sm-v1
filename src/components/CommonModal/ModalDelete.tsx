@@ -20,9 +20,9 @@ const ModalDelete = ({ title, subTitle, open, onOk, onCancel }: Props) => {
       onCancel={onCancel}
       footer={
         <div className={styles.footer}>
-          <CommonButton onClick={onCancel}>Huy</CommonButton>
+          <CommonButton onClick={onCancel}>Hủy</CommonButton>
           <CommonButton danger onClick={onOk}>
-            Xoa
+            Xóa
           </CommonButton>
         </div>
       }
