@@ -48,6 +48,7 @@ const AddSupply: React.FC = () => {
       ingredient: supply.ingredient,
       code: supply.code,
       group: supply.group,
+      isLoss: supply.isLoss ? 'Có' : 'Không',
       brand: supply.brand,
       company: supply.company,
       country: supply.country,
@@ -72,6 +73,7 @@ const AddSupply: React.FC = () => {
     const price = form.getFieldValue('price');
     const productCode = form.getFieldValue('productCode');
     const convertDate = dateExp ? moment(dateExp.$d).format('MMM Do YY') : '';
+    const isLoss = form.getFieldValue('isLoss') === 'Có' ? true : false;
 
     const checkExist = dataAdd.find((d) => d.name === selectSupply.name);
     if (checkExist) {
@@ -83,7 +85,14 @@ const AddSupply: React.FC = () => {
     }
     setDataAdd([
       ...dataAdd,
-      { ...data, name: selectSupply.name, dateExpired: convertDate, unitPrice: price, productCode },
+      {
+        ...data,
+        name: selectSupply.name,
+        dateExpired: convertDate,
+        unitPrice: price,
+        productCode,
+        isLoss,
+      },
     ]);
   };
 
@@ -125,6 +134,11 @@ const AddSupply: React.FC = () => {
       title: 'Nhóm',
       dataIndex: 'group',
       width: 250,
+    },
+    {
+      title: 'Hao phí',
+      dataIndex: 'isLoss',
+      width: 100,
     },
     {
       title: 'Tên hãng',
@@ -277,9 +291,21 @@ const AddSupply: React.FC = () => {
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
+            <Col span={3}>
+              <span>Mã</span>
+              <Form.Item name="code">
+                <Input style={{ marginBottom: '10px' }} readOnly />
+              </Form.Item>
+            </Col>
             <Col span={6}>
               <span>Nhóm</span>
               <Form.Item name="group">
+                <Input style={{ marginBottom: '10px' }} readOnly />
+              </Form.Item>
+            </Col>
+            <Col span={4}>
+              <span>Hao phí</span>
+              <Form.Item name="isLoss">
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
@@ -289,18 +315,13 @@ const AddSupply: React.FC = () => {
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
-            <Col span={6}>
+            <Col span={5}>
               <span>Nước SX</span>
               <Form.Item name="country">
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>
-            <Col span={4}>
-              <span>Mã</span>
-              <Form.Item name="code">
-                <Input style={{ marginBottom: '10px' }} readOnly />
-              </Form.Item>
-            </Col>
+
             <Col span={4}>
               <span>Số lượng</span>
               <Form.Item name="quantity" rules={rulesValidate}>

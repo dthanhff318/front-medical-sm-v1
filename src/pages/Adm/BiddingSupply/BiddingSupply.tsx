@@ -35,17 +35,19 @@ const BiddingSupply = () => {
         ingredient: r[2],
         unit: r[3],
         group: r[4],
-        brand: r[5],
-        country: r[6],
-        company: r[7],
-        yearBidding: r[8],
-        codeBidding: r[9],
-        biddingCount: r[10],
-        buyCount: r[11],
-        remainCount: r[12],
-        biddingPrice: r[13],
-        contract: r[14],
+        isLoss: r[5] === 'Có' ? true : false,
+        brand: r[6],
+        country: r[7],
+        company: r[8],
+        yearBidding: r[9],
+        codeBidding: r[10],
+        biddingCount: r[11],
+        buyCount: r[12],
+        remainCount: r[13],
+        biddingPrice: r[14],
+        contract: r[15],
       }));
+
       const dataSlice = mappingData.slice(1);
 
       const chunkSize = 50;
@@ -79,11 +81,6 @@ const BiddingSupply = () => {
       fixed: 'left',
     },
     {
-      title: 'Mã TT',
-      dataIndex: 'codett',
-      width: 100,
-    },
-    {
       title: 'Mã',
       dataIndex: 'code',
       width: 100,
@@ -107,6 +104,11 @@ const BiddingSupply = () => {
       title: 'Nhóm',
       dataIndex: 'group',
       width: 200,
+    },
+    {
+      title: 'Hao phí',
+      dataIndex: 'isLoss',
+      width: 100,
     },
     {
       title: 'Tên hãng',
@@ -182,7 +184,11 @@ const BiddingSupply = () => {
       <Table
         bordered
         columns={columns}
-        dataSource={listBidding.map((e) => ({ ...e, company: e.company?.name }))}
+        dataSource={listBidding.map((e) => ({
+          ...e,
+          company: e.company?.name,
+          isLoss: e.isLoss ? 'Có' : 'Không',
+        }))}
         size="middle"
         scroll={{ x: 'max-content', y: '50vh' }}
         loading={loading || loadingUpload}

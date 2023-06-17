@@ -13,18 +13,6 @@ import MPath from 'routes/routes';
 type TModal = '' | 'delete' | 'create';
 const AccountManage = () => {
   const navigate = useNavigate();
-  const dataSource = [
-    {
-      key: '1',
-      name: 'Mike',
-      department: 'Khoa nhi',
-    },
-    {
-      key: '2',
-      name: 'John',
-      department: 'Khoa san',
-    },
-  ];
 
   const columns = [
     {

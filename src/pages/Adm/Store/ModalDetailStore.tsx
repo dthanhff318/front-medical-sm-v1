@@ -26,6 +26,11 @@ const ModalCreateDepartment = ({
 }: Props) => {
   const [form] = useForm();
   const { suppliers } = useSelector((state: RootState) => state.supplier);
+
+  const lossSelect = [
+    { label: 'Có', value: true },
+    { label: 'Không', value: false },
+  ];
   const values = {
     name: itemSupply.name,
     brand: itemSupply.brand,
@@ -35,6 +40,7 @@ const ModalCreateDepartment = ({
     country: itemSupply.country,
     dateExpired: itemSupply.dateExpired,
     group: itemSupply.group,
+    isLoss: itemSupply.isLoss,
     ingredient: itemSupply.ingredient,
     productCode: itemSupply.productCode,
     quantity: itemSupply.quantity,
@@ -60,7 +66,7 @@ const ModalCreateDepartment = ({
           autoComplete="off"
           form={form}
         >
-          <Row justify="space-between">
+          <Row justify="space-between" gutter={[8, 0]}>
             <Col span={24}>
               <span>Tên vật tư</span>
               <Form.Item
@@ -70,7 +76,7 @@ const ModalCreateDepartment = ({
                 <Input />
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col span={8}>
               <span>Hoạt chất</span>
               <Form.Item
                 name="ingredient"
@@ -79,13 +85,29 @@ const ModalCreateDepartment = ({
                 <Input />
               </Form.Item>
             </Col>
-            <Col span={11}>
+            <Col span={8}>
               <span>Nhóm</span>
               <Form.Item
                 name="group"
                 rules={[{ required: true, message: 'Vui long dien ten khoa phong!' }]}
               >
                 <Input />
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <span>Hao phí</span>
+              <Form.Item
+                name="isLoss"
+                rules={[{ required: true, message: 'Vui long dien ten khoa phong!' }]}
+              >
+                <Select
+                  placeholder="Chọn mức hao phí"
+                  style={{ width: '100%' }}
+                  defaultActiveFirstOption={false}
+                  showArrow={true}
+                  filterOption={false}
+                  options={lossSelect}
+                />
               </Form.Item>
             </Col>
             <Col span={12}>

@@ -4,6 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { logout } from 'store/slices/authSlice';
+import { fetchInfoCommon } from 'store/slices/commonSlice';
 import { getNotis, setDataFetch } from 'store/slices/noti';
 
 const useService = () => {
@@ -44,6 +45,9 @@ const useService = () => {
     }
   }, [inView, id]);
 
+  useEffect(() => {
+    dispatch(fetchInfoCommon({}) as any);
+  }, []);
   return {
     onLogout,
     role,

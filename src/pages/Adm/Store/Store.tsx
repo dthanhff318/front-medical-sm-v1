@@ -54,6 +54,11 @@ const Store: React.FC = () => {
       width: 250,
     },
     {
+      title: 'Hao phí',
+      dataIndex: 'isLoss',
+      width: 100,
+    },
+    {
       title: 'Tên hãng',
       dataIndex: 'brand',
       width: 200,
@@ -137,7 +142,11 @@ const Store: React.FC = () => {
       <Table
         columns={columns}
         loading={loading}
-        dataSource={stores.map((e) => ({ ...e, company: e.company.name }))}
+        dataSource={stores.map((e) => ({
+          ...e,
+          company: e.company.name,
+          isLoss: e.isLoss ? 'Có' : 'Không',
+        }))}
         size="middle"
         scroll={{ x: 'max-content', y: '60vh' }}
         rowKey="id"
