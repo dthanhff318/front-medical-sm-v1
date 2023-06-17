@@ -1,89 +1,92 @@
-import { Col, Divider, Row, Table } from 'antd';
+import { Col, Divider, Row, Select, Table } from 'antd';
 import * as React from 'react';
 import s from './Home.module.scss';
 import { ColumnsType } from 'antd/es/table';
 import useService from './service';
+import { useState } from 'react';
 export interface IHomePageProps {}
 type DashboardOverview = {
   totalDepartment?: number;
   totalSupplier?: number;
   totalSupply?: number;
 };
-interface DataType {
-  key: React.Key;
-  name: string;
-  age: number;
-  address: string;
-}
-const columns: ColumnsType<DataType> = [
+const columns: any = [
   {
     title: 'Mã',
-    width: 60,
+    dataIndex: 'code',
+    width: 100,
+  },
+  {
+    title: 'Tên',
     dataIndex: 'name',
-    key: 'name',
-    fixed: 'left',
+    width: 250,
   },
   {
-    title: 'Tên vật tư',
+    title: 'Hoạt chất',
+    dataIndex: 'ingredient',
+    width: 300,
+  },
+  {
+    title: 'ĐVT',
+    dataIndex: 'unit',
+    width: 100,
+  },
+  {
+    title: 'Nhóm',
+    dataIndex: 'group',
     width: 200,
-    dataIndex: 'age',
-    key: 'age',
   },
   {
-    title: 'Đơn vị',
-    dataIndex: 'address',
-    key: '1',
+    title: 'Tên hãng',
+    dataIndex: 'brand',
+    width: 200,
+  },
+  {
+    title: 'Tên nước',
+    dataIndex: 'country',
+    width: 200,
+  },
+  {
+    title: 'Hạn sử dụng',
+    dataIndex: 'dateExpired',
     width: 150,
   },
   {
     title: 'Lô SX',
-    dataIndex: 'address',
-    key: '2',
+    dataIndex: 'productCode',
     width: 150,
   },
   {
-    title: 'Ngày hết hạn',
-    dataIndex: 'address',
-    key: '3',
-    width: 150,
+    title: 'NSX',
+    dataIndex: 'company',
+    width: 200,
+  },
+  {
+    title: 'Năm thầu',
+    dataIndex: 'yearBidding',
+    width: 200,
+  },
+  {
+    title: 'Mã thầu',
+    dataIndex: 'codeBidding',
+    width: 200,
   },
   {
     title: 'Số lượng',
-    dataIndex: 'address',
-    key: '4',
-    width: 150,
-  },
-  {
-    title: 'Đơn giá',
-    dataIndex: 'address',
-    key: '5',
-    width: 150,
-  },
-  {
-    title: 'Số tiền',
-    dataIndex: 'address',
-    key: '6',
-    width: 150,
-  },
-  { title: 'Column 8', dataIndex: 'address', key: '8' },
-  {
-    title: 'Action',
-    key: 'operation',
+    dataIndex: 'quantity',
     width: 100,
-    render: () => <a>action</a>,
   },
 ];
 export default function Home(props: IHomePageProps) {
   const { dataService } = useService();
-  const data: DataType[] = [];
-  for (let i = 0; i < 5; i++) {
-    data.push({
-      key: i,
-      name: ` ${i}`,
-      age: 32,
-      address: `London Park no. ${i}`,
-    });
-  }
+  const [dateExpired, setDateExpired] = useState('30');
+  // const data = [];
+  const data = dataService.listSuppliesExpired?.map((list) => {
+    return({...list});
+  });
+  const handleChange = (value: string) => {
+    setDateExpired(value);
+  };
   return (
     <>
       <Divider style={{ fontSize: '24px', fontWeight: '600', marginTop: '0' }} orientation="center">
@@ -131,9 +134,21 @@ export default function Home(props: IHomePageProps) {
           </Row>
         </Col>
         <Col span={24} className={s.tabledate}>
-          <Row justify="center" gutter={[8, 0]}>
-            <Col className={s.title} span={23}>
-              Những vật tư sắp hết hạn trong tháng 6 năm 2023
+          <Row justify='center' gutter={[8, 0]}>
+            <Col style={{paddingLeft: '30px'}} span={8}>
+              <Select
+                defaultValue="30"
+                style={{ width: 120 }}
+                onChange={handleChange}
+                options={[
+                  { value: 30, label: '30' },
+                  { value: 60, label: '60' },
+                  { value: 90, label: '90' },
+                ]}
+              />
+            </Col>
+            <Col className={s.title} span={16}>
+              Những vật tư sắp hết hạn trong {dateExpired} ngày
             </Col>
             <Col span={23}>
               <Table
