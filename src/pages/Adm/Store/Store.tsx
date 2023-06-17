@@ -9,6 +9,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { createQueryUrl } from 'helpers/functions';
 import ModalDetailStore from './ModalDetailStore';
 import ModalDelete from 'components/CommonModal/ModalDelete';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
 type TModal = '' | 'delete' | 'create';
 
 const Store: React.FC = () => {
@@ -18,6 +20,8 @@ const Store: React.FC = () => {
   const [itemSupply, setItemSupply] = useState<any>({});
   const [selectSupply, setSelectSupply] = useState<any>();
   const [value, setValue] = useState<string>('');
+  const infoSelect = useSelector((state: RootState) => state.common);
+  console.log(infoSelect)
   const {
     stores,
     loading,
@@ -150,10 +154,12 @@ const Store: React.FC = () => {
             placeholder = "Chọn nhà cung cấp"
             style={{ width: '100%' }}
             onChange={()=>{}}
-            options={[
-              { value: 'jack', label: 'Jack' },
-              { value: 'lucy', label: 'Lucy' },
-            ]}
+            options={
+              infoSelect.supplier?.map((e)=>({
+                value: e.id,
+                label: e.name,
+              }))
+            }
           />
         </Col>
         <Col span={5}>
