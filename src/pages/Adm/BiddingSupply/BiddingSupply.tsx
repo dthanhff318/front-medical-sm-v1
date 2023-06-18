@@ -28,6 +28,7 @@ const BiddingSupply = () => {
   const [loadingUpload, setLoadingUpload] = useState(false);
   const [openModal, setOpenModal] = useState<TModal>('');
   const infoSelect = useSelector((state: RootState) => state.common);
+  console.log(listBidding);
   // Hàm để đọc dữ liệu từ file Excel
   const handleExcelUpload = (file) => {
     const reader = new FileReader();
@@ -255,6 +256,9 @@ const BiddingSupply = () => {
         dataSource={listBidding.map((e) => ({
           ...e,
           company: e.company?.name,
+          unit: e.unit?.name,
+          group: e.group?.name,
+
           isLoss: e.isLoss ? 'Có' : 'Không',
         }))}
         size="middle"
