@@ -15,7 +15,6 @@ type Props = {
   setValueSearch: (e: string) => void;
   handleUpdateSupplyStore: (data: any) => void;
 };
-
 const ModalCreateDepartment = ({
   itemSupply,
   open,
@@ -26,6 +25,7 @@ const ModalCreateDepartment = ({
 }: Props) => {
   const [form] = useForm();
   const { suppliers } = useSelector((state: RootState) => state.supplier);
+  console.log(itemSupply)
 
   const lossSelect = [
     { label: 'Có', value: true },
@@ -39,12 +39,12 @@ const ModalCreateDepartment = ({
     company: itemSupply.company?.id,
     country: itemSupply.country,
     dateExpired: itemSupply.dateExpired,
-    group: itemSupply.group,
+    group: itemSupply.group?.name,
     isLoss: itemSupply.isLoss,
     ingredient: itemSupply.ingredient,
     productCode: itemSupply.productCode,
     quantity: itemSupply.quantity,
-    unit: itemSupply.unit,
+    unit: itemSupply.unit?.name,
     yearBidding: itemSupply.yearBidding,
   };
   form.setFieldsValue(values);
@@ -115,7 +115,7 @@ const ModalCreateDepartment = ({
               <Form.Item
                 noStyle
                 name="company"
-                rules={[{ required: true, message: 'Vui long chọn nhà cung cấp' }]}
+                rules={[{ required: true, message: 'Vui lòng chọn nhà cung cấp!' }]}
               >
                 <Select
                   showSearch

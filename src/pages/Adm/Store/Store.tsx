@@ -30,11 +30,11 @@ const Store: React.FC = () => {
     handleUpdateSupplyStore,
     onDeleteSupplyStore,
   } = useService({ value });
+  console.log(stores)
   const [form] = Form.useForm();
   const onSearch = (value: string) => {
     getStore({ q: value });
   };
-
   const columns: any = [
     {
       title: 'Tên vật tư',
@@ -155,12 +155,12 @@ const Store: React.FC = () => {
       >
       <Row gutter={[8, 0]} style={{ marginBottom: '20px' }}>
           <Col span={8}>
-            <Form.Item name="name" rules={[{ required: true }]}>
+            <Form.Item name="name" rules={[{ required: false }]}>
                 <Input placeholder="Nhập tên vật tư" style={{ width: '100%' }} />
             </Form.Item>
           </Col>
           <Col span={5}>
-            <Form.Item name="supplier" rules={[{ required: true }]}>
+            <Form.Item name="supplier" rules={[{ required: false }]}>
                 <Select 
                   placeholder="Chọn nhà cung cấp"
                   style={{ width: '100%' }}
@@ -174,7 +174,7 @@ const Store: React.FC = () => {
             </Form.Item>
           </Col>
           <Col span={5}>
-            <Form.Item name="group" rules={[{ required: true }]}>
+            <Form.Item name="group" rules={[{ required: false }]}>
                 <Select 
                   placeholder="Chọn nhà cung cấp"
                   style={{ width: '100%' }}
@@ -206,6 +206,8 @@ const Store: React.FC = () => {
         loading={loading}
         dataSource={stores.map((e) => ({
           ...e,
+          group: e.group.name,
+          unit: e.unit.name,
           company: e.company.name,
           isLoss: e.isLoss ? 'Có' : 'Không',
         }))}
