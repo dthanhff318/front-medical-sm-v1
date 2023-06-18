@@ -4,8 +4,18 @@ import CommonButton from 'components/CommonButton/CommonButton';
 import ModalDelete from 'components/CommonModal/ModalDelete';
 import styles from './Group.module.scss';
 import Search from 'antd/es/input/Search';
+import useService from './service';
 type TModal = '' | 'delete' | 'create';
 const Group = () => {
+  const { groupState, handleDeleteGroup } = useService();
+  const [selectGroup, setSelectGroup] = useState<number>(-1);
+
+  const { groups, pagination } = groupState;
+  const groupListMapping =
+    groups.map((d) => ({
+      ...d,
+      key: d?.id,
+    })) ?? [];
   const columns = [
     {
       title: 'ID',
@@ -29,6 +39,7 @@ const Group = () => {
             danger
             onClick={() => {
               console.log(d);
+              setSelectGroup(d.id);
               setOpenModal('delete');
             }}
           >
@@ -50,7 +61,7 @@ const Group = () => {
         subTitle="Xoa"
         onCancel={() => setOpenModal('')}
         onOk={() => {
-          //handleDeleteSupplier(selectSupplier);
+          handleDeleteGroup(selectGroup);
           setOpenModal('');
         }}
       />
@@ -69,7 +80,7 @@ const Group = () => {
             <CommonButton onClick={() => setOpenModal('create')}>Thêm mới nhóm</CommonButton>
           </Col>
         </Row>
-        <Table dataSource={[]} columns={columns} />
+        <Table dataSource={groupListMapping} columns={columns} />
       </div>
     </>
   );

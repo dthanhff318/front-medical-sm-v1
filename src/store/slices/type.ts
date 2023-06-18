@@ -101,3 +101,15 @@ export type TInitNotiState = {
   };
   numberSeen: number;
 };
+//unit
+export type TInitUnitState = {
+  units: Array<any>;
+  loading: boolean;
+  pagination: TPagination;
+};
+//group
+export type TInitGroupState = {
+  groups: Array<any>;
+  loading: boolean;
+  pagination: TPagination;
+};

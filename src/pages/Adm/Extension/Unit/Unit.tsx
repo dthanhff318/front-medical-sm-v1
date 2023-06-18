@@ -4,8 +4,18 @@ import CommonButton from 'components/CommonButton/CommonButton';
 import ModalDelete from 'components/CommonModal/ModalDelete';
 import styles from './Unit.module.scss';
 import Search from 'antd/es/input/Search';
+import useService from './service';
 type TModal = '' | 'delete' | 'create';
 const Unit = () => {
+  const { unitState, handleDeleteUnit } = useService();
+  const [selectUnit, setSelectUnit] = useState<number>(-1);
+
+  const { units, pagination } = unitState;
+  const unitListMapping =
+    units.map((d) => ({
+      ...d,
+      key: d?.id,
+    })) ?? [];
   const columns = [
     {
       title: 'ID',
@@ -17,7 +27,7 @@ const Unit = () => {
       title: 'Tên đơn vị',
       dataIndex: 'name',
       key: 'name',
-      width: '70%',
+      width: '80%',
     },
     {
       title: '',
@@ -29,6 +39,7 @@ const Unit = () => {
             danger
             onClick={() => {
               console.log(d);
+              setSelectUnit(d.id);
               setOpenModal('delete');
             }}
           >
@@ -50,7 +61,7 @@ const Unit = () => {
         subTitle="Xoa"
         onCancel={() => setOpenModal('')}
         onOk={() => {
-          //handleDeleteSupplier(selectSupplier);
+          handleDeleteUnit(selectUnit);
           setOpenModal('');
         }}
       />
@@ -69,7 +80,7 @@ const Unit = () => {
             <CommonButton onClick={() => setOpenModal('create')}>Thêm mới đơn vị</CommonButton>
           </Col>
         </Row>
-        <Table dataSource={[]} columns={columns} />
+        <Table dataSource={unitListMapping} columns={columns} />
       </div>
     </>
   );

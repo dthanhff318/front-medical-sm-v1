@@ -7,6 +7,8 @@ import { storeReducer } from './slices/storeSlice';
 import { planReducer } from './slices/planSlice';
 import { notiReducer } from './slices/noti';
 import { commonReducer } from './slices/commonSlice';
+import { unitReducer } from './slices/unitSlice';
+import { groupReducer } from './slices/groupSlice';
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +20,9 @@ export const store = configureStore({
     plan: planReducer,
     noti: notiReducer,
     common: commonReducer,
+    unit: unitReducer,
+    group: groupReducer,
+
   },
 });
 
