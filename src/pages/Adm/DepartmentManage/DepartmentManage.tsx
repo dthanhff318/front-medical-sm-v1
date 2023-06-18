@@ -21,13 +21,13 @@ const DepartmentManage = () => {
       width: '10%',
     },
     {
-      title: 'Ten khoa phong',
+      title: 'Tên khoa phòng',
       dataIndex: 'name',
       key: 'name',
       width: '40%',
     },
     {
-      title: 'Truong khoa',
+      title: 'Trưởng khoa',
       dataIndex: 'owner',
       width: '30%',
       key: 'owner',
@@ -93,7 +93,7 @@ const DepartmentManage = () => {
         <h2 className={styles.title}>Quản lý khoa phòng</h2>
         <Row gutter={[8, 0]} justify = 'space-between'style={{ marginBottom: '20px' }}>
           <Col span={8}>
-            <Search placeholder="Nhập tên vật tư" onSearch={onSearch} style={{ width: '100%' }} />
+            <Search placeholder="Nhập tên khoa phòng" onSearch={onSearch} style={{ width: '100%' }} />
           </Col>
           <Col span={4}>
             <CommonButton onClick={() => setOpenModal('create')}>Thêm mới khoa phòng</CommonButton>
