@@ -21,10 +21,8 @@ const { Option } = Select;
 const BiddingSupply = () => {
   const [form] = Form.useForm();
 
-  const navigate = useNavigate();
-  const location = useLocation();
   const dispatch = useDispatch();
-  const { listBidding, urlQueryParams, loading, pagination, handleExcelDownload } = useService();
+  const { listBidding, loading, pagination, handleExcelDownload } = useService();
   const [loadingUpload, setLoadingUpload] = useState(false);
   const [openModal, setOpenModal] = useState<TModal>('');
 
@@ -76,7 +74,7 @@ const BiddingSupply = () => {
         });
       }
       setLoadingUpload(false);
-      dispatch(getListBidding(urlQueryParams) as any);
+      dispatch(getListBidding({}) as any);
     };
     reader.readAsArrayBuffer(file);
   };

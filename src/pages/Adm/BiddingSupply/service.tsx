@@ -4,13 +4,11 @@ import { RootState } from 'store';
 import * as XLSX from 'xlsx';
 
 import { getListBidding } from 'store/slices/biddingSlice';
-import { parseSearchParams } from 'helpers/functions';
 import { useLocation } from 'react-router-dom';
 
 const useService = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const urlQueryParams = parseSearchParams(location.search);
 
   const { listBidding, loading, pagination } = useSelector((state: RootState) => state.bidding);
 
@@ -40,7 +38,6 @@ const useService = () => {
   return {
     listBidding,
     loading,
-    urlQueryParams,
     pagination,
     handleExcelDownload,
   };
