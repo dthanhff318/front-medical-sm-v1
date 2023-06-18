@@ -18,7 +18,7 @@ const Supplier = () => {
       width: '10%',
     },
     {
-      title: 'Tên Khoa phòng',
+      title: 'Tên Nhà Cung Cấp',
       dataIndex: 'name',
       key: 'name',
       width: '70%',
@@ -35,7 +35,6 @@ const Supplier = () => {
           <CommonButton
             danger
             onClick={() => {
-              console.log(d);
               setSelectSupplier(d.id);
               setOpenModal('delete');
             }}
@@ -49,8 +48,7 @@ const Supplier = () => {
   const [openModal, setOpenModal] = useState<TModal>('');
   const [selectSupplier, setSelectSupplier] = useState<number>(-1);
   const { supplierState, handleDeleteSupplier } = useService();
-  const onSearch = (value: string) => {
-  };
+  const onSearch = (value: string) => {};
   const { suppliers, pagination } = supplierState;
   const supplierListMapping =
     suppliers.map((d) => ({
@@ -77,17 +75,16 @@ const Supplier = () => {
       /> */}
       <div className={styles.wrapper}>
         <h2 className={styles.title}>Quản lý nhà cung cấp</h2>
-        <Row gutter={[8, 0]} justify = 'space-between'style={{ marginBottom: '20px' }}>
+        <Row gutter={[8, 0]} justify="space-between" style={{ marginBottom: '20px' }}>
           <Col span={8}>
             <Search placeholder="Nhập nhà cung cấp" onSearch={onSearch} style={{ width: '100%' }} />
           </Col>
           <Col span={4}>
-            <CommonButton onClick={() => setOpenModal('create')}>Thêm mới nhà cung cấp</CommonButton>
+            <CommonButton onClick={() => setOpenModal('create')}>
+              <strong>Thêm mới nhà cung cấp</strong>
+            </CommonButton>
           </Col>
         </Row>
-        {/* <div className={styles.groupBtn}>
-          <CommonButton onClick={() => setOpenModal('create')}>Thêm mới nhà cung cấp</CommonButton>
-        </div> */}
         <Table dataSource={supplierListMapping} columns={columns} />
       </div>
     </>

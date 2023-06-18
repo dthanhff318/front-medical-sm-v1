@@ -35,8 +35,8 @@ const useService = () => {
   };
 
   useEffect(() => {
-    dispatch(getListBidding(urlQueryParams) as any);
-  }, [location]);
+    dispatch(getListBidding({}) as any);
+  }, []);
   return {
     listBidding,
     loading,

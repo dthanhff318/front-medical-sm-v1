@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
 import { Accept, useDropzone } from 'react-dropzone';
 import s from './BiddingSupply.module.scss';
-import Table, { ColumnsType } from 'antd/es/table';
+import Table from 'antd/es/table';
 import { useSelector } from 'react-redux';
 import biddingApi from 'axiosConfig/api/bidding';
 import useService from './service';
@@ -13,9 +13,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Col, Form, Input, Row, Select } from 'antd';
 import { useDispatch } from 'react-redux';
 import { getListBidding } from 'store/slices/biddingSlice';
-import Search from 'antd/es/input/Search';
 import ModalDelete from 'components/CommonModal/ModalDelete';
 import { RootState } from 'store';
+import { IndexedObject } from 'types/common';
 type TModal = '' | 'delete' | 'create';
 const { Option } = Select;
 const BiddingSupply = () => {
@@ -27,8 +27,15 @@ const BiddingSupply = () => {
   const { listBidding, urlQueryParams, loading, pagination, handleExcelDownload } = useService();
   const [loadingUpload, setLoadingUpload] = useState(false);
   const [openModal, setOpenModal] = useState<TModal>('');
+
+  const [filter, setFilter] = useState({
+    page: 1,
+    q: '',
+    company: undefined,
+    group: undefined,
+  });
   const infoSelect = useSelector((state: RootState) => state.common);
-  console.log(listBidding);
+
   // Hàm để đọc dữ liệu từ file Excel
   const handleExcelUpload = (file) => {
     const reader = new FileReader();
@@ -39,7 +46,7 @@ const BiddingSupply = () => {
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
       const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-      const mappingData = rows.map((r: any, i: number) => ({
+      const mappingData = rows.map((r: any) => ({
         code: r[0],
         name: r[1],
         ingredient: r[2],
@@ -62,7 +69,7 @@ const BiddingSupply = () => {
 
       const chunkSize = 50;
       for (let i = 0; i < dataSlice.length; i += chunkSize) {
-        const chunk = dataSlice.slice(i, i + chunkSize); // lấy ra phần từ vị trí i đến i + chunkSize
+        const chunk = dataSlice.slice(i, i + chunkSize);
         // gửi chunk lên server
         await biddingApi.updateBidding({
           bidding: chunk,
@@ -82,8 +89,11 @@ const BiddingSupply = () => {
       handleExcelUpload(acceptedFiles[0]);
     },
   });
-  const onSearch = (value: string) => {
+  const onSearch = (value: IndexedObject) => {
+    setFilter((prev) => ({ ...prev, ...value }));
+    dispatch(getListBidding({ ...filter, ...value }) as any);
   };
+
   const columns: any = [
     {
       title: 'ID ',
@@ -179,16 +189,22 @@ const BiddingSupply = () => {
       fixed: 'right',
       render: (_, data) => (
         <div className={s.actionBtn}>
-          <CommonButton onClick={()=>{
-            setOpenModal('delete');
-          }} danger>Xóa</CommonButton>
+          <CommonButton
+            onClick={() => {
+              setOpenModal('delete');
+            }}
+            danger
+          >
+            Xóa
+          </CommonButton>
         </div>
       ),
     },
   ];
 
   const onChangePage = (page: number, limit: number) => {
-    navigate(createQueryUrl(location, { ...urlQueryParams, page, limit }));
+    setFilter((prev) => ({ ...prev, page }));
+    dispatch(getListBidding({ ...filter, page }) as any);
   };
 
   return (
@@ -204,48 +220,36 @@ const BiddingSupply = () => {
         }}
       />
       <h2 className={s.title}>Danh sách vật tư đầu thầu</h2>
-      <Form
-        form={form}
-        name="control-hooks"
-        onFinish={(value)=>{console.log(value)}}
-        //style={{ maxWidth: 600 }}
-      >
-      <Row gutter={[8, 0]} style={{ marginBottom: '20px' }}>
+      <Form form={form} name="control-hooks" onFinish={(value) => onSearch(value)}>
+        <Row gutter={[8, 0]} style={{ marginBottom: '20px' }}>
           <Col span={8}>
-            <Form.Item name="name" rules={[{ required: false }]}>
-                <Input placeholder="Nhập tên vật tư" style={{ width: '100%' }} />
+            <Form.Item name="q" rules={[{ required: false }]}>
+              <Input placeholder="Nhập tên vật tư" style={{ width: '100%' }} />
             </Form.Item>
           </Col>
           <Col span={5}>
-            <Form.Item name="supplier" rules={[{ required: false }]}>
-                <Select 
-                  placeholder="Chọn nhà cung cấp"
-                  style={{ width: '100%' }}
-                  listHeight = {250}
-                  //onChange={()=>{}}
-                >
-                  {infoSelect.suppliers?.map((e)=>(
-                      <Option value={e.id}>{e.name}</Option>
-                  ))}
-                </Select>
+            <Form.Item name="company" rules={[{ required: false }]}>
+              <Select placeholder="Chọn nhà cung cấp" style={{ width: '100%' }} listHeight={250}>
+                {infoSelect.suppliers?.map((e) => (
+                  <Option value={e.id}>{e.name}</Option>
+                ))}
+              </Select>
             </Form.Item>
           </Col>
           <Col span={5}>
             <Form.Item name="group" rules={[{ required: false }]}>
-                <Select 
-                  placeholder="Chọn nhà cung cấp"
-                  style={{ width: '100%' }}
-                  listHeight = {250}
-                >
-                  {infoSelect.groups?.map((e)=>(
-                      <Option value={e.id}>{e.name}</Option>
-                  ))}
-                </Select>
+              <Select placeholder="Phân loại" style={{ width: '100%' }} listHeight={250}>
+                {infoSelect.groups?.map((e) => (
+                  <Option value={e.id}>{e.name}</Option>
+                ))}
+              </Select>
             </Form.Item>
           </Col>
           <Col span={5}>
             <Form.Item>
-                <Button type="primary" htmlType="submit">Tìm kiếm</Button>
+              <Button type="primary" htmlType="submit">
+                Tìm kiếm
+              </Button>
             </Form.Item>
           </Col>
         </Row>
@@ -270,7 +274,7 @@ const BiddingSupply = () => {
       <Row justify={'center'} style={{ marginTop: '20px' }}>
         <PaginationCustom
           total={pagination.totalResults}
-          current={pagination.page}
+          current={filter.page}
           pageSize={pagination.limit}
           onChange={onChangePage}
         />
