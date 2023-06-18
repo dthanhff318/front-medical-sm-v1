@@ -5,13 +5,13 @@ export type TSupplyResponse = {
   company?: { id: number; name: string };
   country?: string;
   dateExpired?: string;
-  group?: string;
+  group?: { id: number; name: string };
   isLoss?: boolean;
   id?: number;
   ingredient?: string;
   name?: string;
   productCode?: string;
   quantity?: number;
-  unit?: string;
+  unit?: { id: number; name: string };
   yearBidding?: number;
 };
