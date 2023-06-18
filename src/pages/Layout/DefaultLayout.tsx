@@ -86,6 +86,21 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       icon: HomeOutlined,
       label: <Link to={MPath.ADM_SUPPLIER}>Nhà cung cấp</Link>,
     },
+    {
+      id: 7,
+      icon: SnippetsOutlined,
+      label: 'Tiện ích',
+      children: [
+        {
+          id: 1,
+          label: <Link to={MPath.ADM_EXTENSION_UNIT}>Đơn vị</Link>,
+        },
+        {
+          id: 2,
+          label: <Link to={MPath.ADM_EXTENSION_GROUP}>Nhóm vật tư</Link>,
+        },
+      ],
+    },
   ];
 
   const listSubnavUser = [

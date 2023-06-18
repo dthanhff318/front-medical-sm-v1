@@ -20,6 +20,8 @@ import TicketHistory from 'pages/User/TicketHistory/TicketHistory';
 import TicketHistoryDetail from 'pages/User/TicketHistoryDetail/TicketHistoryDetail';
 import { ERole } from 'enums';
 import ReportExport from 'pages/Adm/Report/ReportExport/ReportExport';
+import Unit from 'pages/Adm/Extension/Unit/Unit';
+import Group from 'pages/Adm/Extension/Group/Group';
 
 export const routers: any = [
   {
@@ -118,6 +120,23 @@ export const routers: any = [
     element: <ReportExport />,
     public: false,
     path: MPath.ADM_REPORT_EXPORT,
+    role: [ERole.Admin],
+    exact: true,
+  },
+  //extension
+  {
+    name: 'ExtensionUnit',
+    element: <Unit />,
+    public: false,
+    path: MPath.ADM_EXTENSION_UNIT,
+    role: [ERole.Admin],
+    exact: true,
+  },
+  {
+    name: 'ExtensionGroup',
+    element: <Group />,
+    public: false,
+    path: MPath.ADM_EXTENSION_GROUP,
     role: [ERole.Admin],
     exact: true,
   },

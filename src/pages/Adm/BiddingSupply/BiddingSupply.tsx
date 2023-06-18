@@ -10,15 +10,17 @@ import CommonButton from 'components/CommonButton/CommonButton';
 import PaginationCustom from 'components/PaginationCustom/PaginationCustom';
 import { createQueryUrl } from 'helpers/functions';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Col, Row, Select } from 'antd';
+import { Button, Col, Form, Input, Row, Select } from 'antd';
 import { useDispatch } from 'react-redux';
 import { getListBidding } from 'store/slices/biddingSlice';
 import Search from 'antd/es/input/Search';
 import ModalDelete from 'components/CommonModal/ModalDelete';
 import { RootState } from 'store';
 type TModal = '' | 'delete' | 'create';
-
+const { Option } = Select;
 const BiddingSupply = () => {
+  const [form] = Form.useForm();
+
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -201,40 +203,52 @@ const BiddingSupply = () => {
         }}
       />
       <h2 className={s.title}>Danh sách vật tư đầu thầu</h2>
+      <Form
+        form={form}
+        name="control-hooks"
+        onFinish={(value)=>{console.log(value)}}
+        //style={{ maxWidth: 600 }}
+      >
       <Row gutter={[8, 0]} style={{ marginBottom: '20px' }}>
-        <Col span={8}>
-          <Search placeholder="Nhập tên vật tư" onSearch={onSearch} style={{ width: '100%' }} />
-        </Col>
-        <Col span={5}>
-          <Select
-            placeholder = "Chọn nhà cung cấp"
-            style={{ width: '100%' }}
-            onChange={()=>{}}
-            options={
-              infoSelect.suppliers?.map((e)=>({
-                value: e.id,
-                label: e.name,
-              }))
-            }
-          />
-        </Col>
-        <Col span={5}>
-          <Select
-            placeholder = "Chọn Nhóm vật tư"
-            style={{ width: '100%' }}
-            onChange={()=>{}}
-            options={
-              infoSelect.groups?.map((e)=>({
-                value: e.id,
-                label: e.name,
-              }))
-            }
-          />
-        </Col>
-        <Col span={5}>
-          <CommonButton onClick={() => setOpenModal('create')}>Tìm kiếm</CommonButton>
-        </Col>
-      </Row>
+          <Col span={8}>
+            <Form.Item name="name" rules={[{ required: false }]}>
+                <Input placeholder="Nhập tên vật tư" style={{ width: '100%' }} />
+            </Form.Item>
+          </Col>
+          <Col span={5}>
+            <Form.Item name="supplier" rules={[{ required: false }]}>
+                <Select 
+                  placeholder="Chọn nhà cung cấp"
+                  style={{ width: '100%' }}
+                  listHeight = {250}
+                  //onChange={()=>{}}
+                >
+                  {infoSelect.suppliers?.map((e)=>(
+                      <Option value={e.id}>{e.name}</Option>
+                  ))}
+                </Select>
+            </Form.Item>
+          </Col>
+          <Col span={5}>
+            <Form.Item name="group" rules={[{ required: false }]}>
+                <Select 
+                  placeholder="Chọn nhà cung cấp"
+                  style={{ width: '100%' }}
+                  listHeight = {250}
+                >
+                  {infoSelect.groups?.map((e)=>(
+                      <Option value={e.id}>{e.name}</Option>
+                  ))}
+                </Select>
+            </Form.Item>
+          </Col>
+          <Col span={5}>
+            <Form.Item>
+                <Button type="primary" htmlType="submit">Tìm kiếm</Button>
+            </Form.Item>
+          </Col>
+        </Row>
+      </Form>
       <Table
         bordered
         columns={columns}
