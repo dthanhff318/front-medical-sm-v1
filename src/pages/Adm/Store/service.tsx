@@ -32,19 +32,22 @@ const useService = ({ value }: Props) => {
     );
   };
   const onDeleteSupplyStore = (id: number) => dispatch(deleteSupplyStore(id) as any);
+
   useEffect(() => {
-    getStore(urlQueryParams);
-  }, [location]);
+    getStore({});
+  }, []);
 
   useEffect(() => {
     dispatch(getSupplier({ q: search }) as any);
   }, [search]);
+
   useEffect(() => {
     const timeOut = setTimeout(() => {
       setSearch(value);
     }, 1000);
     return () => clearTimeout(timeOut);
   }, [value]);
+
   return {
     stores,
     loading,

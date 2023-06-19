@@ -8,8 +8,6 @@ import biddingApi from 'axiosConfig/api/bidding';
 import useService from './service';
 import CommonButton from 'components/CommonButton/CommonButton';
 import PaginationCustom from 'components/PaginationCustom/PaginationCustom';
-import { createQueryUrl } from 'helpers/functions';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Col, Form, Input, Row, Select } from 'antd';
 import { useDispatch } from 'react-redux';
 import { getListBidding } from 'store/slices/biddingSlice';

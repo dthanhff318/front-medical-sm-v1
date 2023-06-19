@@ -25,7 +25,6 @@ const ModalCreateDepartment = ({
 }: Props) => {
   const [form] = useForm();
   const { suppliers } = useSelector((state: RootState) => state.supplier);
-  console.log(itemSupply)
 
   const lossSelect = [
     { label: 'Có', value: true },

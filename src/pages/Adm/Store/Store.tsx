@@ -11,30 +11,34 @@ import ModalDetailStore from './ModalDetailStore';
 import ModalDelete from 'components/CommonModal/ModalDelete';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
+import { IndexedObject } from 'types/common';
 type TModal = '' | 'delete' | 'create';
 const { Option } = Select;
 const Store: React.FC = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
   const [openModal, setOpenModal] = useState<TModal>('');
   const [itemSupply, setItemSupply] = useState<any>({});
   const [selectSupply, setSelectSupply] = useState<any>();
   const [value, setValue] = useState<string>('');
   const infoSelect = useSelector((state: RootState) => state.common);
-  const {
-    stores,
-    loading,
-    urlQueryParams,
-    pagination,
-    getStore,
-    handleUpdateSupplyStore,
-    onDeleteSupplyStore,
-  } = useService({ value });
-  console.log(stores)
+  const { stores, loading, pagination, getStore, handleUpdateSupplyStore, onDeleteSupplyStore } =
+    useService({ value });
+
+  const [filter, setFilter] = useState({
+    page: 1,
+    q: '',
+    company: undefined,
+    group: undefined,
+  });
+
   const [form] = Form.useForm();
-  const onSearch = (value: string) => {
-    getStore({ q: value });
+
+  const onSearch = (value: IndexedObject) => {
+    console.log(value);
+
+    setFilter((prev) => ({ ...prev, ...value }));
+    getStore({ ...filter, ...value });
   };
+
   const columns: any = [
     {
       title: 'Tên vật tư',
@@ -127,13 +131,15 @@ const Store: React.FC = () => {
       ),
     },
   ];
-
   const onChangePage = (page: number, limit: number) => {
-    navigate(createQueryUrl(location, { ...urlQueryParams, page, limit }));
+    setFilter((prev) => ({ ...prev, page }));
+    getStore({ ...filter, page });
   };
+
   const setValueSearch = (e: string) => {
     setValue(e);
   };
+
   return (
     <div className={styles.wapper}>
       <ModalDelete
@@ -147,48 +153,36 @@ const Store: React.FC = () => {
         }}
       />
       <h2 className={styles.title}>Tổng kho</h2>
-      <Form
-        form={form}
-        name="control-hooks"
-        onFinish={(value)=>{console.log(value)}}
-        //style={{ maxWidth: 600 }}
-      >
-      <Row gutter={[8, 0]} style={{ marginBottom: '20px' }}>
+      <Form form={form} name="control-hooks" onFinish={(value) => onSearch(value)}>
+        <Row gutter={[8, 0]} style={{ marginBottom: '20px' }}>
           <Col span={8}>
-            <Form.Item name="name" rules={[{ required: false }]}>
-                <Input placeholder="Nhập tên vật tư" style={{ width: '100%' }} />
+            <Form.Item name="q" rules={[{ required: false }]}>
+              <Input placeholder="Nhập tên vật tư" style={{ width: '100%' }} />
             </Form.Item>
           </Col>
-          <Col span={5}>
-            <Form.Item name="supplier" rules={[{ required: false }]}>
-                <Select 
-                  placeholder="Chọn nhà cung cấp"
-                  style={{ width: '100%' }}
-                  listHeight = {250}
-                  //onChange={()=>{}}
-                >
-                  {infoSelect.suppliers?.map((e)=>(
-                      <Option value={e.id}>{e.name}</Option>
-                  ))}
-                </Select>
+          <Col span={7}>
+            <Form.Item name="company" rules={[{ required: false }]}>
+              <Select placeholder="Chọn nhà cung cấp" style={{ width: '100%' }} listHeight={250}>
+                {infoSelect.suppliers?.map((e) => (
+                  <Option value={e.id}>{e.name}</Option>
+                ))}
+              </Select>
             </Form.Item>
           </Col>
           <Col span={5}>
             <Form.Item name="group" rules={[{ required: false }]}>
-                <Select 
-                  placeholder="Chọn nhà cung cấp"
-                  style={{ width: '100%' }}
-                  listHeight = {250}
-                >
-                  {infoSelect.groups?.map((e)=>(
-                      <Option value={e.id}>{e.name}</Option>
-                  ))}
-                </Select>
+              <Select placeholder="Phân loại" style={{ width: '100%' }} listHeight={250}>
+                {infoSelect.groups?.map((e) => (
+                  <Option value={e.id}>{e.name}</Option>
+                ))}
+              </Select>
             </Form.Item>
           </Col>
-          <Col span={5}>
+          <Col span={4}>
             <Form.Item>
-                <Button type="primary" htmlType="submit">Tìm kiếm</Button>
+              <Button type="primary" htmlType="submit">
+                Tìm kiếm
+              </Button>
             </Form.Item>
           </Col>
         </Row>
@@ -208,7 +202,7 @@ const Store: React.FC = () => {
           ...e,
           group: e.group.name,
           unit: e.unit.name,
-          company: e.company.name,
+          company: e.company ? e.company.name : '',
           isLoss: e.isLoss ? 'Có' : 'Không',
         }))}
         size="middle"

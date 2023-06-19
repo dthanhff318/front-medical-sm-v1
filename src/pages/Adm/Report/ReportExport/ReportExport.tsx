@@ -16,7 +16,6 @@ const ReportExport = () => {
   };
   return (
     <div className={s.wapper}>
-      <div></div>
       <Col className={s.title} span={24}>
         <h2>Báo cáo xuất kho chi tiết theo khoa phòng</h2>
       </Col>
