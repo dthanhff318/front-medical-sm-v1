@@ -107,9 +107,15 @@ export type TInitUnitState = {
   loading: boolean;
   pagination: TPagination;
 };
+export type TCreateUnits = {
+  name: string;
+};
 //group
 export type TInitGroupState = {
   groups: Array<any>;
   loading: boolean;
   pagination: TPagination;
+};
+export type TCreateGroups = {
+  name: string;
 };

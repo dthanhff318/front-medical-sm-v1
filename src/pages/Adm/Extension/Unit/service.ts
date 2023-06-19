@@ -3,7 +3,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import { RootState } from 'store';
+import { TCreateUnits } from 'store/slices/type';
 import {
+  createNewUnits,
   deleteUnit,
   getUnit,
   updateUnit,
@@ -18,7 +20,9 @@ const useService = () => {
   const handleDeleteUnit = (id: number) => {
     dispatch(deleteUnit(id) as any);
   };
-
+  const onCreateUnit = (data: TCreateUnits) => {
+    dispatch(createNewUnits(data) as any);
+  };
   useEffect(() => {
     dispatch(getUnit(urlQueryParams) as any);
   }, []);
@@ -29,6 +33,7 @@ const useService = () => {
     unitState,
     handleUpdateUnit,
     handleDeleteUnit,
+    onCreateUnit,
   };
 };
 

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { TGetSupplier, TInitUnitState } from './type';
+import { TCreateUnits, TGetSupplier, TInitUnitState } from './type';
 import { toast } from 'react-toastify';
 import { TUnit } from 'types/unit';
 import unitApi from 'axiosConfig/api/unit';
@@ -22,6 +22,7 @@ export const getUnit = createAsyncThunk(
       const res = await unitApi.getListUnit(query);
       return res.data;
     } catch (err) {
+      toast.error(`Co loi xay ra, vui long thu lai`);
       return thunkApi.rejectWithValue({});
     }
   },
@@ -36,6 +37,20 @@ export const updateUnit = createAsyncThunk('unit/updateUnit', async (data: any) 
     console.log(err);
   }
 });
+//create unit
+export const createNewUnits = createAsyncThunk(
+  'unit/createUnit',
+  async (data: TCreateUnits, thunkApi) => {
+    try {
+      const res = await unitApi.createUnit(data);
+      toast.success('Tạo mới đơn vị thành công!');
+      return res.data as TUnit;
+    } catch (err: any) {
+      toast.error(`Có lỗi xảy ra, vui lòng thử lại`);
+      return thunkApi.rejectWithValue({});
+    }
+  },
+);
 // Delete supplier
 export const deleteUnit = createAsyncThunk('unit/deleteUnit', async (id: number) => {
   try {
@@ -59,6 +74,9 @@ const unitSlice = createSlice({
       const { results, pagination } = action.payload;
       state.units = results;
       state.pagination = pagination;
+    });
+    builder.addCase(createNewUnits.fulfilled, (state: TInitUnitState, action) => {
+      state.units.push(action.payload);
     });
     builder.addCase(deleteUnit.fulfilled, (state, action) => {
       const remainSupplier = state.units.filter((d: TUnit) => d.id !== action.payload);
