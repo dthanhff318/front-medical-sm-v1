@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { TGetSupplier, TInitGroupState } from './type';
+import { TCreateGroups, TGetSupplier, TInitGroupState } from './type';
 import { toast } from 'react-toastify';
 import groupApi from 'axiosConfig/api/group';
 import { TGroup } from 'types/group';
@@ -22,6 +22,21 @@ export const getGroup = createAsyncThunk(
       const res = await groupApi.getListGroup(query);
       return res.data;
     } catch (err) {
+      toast.error(`Có lỗi xảy ra, vui lòng thử lại`);
+      return thunkApi.rejectWithValue({});
+    }
+  },
+);
+//create group
+export const createNewGroups = createAsyncThunk(
+  'group/createGroup',
+  async (data: TCreateGroups, thunkApi) => {
+    try {
+      const res = await groupApi.createGroup(data);
+      toast.success('Tạo mới nhóm thành công !');
+      return res.data as TGroup;
+    } catch (err: any) {
+      toast.error(`Có lỗi xảy ra, vui lòng thử lại`);
       return thunkApi.rejectWithValue({});
     }
   },
@@ -59,6 +74,9 @@ const groupSlice = createSlice({
       const { results, pagination } = action.payload;
       state.groups = results;
       state.pagination = pagination;
+    });
+    builder.addCase(createNewGroups.fulfilled, (state: TInitGroupState, action) => {
+      state.groups.push(action.payload);
     });
     builder.addCase(deleteGroup.fulfilled, (state, action) => {
       const remainSupplier = state.groups.filter((d: TGroup) => d.id !== action.payload);
