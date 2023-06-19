@@ -2,8 +2,7 @@
   width: 100%;
   height: 84vh;
   margin: auto auto;
-  padding-top: 0.5rem;
-  padding-left: 2rem;
+  padding: 1rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   .title {
     line-height: 30px;
@@ -21,11 +20,11 @@
   .selection_group {
     overflow: scroll;
     height: 60vh;
-    margin-bottom: 2px;
+    margin-top: 10px;
   }
   .selection_department {
     overflow: scroll;
     height: 60vh;
-    margin-bottom: 2px;
+    margin-top: 10px;
   }
 }
