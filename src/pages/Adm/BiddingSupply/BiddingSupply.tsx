@@ -14,6 +14,7 @@ import { getListBidding } from 'store/slices/biddingSlice';
 import ModalDelete from 'components/CommonModal/ModalDelete';
 import { RootState } from 'store';
 import { IndexedObject } from 'types/common';
+import { SaveOutlined } from '@ant-design/icons';
 type TModal = '' | 'delete' | 'create';
 const { Option } = Select;
 const BiddingSupply = () => {
@@ -281,7 +282,10 @@ const BiddingSupply = () => {
           <input {...getInputProps()} />
           <p>Kéo thả hoặc nhấn vào đây để tải lên file Excel</p>
         </div>
-        <button onClick={() => handleExcelDownload(listBidding)}>Xuất file Excel</button>
+        <CommonButton onClick={handleExcelDownload}>
+          <SaveOutlined />
+          <strong style={{ marginLeft: '1rem' }}>Xuất dữ liệu</strong>
+        </CommonButton>
       </div>
     </div>
   );

@@ -105,7 +105,6 @@ const Plan: React.FC = () => {
       typePlan,
       createdTime: moment(Date.now()).format('DD MMM YYYY'),
     };
-    console.log(dataSend);
     handleSendPlan(dataSend);
   };
 
