@@ -63,9 +63,9 @@ const Plan: React.FC = () => {
     form.setFieldsValue({
       ingredient: supply.ingredient,
       id: supply.id,
-      group: supply.group,
+      group: supply.group.name,
       company: supply.company.name,
-      unit: supply.unit,
+      unit: supply.unit.name,
       quantityStore: supply.quantity,
     });
   };

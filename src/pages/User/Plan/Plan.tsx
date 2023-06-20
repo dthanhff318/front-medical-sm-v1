@@ -56,16 +56,16 @@ const Plan: React.FC = () => {
   const [typePlan, setTypePlan] = useState<number>(0);
 
   const { listSupply, handleSendPlan, currentUser, loadSend } = useService({ value });
-
+  console.log(listSupply);
   const handleSelectSupply = (id: string) => {
     const supply = listSupply.find((d) => d.id === id);
     setSelectSupply(supply);
     form.setFieldsValue({
       ingredient: supply.ingredient,
       id: supply.id,
-      group: supply.group ? supply.group.name : '',
-      company: supply.company ? supply.company.name : '',
-      unit: supply.unit,
+      group: supply.group.name,
+      company: supply.company.name,
+      unit: supply.unit.name,
       quantityStore: supply.quantity,
     });
   };
