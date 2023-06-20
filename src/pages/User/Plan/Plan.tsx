@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Col, Divider, Form, Input, InputNumber, Row, Select, Table } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import CommonButton from 'components/CommonButton/CommonButton';

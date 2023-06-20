@@ -12,6 +12,7 @@ import ModalDelete from 'components/CommonModal/ModalDelete';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { IndexedObject } from 'types/common';
+import { SaveOutlined } from '@ant-design/icons';
 type TModal = '' | 'delete' | 'create';
 const { Option } = Select;
 const Store: React.FC = () => {
@@ -20,8 +21,15 @@ const Store: React.FC = () => {
   const [selectSupply, setSelectSupply] = useState<any>();
   const [value, setValue] = useState<string>('');
   const infoSelect = useSelector((state: RootState) => state.common);
-  const { stores, loading, pagination, getStore, handleUpdateSupplyStore, onDeleteSupplyStore } =
-    useService({ value });
+  const {
+    stores,
+    loading,
+    pagination,
+    getStore,
+    handleUpdateSupplyStore,
+    onDeleteSupplyStore,
+    handleExcelDownload,
+  } = useService({ value });
 
   const [filter, setFilter] = useState({
     page: 1,
@@ -164,7 +172,9 @@ const Store: React.FC = () => {
             <Form.Item name="company" rules={[{ required: false }]}>
               <Select placeholder="Chọn nhà cung cấp" style={{ width: '100%' }} listHeight={250}>
                 {infoSelect.suppliers?.map((e) => (
-                  <Option value={e.id}>{e.name}</Option>
+                  <Option key={e.id} value={e.id}>
+                    {e.name}
+                  </Option>
                 ))}
               </Select>
             </Form.Item>
@@ -187,6 +197,10 @@ const Store: React.FC = () => {
           </Col>
         </Row>
       </Form>
+      <CommonButton onClick={handleExcelDownload}>
+        <SaveOutlined />
+        <strong style={{ marginLeft: '1rem' }}>Xuất dữ liệu</strong>
+      </CommonButton>
       <ModalDetailStore
         itemSupply={itemSupply}
         open={openModal === 'create'}
