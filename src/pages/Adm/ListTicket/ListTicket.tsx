@@ -5,7 +5,7 @@ import styles from './style.module.scss';
 import MPath from 'routes/routes';
 import { useNavigate } from 'react-router-dom';
 import useService from './service';
-import { listTypePlanImport, listTypes } from 'const';
+import { listTypes } from 'const';
 import { replacePathParams } from 'helpers/functions';
 
 const ListTicket = () => {

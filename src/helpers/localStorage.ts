@@ -14,3 +14,15 @@ export const clearLs = () => {
 
 export const getUserFromLs = (): IndexedObject =>
   JSON.parse(localStorage.getItem('userInfo') ?? '{}');
+
+export const saveKeyToLs = (key: string, value: any) =>
+  localStorage.setItem(key, JSON.stringify(value));
+
+export const getKeyFromLs = (key: string) => {
+  const value = localStorage.getItem(key);
+  if (!value) {
+    return null;
+  } else {
+    return JSON.parse(value);
+  }
+};
