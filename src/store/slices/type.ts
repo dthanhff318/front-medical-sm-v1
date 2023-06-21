@@ -119,3 +119,11 @@ export type TInitGroupState = {
 export type TCreateGroups = {
   name: string;
 };
+
+// Report
+export type TGetDataReport = {
+  timeRange: string[];
+  department: number[];
+  typePlan?: number;
+  group: number[];
+};
