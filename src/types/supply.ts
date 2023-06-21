@@ -14,4 +14,7 @@ export type TSupplyResponse = {
   quantity?: number;
   unit?: { id: number; name: string };
   yearBidding?: number;
+  quantityExpect?:number;
+
 };
+

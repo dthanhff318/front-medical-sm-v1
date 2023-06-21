@@ -22,6 +22,9 @@ import { ERole } from 'enums';
 import ReportExport from 'pages/Adm/Report/ReportExport/ReportExport';
 import Unit from 'pages/Adm/Extension/Unit/Unit';
 import Group from 'pages/Adm/Extension/Group/Group';
+import ReportRefund from 'pages/Adm/Report/ReportRefund/ReportRefund';
+import ReportInventory from 'pages/Adm/Report/ReportInventory/ReportInventory';
+import ReportInventoryDepartment from 'pages/Adm/Report/ReportInventoryDepartment/ReportInventoryDepartment';
 
 export const routers: any = [
   {
@@ -120,6 +123,30 @@ export const routers: any = [
     element: <ReportExport />,
     public: false,
     path: MPath.ADM_REPORT_EXPORT,
+    role: [ERole.Admin],
+    exact: true,
+  },
+  {
+    name: 'ReportRefund',
+    element: <ReportRefund />,
+    public: false,
+    path: MPath.ADM_REPORT_REFUND,
+    role: [ERole.Admin],
+    exact: true,
+  },
+  {
+    name: 'ReportInventory',
+    element: <ReportInventory />,
+    public: false,
+    path: MPath.ADM_REPORT_INVENTORY,
+    role: [ERole.Admin],
+    exact: true,
+  },
+  {
+    name: 'ReportInventoryDepartment',
+    element: <ReportInventoryDepartment />,
+    public: false,
+    path: MPath.ADM_REPORT_INVENTORY_DEPARTMENT,
     role: [ERole.Admin],
     exact: true,
   },
