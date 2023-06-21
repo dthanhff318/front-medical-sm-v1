@@ -124,6 +124,6 @@ export type TCreateGroups = {
 export type TGetDataReport = {
   timeRange: string[];
   department: number[];
-  typePlan?: number;
+  typePlan: number[];
   group: number[];
 };
