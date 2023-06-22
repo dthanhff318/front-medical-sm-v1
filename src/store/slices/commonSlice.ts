@@ -1,7 +1,12 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import serviceApi from 'axiosConfig/api/service';
 
-const initialState: any = {
+type TInitialState = {
+  groups: any;
+  units: any;
+  suppliers: any;
+};
+const initialState: TInitialState = {
   groups: [],
   units: [],
   suppliers: [],

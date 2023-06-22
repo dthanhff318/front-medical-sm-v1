@@ -25,6 +25,7 @@ const ModalCreateDepartment = ({
 }: Props) => {
   const [form] = useForm();
   const { suppliers } = useSelector((state: RootState) => state.supplier);
+  const { groups, units } = useSelector((state: RootState) => state.common);
 
   const lossSelect = [
     { label: 'Có', value: true },
@@ -38,12 +39,12 @@ const ModalCreateDepartment = ({
     company: itemSupply.company?.id,
     country: itemSupply.country,
     dateExpired: itemSupply.dateExpired,
-    group: itemSupply.group?.name,
+    group: itemSupply.group?.id,
     isLoss: itemSupply.isLoss,
     ingredient: itemSupply.ingredient,
     productCode: itemSupply.productCode,
     quantity: itemSupply.quantity,
-    unit: itemSupply.unit?.name,
+    unit: itemSupply.unit?.id,
     yearBidding: itemSupply.yearBidding,
   };
   form.setFieldsValue(values);
@@ -85,12 +86,20 @@ const ModalCreateDepartment = ({
               </Form.Item>
             </Col>
             <Col span={8}>
-              <span>Nhóm</span>
+              <span>Nhóm vật tư</span>
               <Form.Item
                 name="group"
-                rules={[{ required: true, message: 'Vui long dien ten khoa phong!' }]}
+                rules={[{ required: true, message: 'Vui lòng nhập nhóm vật tư!' }]}
               >
-                <Input />
+                <Select
+                  placeholder="Nhóm vật tư"
+                  style={{ width: '100%' }}
+                  defaultActiveFirstOption={false}
+                  listHeight={200}
+                  showArrow={true}
+                  filterOption={false}
+                  options={groups.map((e) => ({ label: e.name, value: e.id }))}
+                />
               </Form.Item>
             </Col>
             <Col span={8}>
@@ -155,9 +164,24 @@ const ModalCreateDepartment = ({
               <span>Đơn vị</span>
               <Form.Item
                 name="unit"
-                rules={[{ required: true, message: 'Vui long dien ten khoa phong!' }]}
+                rules={[{ required: true, message: 'Vui lòng nhập đơn vị tính!' }]}
               >
-                <Input />
+                <Select
+                  showSearch
+                  placeholder="Chọn đơn vị tính"
+                  value={value}
+                  style={{ width: '100%' }}
+                  defaultActiveFirstOption={false}
+                  showArrow={true}
+                  filterOption={false}
+                  onSearch={setValueSearch}
+                  notFoundContent={null}
+                  listHeight={200}
+                  options={units.map((d) => ({
+                    value: d.id,
+                    label: d.name,
+                  }))}
+                />
               </Form.Item>
             </Col>
             <Col span={7}>
