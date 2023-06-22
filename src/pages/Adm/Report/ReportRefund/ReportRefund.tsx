@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { Checkbox, Col, DatePicker, Form, Row } from 'antd';
 import moment from 'moment';
-import s from './ReportExport.module.scss';
+import s from './ReportRefund.module.scss';
 import CommonButton from 'components/CommonButton/CommonButton';
 import { useForm } from 'antd/es/form/Form';
 import useService from './service';
 import { listTypePlanImport } from 'const';
 import reportApi from 'axiosConfig/api/report';
-import ModalReportExport from './ModalReportExport';
+//import ModalReportExport from './ModalReportExport';
 type TModal = '' | 'delete' | 'create';
 const DEPARTMENT = 'department';
 const TYPE_PLAN = 'typePlan';
 const GROUP = 'group';
 
-const ReportExport = () => {
+const ReportRefund = () => {
   const [form] = useForm();
   const [openModal, setOpenModal] = useState<TModal>('');
   const [listSupplyExport, setListSupplyExport] = useState<any>([]);
@@ -47,14 +47,14 @@ const ReportExport = () => {
   };
   return (
     <div className={s.wapper}>
-      <ModalReportExport
+      {/* <ModalReportExport
         listSupplyExport={listSupplyExport}
         open={openModal === 'create'}
         onCancel={() => setOpenModal('')}
        // value={value}
        // setValueSearch={setValueSearch}
         //handleUpdateSupplyStore={() => {}}
-      />
+      /> */}
       <Col className={s.title} span={24}>
         <h2>Báo cáo xuất kho chi tiết theo khoa phòng</h2>
       </Col>
@@ -155,4 +155,4 @@ const ReportExport = () => {
     </div>
   );
 };
-export default ReportExport;
+export default ReportRefund;

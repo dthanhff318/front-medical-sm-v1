@@ -69,6 +69,15 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
         {
           label: <Link to={MPath.ADM_REPORT_EXPORT}>Xuất kho theo khoa phòng</Link>,
         },
+        {
+          label: <Link to={MPath.ADM_REPORT_REFUND}>Nhập kho</Link>,
+        },
+        {
+          label: <Link to={MPath.ADM_REPORT_INVENTORY_DEPARTMENT}>Tồn kho</Link>,
+        },
+        {
+          label: <Link to={MPath.ADM_REPORT_INVENTORY}>Xuất nhập tồn</Link>,
+        },
       ],
     },
     {
