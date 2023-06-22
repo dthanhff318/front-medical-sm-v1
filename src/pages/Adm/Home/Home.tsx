@@ -82,7 +82,7 @@ export default function Home(props: IHomePageProps) {
   const [dateExpired, setDateExpired] = useState('30');
   // const data = [];
   const data = dataService.listSuppliesExpired?.map((list) => {
-    return({...list});
+    return { ...list };
   });
   const handleChange = (value: string) => {
     setDateExpired(value);
@@ -134,21 +134,22 @@ export default function Home(props: IHomePageProps) {
           </Row>
         </Col>
         <Col span={24} className={s.tabledate}>
-          <Row justify='center' gutter={[8, 0]}>
-            <Col style={{paddingLeft: '30px'}} span={8}>
+          <Row justify="center" gutter={[8, 0]}>
+            <Col style={{ paddingLeft: '30px' }} span={8}>
+              <span>Thời gian: </span>
               <Select
-                defaultValue="30"
+                defaultValue="30 ngày"
                 style={{ width: 120 }}
                 onChange={handleChange}
                 options={[
-                  { value: 30, label: '30' },
-                  { value: 60, label: '60' },
-                  { value: 90, label: '90' },
+                  { value: 30, label: '30 ngày' },
+                  { value: 60, label: '60 ngày' },
+                  { value: 90, label: '90 ngày' },
                 ]}
               />
             </Col>
             <Col className={s.title} span={16}>
-              Những vật tư sắp hết hạn trong {dateExpired} ngày
+              Những vật tư sắp hết hạn trong <strong>{dateExpired}</strong> ngày
             </Col>
             <Col span={23}>
               <Table
