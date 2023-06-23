@@ -25,6 +25,7 @@ import Group from 'pages/Adm/Extension/Group/Group';
 import ReportRefund from 'pages/Adm/Report/ReportRefund/ReportRefund';
 import ReportInventory from 'pages/Adm/Report/ReportInventory/ReportInventory';
 import ReportInventoryDepartment from 'pages/Adm/Report/ReportInventoryDepartment/ReportInventoryDepartment';
+import Analysis from 'pages/Adm/Analysis/Analysis';
 
 export const routers: any = [
   {
@@ -167,8 +168,16 @@ export const routers: any = [
     role: [ERole.Admin],
     exact: true,
   },
+  {
+    name: 'Analysis',
+    element: <Analysis />,
+    public: false,
+    path: MPath.ADM_ANALYSIS,
+    role: [ERole.Admin],
+    exact: true,
+  },
 
-  // User
+  // User ---------------------------------------------------------------
   {
     name: 'USER_HOME',
     element: <HomeUser />,

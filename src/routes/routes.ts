@@ -17,7 +17,7 @@ const MPath = {
   ADM_REPORT_INVENTORY_DEPARTMENT: '/adm/report/inventory/department',
   ADM_EXTENSION_UNIT: '/adm/extension/unit',
   ADM_EXTENSION_GROUP: '/adm/extension/group',
-  
+  ADM_ANALYSIS: '/adm/analysis',
 
   // User
   USER_HOME: '/',

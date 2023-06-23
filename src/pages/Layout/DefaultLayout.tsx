@@ -91,7 +91,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       label: <Link to={MPath.ADM_LIST_TICKET}>Phiếu duyệt</Link>,
     },
     {
-      id: 6,
+      id: 7,
       icon: HomeOutlined,
       label: <Link to={MPath.ADM_SUPPLIER}>Nhà cung cấp</Link>,
     },
@@ -109,6 +109,11 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
           label: <Link to={MPath.ADM_EXTENSION_GROUP}>Nhóm vật tư</Link>,
         },
       ],
+    },
+    {
+      id: 8,
+      icon: CheckSquareOutlined,
+      label: <Link to={MPath.ADM_ANALYSIS}>Thống kê</Link>,
     },
   ];
 
