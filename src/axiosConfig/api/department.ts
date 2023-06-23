@@ -15,6 +15,9 @@ const departmentApi = {
   deleteDepartments: (id: number) => {
     return axiosClient.delete(`/department/${id}`);
   },
+  updateDepartment: (id: number, data: any) => {
+    return axiosClient.patch(`/department/${id}`, data);
+  },
 };
 
 export default departmentApi;

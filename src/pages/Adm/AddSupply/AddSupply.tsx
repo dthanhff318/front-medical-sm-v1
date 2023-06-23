@@ -47,14 +47,14 @@ const AddSupply: React.FC = () => {
     form.setFieldsValue({
       ingredient: supply.ingredient,
       code: supply.code,
-      group: supply.group,
+      group: supply.group.name,
       isLoss: supply.isLoss ? 'Có' : 'Không',
       brand: supply.brand,
       company: supply.company,
       country: supply.country,
       biddingPrice: supply.biddingPrice,
       biddingCount: supply.biddingCount,
-      unit: supply.unit,
+      unit: supply.unit.name,
       codeBidding: supply.codeBidding,
       yearBidding: supply.yearBidding,
     });
@@ -78,6 +78,7 @@ const AddSupply: React.FC = () => {
     const checkExist = dataAdd.find((d) => d.name === selectSupply.name);
     if (checkExist) {
       const incQuantity = dataAdd.map((e) =>
+        
         e.name === selectSupply.name ? { ...e, quantity: e.quantity + data.quantity } : e,
       );
       setDataAdd(incQuantity);

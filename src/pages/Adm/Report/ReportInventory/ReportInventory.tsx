@@ -7,6 +7,7 @@ import { useForm } from 'antd/es/form/Form';
 import useService from './service';
 import { listTypePlanImport } from 'const';
 import reportApi from 'axiosConfig/api/report';
+import ModalReportInventory from './ModalReportInventory';
 //import ModalReportExport from './ModalReportExport';
 type TModal = '' | 'delete' | 'create';
 const DEPARTMENT = 'department';
@@ -21,7 +22,7 @@ const ReportInventory = () => {
   const { departmentList, groups } = useService();
   const handleSeen = async (data) => {
     const timeRange = data.timeRange.map((time) => time.format('DD MM YY'));
-    const res = await reportApi.getDataReport({ ...data, timeRange });
+    const res = await reportApi.getDataReportInventory({ ...data, timeRange });
     setOpenModal('create');
     setListSupplyExport(res.data);
     console.log(res);
@@ -47,16 +48,14 @@ const ReportInventory = () => {
   };
   return (
     <div className={s.wapper}>
-      {/* <ModalReportExport
+      <ModalReportInventory
         listSupplyExport={listSupplyExport}
         open={openModal === 'create'}
         onCancel={() => setOpenModal('')}
-       // value={value}
-       // setValueSearch={setValueSearch}
-        //handleUpdateSupplyStore={() => {}}
-      /> */}
+       
+      />
       <Col className={s.title} span={24}>
-        <h2>Báo cáo xuất kho chi tiết theo khoa phòng</h2>
+        <h2>Báo cáo xuất nhập tồn</h2>
       </Col>
       <Form
         initialValues={{ remember: true }}
@@ -83,73 +82,27 @@ const ReportInventory = () => {
             </Form.Item>
           </Col>
 
-          <Row gutter={[40, 40]}>
-            <Col span={8}>
-              <span className={s.titleCheckbox}>Chọn khoa phòng</span>
-              <div className={s.selectAllBtn} onChange={(e) => handleSelectAll(e, DEPARTMENT)}>
-                <Checkbox>Chon tat ca</Checkbox>
-              </div>
-              <Form.Item
-                name="department"
-                className={s.selection_department}
-                rules={[{ required: true, message: 'Vui long chọn khoa pohng' }]}
-              >
-                <Checkbox.Group style={{ width: '100%' }}>
-                  <Row gutter={[0, 10]}>
-                    {departmentList.map((d) => (
-                      <Col span={24}>
-                        <Checkbox value={d.id}>{d.name}</Checkbox>
-                      </Col>
-                    ))}
-                  </Row>
-                </Checkbox.Group>
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <span className={s.titleCheckbox}>Chọn loại phiếu</span>
-              <div className={s.selectAllBtn} onChange={(e) => handleSelectAll(e, TYPE_PLAN)}>
-                <Checkbox>Chon tat ca</Checkbox>
-              </div>
-              <Form.Item
-                name="typePlan"
-                className={s.selection_group}
-                rules={[{ required: true, message: 'Vui long chọn loai phieu' }]}
-              >
-                <Checkbox.Group style={{ width: '100%' }}>
-                  <Row gutter={[0, 10]}>
-                    {listTypePlanImport.map((g) => (
-                      <Col span={24}>
-                        <Checkbox key={g.value} value={g.value}>
-                          {g.label}
-                        </Checkbox>
-                      </Col>
-                    ))}
-                  </Row>
-                </Checkbox.Group>
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <span className={s.titleCheckbox}>Chọn loại vật tư</span>
-              <div className={s.selectAllBtn} onChange={(e) => handleSelectAll(e, GROUP)}>
-                <Checkbox>Chon tat ca</Checkbox>
-              </div>
-              <Form.Item
-                name="group"
-                className={s.selection_group}
-                rules={[{ required: true, message: 'Vui long chọn loai vat tu' }]}
-              >
-                <Checkbox.Group style={{ width: '100%' }}>
-                  <Row gutter={[0, 10]}>
-                    {groups.map((g) => (
-                      <Col span={24}>
-                        <Checkbox value={g.id}>{g.name}</Checkbox>
-                      </Col>
-                    ))}
-                  </Row>
-                </Checkbox.Group>
-              </Form.Item>
-            </Col>
-          </Row>
+          <Col span={24}>
+            <span className={s.titleCheckbox}>Chọn loại vật tư</span>
+            <div className={s.selectAllBtn} onChange={(e) => handleSelectAll(e, GROUP)}>
+              <Checkbox>Chon tat ca</Checkbox>
+            </div>
+            <Form.Item
+              name="group"
+              className={s.selection_group}
+              rules={[{ required: true, message: 'Vui long chọn loai vat tu' }]}
+            >
+              <Checkbox.Group style={{ width: '100%' }}>
+                <Row gutter={[0, 10]}>
+                  {groups.map((g) => (
+                    <Col span={24}>
+                      <Checkbox value={g.id}>{g.name}</Checkbox>
+                    </Col>
+                  ))}
+                </Row>
+              </Checkbox.Group>
+            </Form.Item>
+          </Col>
         </Row>
       </Form>
     </div>
