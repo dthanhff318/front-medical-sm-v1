@@ -99,6 +99,9 @@ const storeSlice = createSlice({
         stores: remainList,
       };
     });
+    builder.addCase(deleteSupplyStore.rejected, (state, action) => {
+      state.loading = false;
+    });
     builder.addCase(updateSupply.pending, (state, action) => {
       state.loading = true;
     });

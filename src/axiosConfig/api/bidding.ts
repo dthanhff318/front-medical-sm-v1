@@ -12,6 +12,9 @@ const biddingApi = {
   findBidding: (id: string) => {
     return axiosClient.get(`/bidding/supplier/${id}`);
   },
+  deleteBidding: (id: number) => {
+    return axiosClient.delete(`/bidding/${id}`);
+  },
 };
 
 export default biddingApi;

@@ -15,15 +15,16 @@ import ModalDelete from 'components/CommonModal/ModalDelete';
 import { RootState } from 'store';
 import { IndexedObject } from 'types/common';
 import { SaveOutlined } from '@ant-design/icons';
-type TModal = '' | 'delete' | 'create';
+
 const { Option } = Select;
 const BiddingSupply = () => {
   const [form] = Form.useForm();
 
   const dispatch = useDispatch();
-  const { listBidding, loading, pagination, handleExcelDownload } = useService();
+  const { listBidding, loading, pagination, handleExcelDownload, handleDeleteDepartment } =
+    useService();
   const [loadingUpload, setLoadingUpload] = useState(false);
-  const [openModal, setOpenModal] = useState<TModal>('');
+  const [openModal, setOpenModal] = useState<number>(0);
 
   const [filter, setFilter] = useState({
     page: 1,
@@ -188,7 +189,7 @@ const BiddingSupply = () => {
         <div className={s.actionBtn}>
           <CommonButton
             onClick={() => {
-              setOpenModal('delete');
+              setOpenModal(data.id);
             }}
             danger
           >
@@ -207,13 +208,13 @@ const BiddingSupply = () => {
   return (
     <div className={s.wrapper}>
       <ModalDelete
-        open={openModal === 'delete'}
+        open={!!openModal}
         title="Bạn có chắc muốn xóa vật tư ?"
         subTitle="Xóa"
-        onCancel={() => setOpenModal('')}
+        onCancel={() => setOpenModal(0)}
         onOk={() => {
-          //onDeleteSupplyStore(selectSupply)
-          setOpenModal('');
+          handleDeleteDepartment(openModal);
+          setOpenModal(0);
         }}
       />
       <h2 className={s.title}>Danh sách vật tư đầu thầu</h2>

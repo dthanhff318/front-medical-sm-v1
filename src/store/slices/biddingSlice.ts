@@ -42,6 +42,19 @@ export const findBiddingWithSupplier = createAsyncThunk(
   },
 );
 
+export const deleteSupplyBidding = createAsyncThunk(
+  'bidding/deleteSupplyBidding',
+  async (id: number, thunkApi) => {
+    try {
+      await biddingApi.deleteBidding(id);
+      return id;
+    } catch (err: any) {
+      toast.error(`Có lỗi xảy ra, vui lòng thử lại`);
+      return thunkApi.rejectWithValue({});
+    }
+  },
+);
+
 const biddingSlice = createSlice({
   name: 'bidding',
   initialState,
@@ -62,6 +75,20 @@ const biddingSlice = createSlice({
     builder.addCase(findBiddingWithSupplier.fulfilled, (state, action) => {
       state.findBidding = action.payload;
       state.findLoading = false;
+    });
+    builder.addCase(deleteSupplyBidding.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(deleteSupplyBidding.fulfilled, (state, action) => {
+      const remainList = state.listBidding.filter((s) => s.id !== action.payload);
+      return {
+        ...state,
+        loading: false,
+        listBidding: remainList,
+      };
+    });
+    builder.addCase(deleteSupplyBidding.rejected, (state, action) => {
+      state.loading = false;
     });
   },
 });

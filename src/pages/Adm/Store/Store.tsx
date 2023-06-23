@@ -41,8 +41,6 @@ const Store: React.FC = () => {
   const [form] = Form.useForm();
 
   const onSearch = (value: IndexedObject) => {
-    console.log(value);
-
     setFilter((prev) => ({ ...prev, ...value }));
     getStore({ ...filter, ...value });
   };

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import * as XLSX from 'xlsx';
 
-import { getListBidding } from 'store/slices/biddingSlice';
+import { deleteSupplyBidding, getListBidding } from 'store/slices/biddingSlice';
 import biddingApi from 'axiosConfig/api/bidding';
 
 const useService = () => {
@@ -55,6 +55,9 @@ const useService = () => {
     }
   };
 
+  const handleDeleteDepartment = (id: number) => {
+    dispatch(deleteSupplyBidding(id) as any);
+  };
   useEffect(() => {
     dispatch(getListBidding({}) as any);
   }, []);
@@ -63,6 +66,7 @@ const useService = () => {
     loading,
     pagination,
     handleExcelDownload,
+    handleDeleteDepartment,
   };
 };
 export default useService;
