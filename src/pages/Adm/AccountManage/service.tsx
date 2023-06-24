@@ -6,7 +6,9 @@ import {
   createUserDepartment,
   deleteUserDepartment,
   getDepartmentInfoDetail,
+  updateDepartment,
 } from 'store/slices/departmentSlice';
+import { TDepartment } from 'types/department';
 
 const useService = () => {
   const dispatch = useDispatch();
@@ -19,10 +21,12 @@ const useService = () => {
   const handleDeleteUser = (id: number) => {
     dispatch(deleteUserDepartment(id) as any);
   };
+  const handleUpdateDepartment = (data: TDepartment) => {
+    dispatch(updateDepartment({ id, ...data }) as any);
+  };
   useEffect(() => {
     dispatch(getDepartmentInfoDetail(id ?? '') as any);
   }, [id]);
-  return { departmentDetail, handleCreateUser, handleDeleteUser, loading };
+  return { departmentDetail, handleCreateUser, handleDeleteUser, loading, handleUpdateDepartment };
 };
-
 export default useService;
