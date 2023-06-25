@@ -56,7 +56,6 @@ const Plan: React.FC = () => {
   const [typePlan, setTypePlan] = useState<number>(0);
 
   const { listSupply, handleSendPlan, currentUser, loadSend } = useService({ value });
-  console.log(listSupply);
   const handleSelectSupply = (id: string) => {
     const supply = listSupply.find((d) => d.id === id);
     setSelectSupply(supply);
@@ -178,7 +177,15 @@ const Plan: React.FC = () => {
                   onSearch={(e) => setValue(e)}
                   onChange={(e) => handleSelectSupply(e)}
                   notFoundContent={null}
-                  options={listSupply.map((s) => ({ value: s.id, label: s.name }))}
+                  options={
+                    typePlan === 1
+                      ? listSupply
+                          .filter((x) => x.isLoss)
+                          .map((s) => ({ value: s.id, label: s.name }))
+                      : listSupply
+                          .filter((x) => !x.isLoss)
+                          .map((s) => ({ value: s.id, label: s.name }))
+                  }
                 />
               </Form.Item>
             </Col>

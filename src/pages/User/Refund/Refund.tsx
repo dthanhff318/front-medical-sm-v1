@@ -179,7 +179,15 @@ const Plan: React.FC = () => {
                   onSearch={(e) => setValue(e)}
                   onChange={(e) => handleSelectSupply(e)}
                   notFoundContent={null}
-                  options={listSupply.map((s) => ({ value: s.id, label: s.name }))}
+                  options={
+                    typePlan === 3
+                      ? listSupply
+                          .filter((x) => x.isLoss)
+                          .map((s) => ({ value: s.id, label: s.name }))
+                      : listSupply
+                          .filter((x) => !x.isLoss)
+                          .map((s) => ({ value: s.id, label: s.name }))
+                  }
                 />
               </Form.Item>
             </Col>

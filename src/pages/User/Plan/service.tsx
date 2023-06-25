@@ -16,7 +16,7 @@ const useService = ({ value }: Props) => {
   const { currentUser } = useSelector((state: RootState) => state.auth);
 
   const findSupply = async (condition: { q: string }) => {
-    const res = await storeApi.getSupplyFromStore(condition);
+    const res = await storeApi.getSupplyFromStore({ ...condition, limit: 10000 });
     setListSupply(res.data.results);
   };
   const handleSendPlan = async (data: any) => {

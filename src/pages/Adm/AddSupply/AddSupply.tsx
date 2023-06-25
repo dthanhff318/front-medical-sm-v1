@@ -50,7 +50,7 @@ const AddSupply: React.FC = () => {
       group: supply.group.name,
       isLoss: supply.isLoss ? 'Có' : 'Không',
       brand: supply.brand,
-      company: supply.company,
+      company: supply.company.name,
       country: supply.country,
       biddingPrice: supply.biddingPrice,
       biddingCount: supply.biddingCount,
@@ -74,11 +74,12 @@ const AddSupply: React.FC = () => {
     const productCode = form.getFieldValue('productCode');
     const convertDate = dateExp ? moment(dateExp.$d).format('MMM Do YY') : '';
     const isLoss = form.getFieldValue('isLoss') === 'Có' ? true : false;
-
+    const group = selectSupply.group;
+    const unit = selectSupply.unit;
+    const company = selectSupply.company;
     const checkExist = dataAdd.find((d) => d.name === selectSupply.name);
     if (checkExist) {
       const incQuantity = dataAdd.map((e) =>
-        
         e.name === selectSupply.name ? { ...e, quantity: e.quantity + data.quantity } : e,
       );
       setDataAdd(incQuantity);
@@ -93,6 +94,9 @@ const AddSupply: React.FC = () => {
         unitPrice: price,
         productCode,
         isLoss,
+        group,
+        unit,
+        company,
       },
     ]);
   };
@@ -104,7 +108,12 @@ const AddSupply: React.FC = () => {
     }
     const dataBill = {
       ...info,
-      add: dataAdd,
+      add: dataAdd.map((e) => ({
+        ...e,
+        group: e.group.id,
+        unit: e.unit.id,
+        company: e.company.id,
+      })),
     };
     handleAddSupplyToStore(dataBill);
   };
@@ -140,6 +149,11 @@ const AddSupply: React.FC = () => {
       title: 'Hao phí',
       dataIndex: 'isLoss',
       width: 100,
+    },
+    {
+      title: 'Nhà cung cấp',
+      dataIndex: 'company',
+      width: 200,
     },
     {
       title: 'Tên hãng',
@@ -192,6 +206,8 @@ const AddSupply: React.FC = () => {
       ),
     },
   ];
+  console.log(dataAdd);
+
   return (
     <div className={styles.wapper}>
       <h2 className={styles.title}>Phiếu nhập kho</h2>
@@ -250,7 +266,13 @@ const AddSupply: React.FC = () => {
       <Table
         bordered
         columns={columns}
-        dataSource={dataAdd}
+        dataSource={dataAdd.map((e) => ({
+          ...e,
+          company: e.company.name,
+          unit: e.unit.name,
+          group: e.group.name,
+          isLoss: e.isLoss ? 'Có' : 'Không',
+        }))}
         size="middle"
         scroll={{ x: 'max-content', y: '500px' }}
         rowKey="name"

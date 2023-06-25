@@ -61,7 +61,8 @@ const AccountManage = () => {
     phone: '',
     location: '',
   });
-  const { departmentDetail, handleCreateUser, handleDeleteUser, loading, handleUpdateDepartment } = useService();
+  const { departmentDetail, handleCreateUser, handleDeleteUser, loading, handleUpdateDepartment } =
+    useService();
   const listUserDepartment = departmentDetail?.member?.map((u) => ({
     ...u,
     key: u?.id,
@@ -88,7 +89,6 @@ const AccountManage = () => {
       location: departmentDetail?.location,
     });
   }, [departmentDetail]);
-  console.log(descriptions);
   return (
     <>
       <ModalDelete
@@ -133,10 +133,7 @@ const AccountManage = () => {
               )}
             </Row>
           </div>
-          <Descriptions
-            bordered
-            size="small"
-          >
+          <Descriptions bordered size="small">
             <Descriptions.Item label="Ten khoa">
               {isEditing ? (
                 <Input value={descriptions.name} onChange={(e) => handleInputChange(e, 'name')} />
@@ -146,7 +143,10 @@ const AccountManage = () => {
             </Descriptions.Item>
             <Descriptions.Item label="Vi tri">
               {isEditing ? (
-                <Input value={descriptions.location} onChange={(e) => handleInputChange(e, 'location')} />
+                <Input
+                  value={descriptions.location}
+                  onChange={(e) => handleInputChange(e, 'location')}
+                />
               ) : (
                 <p>{descriptions.location}</p>
               )}
