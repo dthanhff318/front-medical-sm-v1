@@ -8,5 +8,8 @@ const serviceApi = {
   getInfoSupply: () => {
     return axiosClient.get('/service/info');
   },
+  getInfoAnalysis: (data: { year: string }) => {
+    return axiosClient.post('/service/analysis', data);
+  },
 };
 export default serviceApi;
