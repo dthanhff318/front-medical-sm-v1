@@ -4,6 +4,8 @@ import styles from './Analysis.module.scss';
 import { Col, Row, Select, Tabs, TabsProps } from 'antd';
 import useService from './service';
 import OverviewAnalysis from './component/AnalysisOverview';
+import AnalysisDetail from './component/AnalysisDetail';
+import AnalysisClassify from './component/AnalysisClassify';
 
 type Props = {};
 
@@ -17,12 +19,12 @@ const Analysis = (props: Props) => {
     {
       key: '2',
       label: `Chi tiết nhập xuất`,
-      children: `Content of Tab Pane 2`,
+      children: <AnalysisDetail />,
     },
     {
       key: '3',
-      label: `Tab 3`,
-      children: `Content of Tab Pane 3`,
+      label: `Thống kê phân loại`,
+      children: <AnalysisClassify />,
     },
   ];
   return (
