@@ -34,6 +34,7 @@ const useService = () => {
   };
   const [dataAnalysis, setDataAnalysis] = useState<any>([]);
   const [dataClassify, setDataClassify] = useState<any>([]);
+  const [dataDetail, setDataDetail] = useState<any>([]);
   const [year, setYear] = useState(listYear()[0].value);
 
   const listGroup = groups.map((e) => ({
@@ -42,8 +43,10 @@ const useService = () => {
   }));
   const getDataAnalysis = async (data) => {
     const res = await serviceApi.getInfoAnalysis(data);
-    const { dataExport, dataImport, dataGroupClassify } = res.data as any;
+    const { dataExport, dataImport, dataGroupClassify, dataImportDetail, dataExportDetail } =
+      res.data as any;
     setDataClassify(dataGroupClassify);
+    setDataDetail([...dataImportDetail, ...dataExportDetail]);
     const dataExportConvert = dataExport.map((e) => ({
       name: 'Xuất',
       month: e.month,
@@ -60,7 +63,7 @@ const useService = () => {
     getDataAnalysis({ year: String(year) });
   }, [year]);
 
-  return { groups, listYear, listGroup, dataAnalysis, setYear, dataClassify };
+  return { groups, listYear, listGroup, dataAnalysis, setYear, dataClassify, dataDetail };
 };
 
 export default useService;
