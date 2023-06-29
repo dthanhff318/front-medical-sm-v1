@@ -12,12 +12,19 @@ import MPath from 'routes/routes';
 import { getRefreshTokenFromLocalStorage } from './helpers/localStorage';
 import { saveUser } from 'store/slices/authSlice';
 import Notfound from './pages/Notfound';
+import { io } from 'socket.io-client';
+
 function App() {
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const userLs = getUserFromLs();
   const refreshToken = getRefreshTokenFromLocalStorage();
   const auth = isAuthenticated || Object.entries(userLs).length > 0;
+  const socketInstance = io('http://localhost:4000');
+
+  useEffect(() => {
+    socketInstance.on('hi', (a) => console.log(a));
+  }, []);
 
   useEffect(() => {
     if (userLs.id && refreshToken) {
