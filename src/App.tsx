@@ -13,6 +13,7 @@ import { getRefreshTokenFromLocalStorage } from './helpers/localStorage';
 import { saveUser } from 'store/slices/authSlice';
 import Notfound from './pages/Notfound';
 import { io } from 'socket.io-client';
+import SocketContext from 'context/socketContext';
 
 function App() {
   const dispatch = useDispatch();
@@ -21,10 +22,6 @@ function App() {
   const refreshToken = getRefreshTokenFromLocalStorage();
   const auth = isAuthenticated || Object.entries(userLs).length > 0;
   const socketInstance = io('http://localhost:4000');
-
-  useEffect(() => {
-    socketInstance.on('hi', (a) => console.log(a));
-  }, []);
 
   useEffect(() => {
     if (userLs.id && refreshToken) {
@@ -36,33 +33,35 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <ToastContainer closeOnClick pauseOnHover={false} autoClose={3000} />
-        <Routes>
-          {routers.map((route: any, i: number) => {
-            return route.public ? (
-              <Route key={route.name} path={route.path} element={route.element} />
-            ) : (
-              <Route
-                key={route.name}
-                path={route.path}
-                element={
-                  auth && route.role?.includes(userLs.role) ? (
-                    <DefaultLayout>{route.element}</DefaultLayout>
-                  ) : (
-                    <Navigate to={MPath.LOGIN} replace />
-                  )
-                }
-              />
-            );
-          })}
-          <Route
-            path="*"
-            element={
-              <>
-                <Navigate to={'/notfound'} replace />
-              </>
-            }
-          />
-        </Routes>
+        <SocketContext.Provider value={{ socket: socketInstance }}>
+          <Routes>
+            {routers.map((route: any, i: number) => {
+              return route.public ? (
+                <Route key={route.name} path={route.path} element={route.element} />
+              ) : (
+                <Route
+                  key={route.name}
+                  path={route.path}
+                  element={
+                    auth && route.role?.includes(userLs.role) ? (
+                      <DefaultLayout>{route.element}</DefaultLayout>
+                    ) : (
+                      <Navigate to={MPath.LOGIN} replace />
+                    )
+                  }
+                />
+              );
+            })}
+            <Route
+              path="*"
+              element={
+                <>
+                  <Navigate to={'/notfound'} replace />
+                </>
+              }
+            />
+          </Routes>
+        </SocketContext.Provider>
       </div>
     </BrowserRouter>
   );

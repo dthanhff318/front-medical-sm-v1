@@ -21,7 +21,9 @@ const NotiMain = ({ notis, notiRef, loading, onClose, role }: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onNextTicketPage = async (e) => {
-    dispatch(markAsReadNoti(e.id) as any);
+    if (!e.seen) {
+      dispatch(markAsReadNoti(e.id) as any);
+    }
     if (role && role === ERole.Admin) {
       navigate(replacePathParams(MPath.ADM_DETAIL_TICKET, { id: e.ticket.id }));
     } else {

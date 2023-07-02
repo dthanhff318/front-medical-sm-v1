@@ -55,7 +55,6 @@ const ListTicket = () => {
   const [department, setDepartment] = useState<number | undefined>(undefined);
   const [typePlan, setTypePlan] = useState<number | undefined>(undefined);
   const { departmentList, plans, loading } = useService({ department, typePlan });
-  console.log(plans);
   const onChangeDepartment = (e) => {
     setDepartment(e.value);
   };

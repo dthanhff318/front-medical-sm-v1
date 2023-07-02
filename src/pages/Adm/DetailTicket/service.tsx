@@ -1,5 +1,6 @@
 import planApi from 'axiosConfig/api/plan';
-import React, { useEffect, useState } from 'react';
+import SocketContext from 'context/socketContext';
+import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -19,6 +20,7 @@ export type EditableCellProps = {
 
 const useService = () => {
   const dispatch = useDispatch();
+  const { socket } = useContext(SocketContext);
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { planDetail, loading } = useSelector((state: RootState) => state.plan);
@@ -33,6 +35,11 @@ const useService = () => {
         await planApi.acceptPlan(id);
         navigate(MPath.ADM_LIST_TICKET);
         toast.success('Duyệt phiếu thành công');
+        socket?.emit('acceptTicket', {
+          departmentId: planDetail.department.id,
+          typePlan: planDetail.typePlan,
+          createdTime: planDetail.createdTime,
+        });
       }
     } catch (err) {
       toast.error('Duyệt phiếu không thành công, thử lại');

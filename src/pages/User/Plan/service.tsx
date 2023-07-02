@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import storeApi from 'axiosConfig/api/store';
 import { useDispatch, useSelector } from 'react-redux';
 import planApi from 'axiosConfig/api/plan';
 import { RootState } from 'store';
 import { toast } from 'react-toastify';
+import SocketContext from 'context/socketContext';
 
 type Props = {
   value: string;
 };
 const useService = ({ value }: Props) => {
-  const dispatch = useDispatch();
+  const { socket } = useContext(SocketContext);
   const [listSupply, setListSupply] = useState<any>([]);
   const [loadSend, setLoadSend] = useState<boolean>(false);
   const [search, setSearch] = useState<string>('');
@@ -55,6 +56,7 @@ const useService = ({ value }: Props) => {
     handleSendPlan,
     currentUser,
     loadSend,
+    socket,
   };
 };
 

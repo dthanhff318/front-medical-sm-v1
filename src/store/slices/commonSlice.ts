@@ -5,11 +5,13 @@ type TInitialState = {
   groups: any;
   units: any;
   suppliers: any;
+  departments: any;
 };
 const initialState: TInitialState = {
   groups: [],
   units: [],
   suppliers: [],
+  departments: [],
 };
 
 export const fetchInfoCommon = createAsyncThunk(
@@ -29,12 +31,13 @@ const commonSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchInfoCommon.fulfilled, (state, action) => {
-      const { groups, units, suppliers } = action.payload;
+      const { groups, units, suppliers, departments } = action.payload;
       return {
         ...state,
         groups,
         units,
         suppliers,
+        departments,
       };
     });
   },

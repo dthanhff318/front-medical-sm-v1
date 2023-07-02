@@ -66,7 +66,7 @@ const notiSlice = createSlice({
       return {
         ...state,
         notis: updateList,
-        numberSeen: state.numberSeen - 1,
+        numberSeen: state.numberSeen ? state.numberSeen - 1 : 0,
       };
     });
   },

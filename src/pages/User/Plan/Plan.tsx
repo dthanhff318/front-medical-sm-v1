@@ -55,7 +55,7 @@ const Plan: React.FC = () => {
   const [selectSupply, setSelectSupply] = useState<any>({});
   const [typePlan, setTypePlan] = useState<number>(0);
 
-  const { listSupply, handleSendPlan, currentUser, loadSend } = useService({ value });
+  const { listSupply, handleSendPlan, currentUser, loadSend, socket } = useService({ value });
   const handleSelectSupply = (id: string) => {
     const supply = listSupply.find((d) => d.id === id);
     setSelectSupply(supply);
@@ -104,6 +104,11 @@ const Plan: React.FC = () => {
       createdTime: moment(Date.now()).format('DD MMM YYYY'),
     };
     handleSendPlan(dataSend);
+    socket?.emit('sendPlan', {
+      department: currentUser.department,
+      name: currentUser.displayName,
+      typePlan,
+    });
   };
 
   return (
