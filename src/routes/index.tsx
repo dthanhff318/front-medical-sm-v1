@@ -33,7 +33,7 @@ export const routers: any = [
     element: <Login />,
     public: true,
     path: '/login',
-    role: [ERole.User, ERole.Admin],
+    role: [ERole.User, ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
     exact: true,
   },
   {
@@ -41,7 +41,7 @@ export const routers: any = [
     element: <Home />,
     public: false,
     path: MPath.ADM_HOME,
-    role: [ERole.Admin],
+    role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
     exact: true,
   },
   {
@@ -49,14 +49,14 @@ export const routers: any = [
     element: <BiddingSupply />,
     public: false,
     path: MPath.ADM_BIDDING,
-    role: [ERole.Admin],
+    role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
     exact: true,
   },
   {
     name: 'AdmAddSuppy',
     element: <AddSupply />,
     public: false,
-    role: [ERole.Admin],
+    role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
     path: MPath.ADM_ADD_SUPPLY,
     exact: true,
   },
@@ -65,7 +65,7 @@ export const routers: any = [
     element: <Store />,
     public: false,
     path: MPath.ADM_DEPOT,
-    role: [ERole.Admin],
+    role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
     exact: true,
   },
   {
@@ -73,7 +73,7 @@ export const routers: any = [
     element: <AccountManage />,
     public: false,
     path: MPath.ADM_DEPARTMENT_DETAIL,
-    role: [ERole.Admin],
+    role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
     exact: true,
   },
   {
@@ -81,7 +81,7 @@ export const routers: any = [
     element: <DepartmentManage />,
     public: false,
     path: MPath.ADM_DEPARTMENT,
-    role: [ERole.Admin],
+    role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
     exact: true,
   },
   {
@@ -89,7 +89,7 @@ export const routers: any = [
     element: <ListTicket />,
     public: false,
     path: MPath.ADM_LIST_TICKET,
-    role: [ERole.Admin],
+    role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
     exact: true,
   },
   {
@@ -97,7 +97,7 @@ export const routers: any = [
     element: <DetailTicket />,
     public: false,
     path: MPath.ADM_DETAIL_TICKET,
-    role: [ERole.Admin],
+    role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
     exact: true,
   },
   // Supplier
@@ -106,7 +106,7 @@ export const routers: any = [
     element: <Supplier />,
     public: false,
     path: MPath.ADM_SUPPLIER,
-    role: [ERole.Admin],
+    role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
     exact: true,
   },
   {
@@ -114,7 +114,7 @@ export const routers: any = [
     element: <SupplierDetail />,
     public: false,
     path: MPath.ADM_SUPPLIER_DETAIL,
-    role: [ERole.Admin],
+    role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
     exact: true,
   },
 
@@ -124,7 +124,7 @@ export const routers: any = [
     element: <ReportExport />,
     public: false,
     path: MPath.ADM_REPORT_EXPORT,
-    role: [ERole.Admin],
+    role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
     exact: true,
   },
   {
@@ -132,7 +132,7 @@ export const routers: any = [
     element: <ReportRefund />,
     public: false,
     path: MPath.ADM_REPORT_REFUND,
-    role: [ERole.Admin],
+    role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
     exact: true,
   },
   {
@@ -140,7 +140,7 @@ export const routers: any = [
     element: <ReportInventory />,
     public: false,
     path: MPath.ADM_REPORT_INVENTORY,
-    role: [ERole.Admin],
+    role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
     exact: true,
   },
   {
@@ -148,7 +148,7 @@ export const routers: any = [
     element: <ReportInventoryDepartment />,
     public: false,
     path: MPath.ADM_REPORT_INVENTORY_DEPARTMENT,
-    role: [ERole.Admin],
+    role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
     exact: true,
   },
   //extension
@@ -157,7 +157,7 @@ export const routers: any = [
     element: <Unit />,
     public: false,
     path: MPath.ADM_EXTENSION_UNIT,
-    role: [ERole.Admin],
+    role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
     exact: true,
   },
   {
@@ -165,7 +165,7 @@ export const routers: any = [
     element: <Group />,
     public: false,
     path: MPath.ADM_EXTENSION_GROUP,
-    role: [ERole.Admin],
+    role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
     exact: true,
   },
   {
@@ -173,7 +173,7 @@ export const routers: any = [
     element: <Analysis />,
     public: false,
     path: MPath.ADM_ANALYSIS,
-    role: [ERole.Admin],
+    role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
     exact: true,
   },
 

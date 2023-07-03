@@ -66,15 +66,19 @@ const useService = () => {
   }, []);
 
   useEffect(() => {
+    const handleShow = ({ departmentId, createdTime, typePlan }) => {
+      if (department == departmentId) {
+        const nameTypePlan = listTypes.find((e) => e.value == typePlan);
+        const timeConvert = moment(createdTime, 'DD MMM YYYY').format('DD MM YYYY');
+        toast.success(`Phiếu ${nameTypePlan?.label}, ngày ${timeConvert} vừa được duyệt`);
+      }
+    };
     if (role === ERole.User) {
-      socket?.on('acceptTicket', ({ departmentId, createdTime, typePlan }) => {
-        if (department == departmentId) {
-          const nameTypePlan = listTypes.find((e) => e.value == typePlan);
-          const timeConvert = moment(createdTime, 'DD MMM YYYY').format('DD MM YYYY');
-          toast.success(`Phiếu ${nameTypePlan?.label}, ngày ${timeConvert} vừa được duyệt`);
-        }
-      });
+      socket?.on('acceptTicket', handleShow);
     }
+    return () => {
+      socket?.off('acceptTicket', handleShow);
+    };
   }, []);
   return {
     onLogout,

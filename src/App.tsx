@@ -14,6 +14,7 @@ import { saveUser } from 'store/slices/authSlice';
 import Notfound from './pages/Notfound';
 import { io } from 'socket.io-client';
 import SocketContext from 'context/socketContext';
+import { ERole } from 'enums';
 
 function App() {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ function App() {
       dispatch(saveUser(userLs));
     }
   }, []);
+  console.log(userLs.role);
 
   return (
     <BrowserRouter>

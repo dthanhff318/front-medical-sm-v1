@@ -22,7 +22,11 @@ const useService = () => {
       saveToken('refreshToken', refreshToken);
       dispatch(setLoading(false));
       toast.success('Dang nhap thanh cong !');
-      if (dataUser.role === ERole.Admin) {
+      if (
+        dataUser.role === ERole.Admin ||
+        dataUser.role === ERole.Staff_Accept ||
+        dataUser.role === ERole.Staff_Report
+      ) {
         return navigate(MPath.ADM_HOME);
       }
       return navigate(MPath.USER_HOME);
