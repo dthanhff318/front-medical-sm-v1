@@ -117,6 +117,84 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
     },
   ];
 
+  const listSubnavStaffAccept = [
+    {
+      id: 1,
+      icon: FileAddOutlined,
+      label: 'Nhập kho',
+      children: [
+        {
+          label: <Link to={MPath.ADM_ADD_SUPPLY}>Phiếu nhập kho</Link>,
+        },
+        {
+          label: <Link to={MPath.ADM_ADD_SUPPLY}>Công nợ</Link>,
+        },
+      ],
+    },
+    {
+      id: 3,
+      icon: SnippetsOutlined,
+      label: <Link to={MPath.ADM_DEPOT}>Tổng kho</Link>,
+    },
+    {
+      id: 6,
+      icon: CheckSquareOutlined,
+      label: <Link to={MPath.ADM_LIST_TICKET}>Phiếu duyệt</Link>,
+    },
+    {
+      id: 8,
+      icon: CheckSquareOutlined,
+      label: <Link to={MPath.ADM_ANALYSIS}>Thống kê</Link>,
+    },
+  ];
+
+  const listSubnavStaffReport = [
+    {
+      id: 4,
+      icon: SnippetsOutlined,
+      label: 'Báo cáo',
+      children: [
+        {
+          label: <Link to={MPath.ADM_REPORT_EXPORT}>Xuất kho theo khoa phòng</Link>,
+        },
+        {
+          label: <Link to={MPath.ADM_REPORT_REFUND}>Nhập kho</Link>,
+        },
+        {
+          label: <Link to={MPath.ADM_REPORT_INVENTORY_DEPARTMENT}>Tồn kho</Link>,
+        },
+        {
+          label: <Link to={MPath.ADM_REPORT_INVENTORY}>Xuất nhập tồn</Link>,
+        },
+      ],
+    },
+    {
+      id: 7,
+      icon: HomeOutlined,
+      label: <Link to={MPath.ADM_SUPPLIER}>Nhà cung cấp</Link>,
+    },
+    {
+      id: 8,
+      icon: SnippetsOutlined,
+      label: 'Tiện ích',
+      children: [
+        {
+          id: 1,
+          label: <Link to={MPath.ADM_EXTENSION_UNIT}>Đơn vị</Link>,
+        },
+        {
+          id: 2,
+          label: <Link to={MPath.ADM_EXTENSION_GROUP}>Nhóm vật tư</Link>,
+        },
+      ],
+    },
+    {
+      id: 9,
+      icon: CheckSquareOutlined,
+      label: <Link to={MPath.ADM_ANALYSIS}>Thống kê</Link>,
+    },
+  ];
+
   const listSubnavUser = [
     {
       id: 1,
@@ -141,7 +219,6 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
   ];
   const itemsAdmin: MenuProps['items'] = listSubnavAdmin.map((list: any, index) => {
     const key = String(index + 1);
-
     return {
       key: `sub${key}`,
       icon: React.createElement(list.icon),
@@ -155,6 +232,23 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       }),
     };
   });
+
+  const itemsStaffAccept: MenuProps['items'] = listSubnavStaffAccept.map((list: any, index) => {
+    const key = String(index + 1);
+    return {
+      key: `sub${key}`,
+      icon: React.createElement(list.icon),
+      label: list.label,
+      children: list.children?.map((_, j) => {
+        const subKey = index * 4 + j + 1;
+        return {
+          key: subKey,
+          label: _.label,
+        };
+      }),
+    };
+  });
+
   const itemsUser: MenuProps['items'] = listSubnavUser.map((list, index) => {
     const key = String(index + 1);
 
@@ -174,6 +268,17 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
 
   const closeDropdown = () => {
     setDropdownVisible(false);
+  };
+
+  const checkMenuByRole = (role: ERole) => {
+    switch (role) {
+      case ERole.Admin:
+        return itemsAdmin;
+      case ERole.Staff_Accept:
+        return itemsStaffAccept;
+      case ERole.Staff_Report:
+        return itemsStaffAccept;
+    }
   };
   return (
     <Layout className="defaultlayout-wapper">
