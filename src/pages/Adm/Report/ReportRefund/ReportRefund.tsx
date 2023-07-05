@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Checkbox, Col, DatePicker, Form, Row } from 'antd';
-import moment from 'moment';
 import s from './ReportRefund.module.scss';
 import CommonButton from 'components/CommonButton/CommonButton';
 import { useForm } from 'antd/es/form/Form';
 import useService from './service';
 import { listTypePlanImport } from 'const';
 import reportApi from 'axiosConfig/api/report';
-//import ModalReportExport from './ModalReportExport';
+import ModalReportImport from './ModalReportImport';
+
 type TModal = '' | 'delete' | 'create';
 const DEPARTMENT = 'department';
 const TYPE_PLAN = 'typePlan';
@@ -16,15 +16,14 @@ const GROUP = 'group';
 const ReportRefund = () => {
   const [form] = useForm();
   const [openModal, setOpenModal] = useState<TModal>('');
-  const [listSupplyExport, setListSupplyExport] = useState<any>([]);
+  const [listSupplyImport, setListSupplyImport] = useState<any>([]);
 
-  const { departmentList, groups } = useService();
+  const { departmentList, groups, handleExportExcel } = useService();
   const handleSeen = async (data) => {
     const timeRange = data.timeRange.map((time) => time.format('DD MM YY'));
-    const res = await reportApi.getDataReport({ ...data, timeRange });
+    const res = await reportApi.getDataImport({ ...data, timeRange });
     setOpenModal('create');
-    setListSupplyExport(res.data);
-    console.log(res);
+    setListSupplyImport(res.data);
   };
 
   const handleSelectAll = (e, fieldName: string) => {
@@ -47,16 +46,14 @@ const ReportRefund = () => {
   };
   return (
     <div className={s.wapper}>
-      {/* <ModalReportExport
-        listSupplyExport={listSupplyExport}
+      <ModalReportImport
+        listSupplyImport={listSupplyImport}
         open={openModal === 'create'}
         onCancel={() => setOpenModal('')}
-       // value={value}
-       // setValueSearch={setValueSearch}
-        //handleUpdateSupplyStore={() => {}}
-      /> */}
+        handleExportExcel={handleExportExcel}
+      />
       <Col className={s.title} span={24}>
-        <h2>Báo cáo xuất kho chi tiết theo khoa phòng</h2>
+        <h2>Báo cáo nhập kho chi tiết </h2>
       </Col>
       <Form
         initialValues={{ remember: true }}

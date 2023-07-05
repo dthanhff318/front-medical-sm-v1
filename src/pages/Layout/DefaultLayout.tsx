@@ -67,7 +67,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       label: 'Báo cáo',
       children: [
         {
-          label: <Link to={MPath.ADM_REPORT_EXPORT}>Xuất kho theo khoa phòng</Link>,
+          label: <Link to={MPath.ADM_REPORT_EXPORT}>Xuất kho</Link>,
         },
         {
           label: <Link to={MPath.ADM_REPORT_REFUND}>Nhập kho</Link>,
@@ -98,7 +98,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
     {
       id: 8,
       icon: HomeOutlined,
-      label: <Link to={MPath.ADM_STAFF}>Nhan vien</Link>,
+      label: <Link to={MPath.ADM_STAFF}>Nhân viên</Link>,
     },
     {
       id: 9,

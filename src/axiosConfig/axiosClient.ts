@@ -48,7 +48,8 @@ class Http {
 
   initHttp() {
     const http = axios.create({
-      baseURL: 'http://192.168.2.14:4000/v1',
+      // baseURL: 'http://192.168.2.14:4000/v1',
+      baseURL: 'http://localhost:4000/v1',
       headers,
     });
 

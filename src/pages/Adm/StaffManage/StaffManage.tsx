@@ -6,6 +6,7 @@ import ModalDelete from 'components/CommonModal/ModalDelete';
 import styles from './style.module.scss';
 import ModalCreateStaff from './ModalCreateStaff';
 import useService from './service';
+import { ERole } from 'enums';
 
 type TModal = '' | 'delete' | 'create';
 const StaffManage = () => {
@@ -17,13 +18,13 @@ const StaffManage = () => {
       width: '10%',
     },
     {
-      title: 'Tên nhan vien',
+      title: 'Tên nhân viên',
       dataIndex: 'displayName',
       key: 'displayName',
       width: '40%',
     },
     {
-      title: 'Chuc vu',
+      title: 'Chức vụ',
       dataIndex: 'role',
       width: '30%',
       key: 'role',
@@ -55,8 +56,8 @@ const StaffManage = () => {
     <>
       <ModalDelete
         open={openModal === 'delete'}
-        title="Ban co chac chan xoa khong ?"
-        subTitle="Xoa"
+        title="Bạn có chắc muốn xóa nhân viên ?"
+        subTitle="Xóa"
         onCancel={() => setOpenModal('')}
         onOk={() => {
           handleDeleteStaff(selectStaff);
@@ -69,21 +70,31 @@ const StaffManage = () => {
         onCancel={() => setOpenModal('')}
       />
       <div className={styles.wrapper}>
-        <h2 className={styles.title}>Quản lý nhan vien</h2>
+        <h2 className={styles.title}>Quản lý nhân viên</h2>
         <Row gutter={[8, 0]} justify="space-between" style={{ marginBottom: '20px' }}>
           <Col span={8}>
             <Search
-              placeholder="Nhập tên nhan vien"
+              placeholder="Nhập tên nhân viên"
               onSearch={onSearch}
               style={{ width: '100%' }}
             />
           </Col>
           <Col span={4}>
-            <CommonButton onClick={() => setOpenModal('create')}>Thêm mới nhan vien</CommonButton>
+            <CommonButton onClick={() => setOpenModal('create')}>Thêm mới nhân viên</CommonButton>
           </Col>
         </Row>
 
-        <Table dataSource={listStaff} columns={columns} loading={loading} />
+        <Table
+          dataSource={listStaff.map((e) => ({
+            ...e,
+            role:
+              e.role === ERole.Staff_Accept
+                ? 'Nhân viên quản lý vật tư'
+                : 'Nhân viên quản lý báo cáo',
+          }))}
+          columns={columns}
+          loading={loading}
+        />
       </div>
     </>
   );

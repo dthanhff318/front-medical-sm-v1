@@ -26,19 +26,19 @@ const ModalCreateStaff = ({ open, onCreateStaff, onCancel }: Props) => {
           autoComplete="off"
           form={form}
         >
-          <span>Ten nhan vien</span>
+          <strong>Tên nhân viên</strong>
           <Form.Item
             name="displayName"
-            rules={[{ required: true, message: 'Vui long nhap ten nhan vien!' }]}
+            rules={[{ required: true, message: 'Vui long nhap ten nhân viên!' }]}
           >
             <Input />
           </Form.Item>
 
-          <span>Chuc vu</span>
+          <strong>Chức vụ</strong>
           <Form.Item name="role" rules={[{ required: true, message: 'Vui long chon chuc vu!' }]}>
             <Radio.Group>
-              <Radio value="staff-accept">Nhan vien quan ly vat tu</Radio>
-              <Radio value="staff-report">Nhan vien quan ly bao cao</Radio>
+              <Radio value="staff-accept">Nhân viên quản lý vật tư</Radio>
+              <Radio value="staff-report">Nhân viên quản lý báo cáo</Radio>
             </Radio.Group>
           </Form.Item>
 
@@ -47,7 +47,7 @@ const ModalCreateStaff = ({ open, onCreateStaff, onCancel }: Props) => {
             <Input />
           </Form.Item>
 
-          <span>Tai khoan</span>
+          <span>Tài khoản</span>
           <Form.Item
             name="username"
             rules={[{ required: true, message: 'Vui long nhap tai khoan' }]}
@@ -55,7 +55,7 @@ const ModalCreateStaff = ({ open, onCreateStaff, onCancel }: Props) => {
             <Input />
           </Form.Item>
 
-          <span>Mat khau</span>
+          <span>Mật khẩu</span>
           <Form.Item
             name="password"
             rules={[{ required: true, message: 'Vui long nhap mat khau' }]}
@@ -65,7 +65,7 @@ const ModalCreateStaff = ({ open, onCreateStaff, onCancel }: Props) => {
 
           <div className={styles.bottom}>
             <Form.Item>
-              <CommonButton isSubmit={true}>Tao nhan vien</CommonButton>
+              <CommonButton isSubmit={true}>Tạo nhân viên</CommonButton>
             </Form.Item>
           </div>
         </Form>

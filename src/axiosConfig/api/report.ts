@@ -5,6 +5,9 @@ const reportApi = {
   getDataReport: (data: TGetDataReport) => {
     return axiosClient.post('/report/export-department', data);
   },
+  getDataImport: (data: TGetDataReport) => {
+    return axiosClient.post('/report/import-department', data);
+  },
   getDataReportInventory: (data: TGetDataReport) => {
     return axiosClient.post('/report/inventory-store', data);
   },

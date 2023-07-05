@@ -18,13 +18,12 @@ const ReportExport = () => {
   const [openModal, setOpenModal] = useState<TModal>('');
   const [listSupplyExport, setListSupplyExport] = useState<any>([]);
 
-  const { departmentList, groups } = useService();
-  const handleSeen = async (data) => {
+  const { departmentList, groups, handleExportExcel } = useService();
+  const handleShowReport = async (data) => {
     const timeRange = data.timeRange.map((time) => time.format('DD MM YY'));
-    const res = await reportApi.getDataReport({ ...data, timeRange });
     setOpenModal('create');
+    const res = await reportApi.getDataReport({ ...data, timeRange });
     setListSupplyExport(res.data);
-    console.log(res);
   };
 
   const handleSelectAll = (e, fieldName: string) => {
@@ -51,16 +50,14 @@ const ReportExport = () => {
         listSupplyExport={listSupplyExport}
         open={openModal === 'create'}
         onCancel={() => setOpenModal('')}
-       // value={value}
-       // setValueSearch={setValueSearch}
-        //handleUpdateSupplyStore={() => {}}
+        handleExportExcel={handleExportExcel}
       />
       <Col className={s.title} span={24}>
         <h2>Báo cáo xuất kho chi tiết theo khoa phòng</h2>
       </Col>
       <Form
         initialValues={{ remember: true }}
-        onFinish={handleSeen}
+        onFinish={handleShowReport}
         autoComplete="off"
         form={form}
         name="form-add"
@@ -87,7 +84,7 @@ const ReportExport = () => {
             <Col span={8}>
               <span className={s.titleCheckbox}>Chọn khoa phòng</span>
               <div className={s.selectAllBtn} onChange={(e) => handleSelectAll(e, DEPARTMENT)}>
-                <Checkbox>Chon tat ca</Checkbox>
+                <Checkbox>Chọn tất cả</Checkbox>
               </div>
               <Form.Item
                 name="department"
@@ -108,7 +105,7 @@ const ReportExport = () => {
             <Col span={8}>
               <span className={s.titleCheckbox}>Chọn loại phiếu</span>
               <div className={s.selectAllBtn} onChange={(e) => handleSelectAll(e, TYPE_PLAN)}>
-                <Checkbox>Chon tat ca</Checkbox>
+                <Checkbox>Chọn tất cả</Checkbox>
               </div>
               <Form.Item
                 name="typePlan"
@@ -131,7 +128,7 @@ const ReportExport = () => {
             <Col span={8}>
               <span className={s.titleCheckbox}>Chọn loại vật tư</span>
               <div className={s.selectAllBtn} onChange={(e) => handleSelectAll(e, GROUP)}>
-                <Checkbox>Chon tat ca</Checkbox>
+                <Checkbox>Chọn tất cả</Checkbox>
               </div>
               <Form.Item
                 name="group"

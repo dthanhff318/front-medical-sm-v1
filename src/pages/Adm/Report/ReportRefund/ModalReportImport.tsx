@@ -1,18 +1,16 @@
 import React from 'react';
 import { Col, Form, Input, Modal, Row, Select, Table } from 'antd';
-import styles from './ReportExport.module.scss';
-import { useForm } from 'antd/es/form/Form';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store';
+import styles from './ReportRefund.module.scss';
 import CommonButton from 'components/CommonButton/CommonButton';
 import { TSupplyResponse } from 'types/supply';
+
 type Props = {
   open: boolean;
   onCancel: () => void;
-  listSupplyExport: Array<TSupplyResponse>;
+  listSupplyImport: Array<TSupplyResponse>;
   handleExportExcel: (data: Array<TSupplyResponse>) => void;
 };
-const ModalReportExport = ({ handleExportExcel, listSupplyExport, open, onCancel }: Props) => {
+const ModalReportImport = ({ handleExportExcel, listSupplyImport, open, onCancel }: Props) => {
   const columns: any = [
     {
       title: 'Tên vật tư',
@@ -92,7 +90,7 @@ const ModalReportExport = ({ handleExportExcel, listSupplyExport, open, onCancel
         <Table
           columns={columns}
           //loading={loading}
-          dataSource={listSupplyExport.map((e) => ({
+          dataSource={listSupplyImport.map((e) => ({
             ...e,
             group: e?.group?.name,
             unit: e?.unit?.name,
@@ -106,7 +104,7 @@ const ModalReportExport = ({ handleExportExcel, listSupplyExport, open, onCancel
         />
         <Row justify="center" className={styles.export}>
           <Col span={4}>
-            <CommonButton onClick={() => handleExportExcel(listSupplyExport)}>
+            <CommonButton onClick={() => handleExportExcel(listSupplyImport)}>
               Xuất Excel
             </CommonButton>
           </Col>
@@ -116,4 +114,4 @@ const ModalReportExport = ({ handleExportExcel, listSupplyExport, open, onCancel
   );
 };
 
-export default ModalReportExport;
+export default ModalReportImport;
