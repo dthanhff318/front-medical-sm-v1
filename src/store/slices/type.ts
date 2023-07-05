@@ -35,6 +35,13 @@ export type TCreateUser = {
   displayName: string;
   department: number;
 };
+
+export type TCreateStaff = {
+  username: string;
+  password: string;
+  displayName: string;
+  role: ERole.Staff_Accept | ERole.Staff_Report;
+};
 // auth
 export type TUser = {
   id?: number;

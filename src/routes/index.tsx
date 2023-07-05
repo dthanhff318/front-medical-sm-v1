@@ -26,6 +26,7 @@ import ReportRefund from 'pages/Adm/Report/ReportRefund/ReportRefund';
 import ReportInventory from 'pages/Adm/Report/ReportInventory/ReportInventory';
 import ReportInventoryDepartment from 'pages/Adm/Report/ReportInventoryDepartment/ReportInventoryDepartment';
 import Analysis from 'pages/Adm/Analysis/Analysis';
+import StaffManage from 'pages/Adm/StaffManage/StaffManage';
 
 export const routers: any = [
   {
@@ -174,6 +175,14 @@ export const routers: any = [
     public: false,
     path: MPath.ADM_ANALYSIS,
     role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
+    exact: true,
+  },
+  {
+    name: 'StaffManage',
+    element: <StaffManage />,
+    public: false,
+    path: MPath.ADM_STAFF,
+    role: [ERole.Admin],
     exact: true,
   },
 

@@ -48,7 +48,7 @@ class Http {
 
   initHttp() {
     const http = axios.create({
-      baseURL: process.env.REACT_APP_BASE_API_URL,
+      baseURL: 'http://192.168.2.14:4000/v1',
       headers,
     });
 

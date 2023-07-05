@@ -96,7 +96,12 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       label: <Link to={MPath.ADM_SUPPLIER}>Nhà cung cấp</Link>,
     },
     {
-      id: 7,
+      id: 8,
+      icon: HomeOutlined,
+      label: <Link to={MPath.ADM_STAFF}>Nhan vien</Link>,
+    },
+    {
+      id: 9,
       icon: SnippetsOutlined,
       label: 'Tiện ích',
       children: [
@@ -111,7 +116,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       ],
     },
     {
-      id: 8,
+      id: 10,
       icon: CheckSquareOutlined,
       label: <Link to={MPath.ADM_ANALYSIS}>Thống kê</Link>,
     },
@@ -249,6 +254,22 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
     };
   });
 
+  const itemsStaffReport: MenuProps['items'] = listSubnavStaffReport.map((list: any, index) => {
+    const key = String(index + 1);
+    return {
+      key: `sub${key}`,
+      icon: React.createElement(list.icon),
+      label: list.label,
+      children: list.children?.map((_, j) => {
+        const subKey = index * 4 + j + 1;
+        return {
+          key: subKey,
+          label: _.label,
+        };
+      }),
+    };
+  });
+
   const itemsUser: MenuProps['items'] = listSubnavUser.map((list, index) => {
     const key = String(index + 1);
 
@@ -277,7 +298,11 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       case ERole.Staff_Accept:
         return itemsStaffAccept;
       case ERole.Staff_Report:
-        return itemsStaffAccept;
+        return itemsStaffReport;
+      case ERole.User:
+        return itemsUser;
+      default:
+        return itemsUser;
     }
   };
   return (
@@ -292,7 +317,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
           theme="dark"
           mode="inline"
           style={{ borderRight: 0 }}
-          items={role === ERole.Admin ? itemsAdmin : itemsUser}
+          items={checkMenuByRole(role ?? ERole.User)}
         />
       </Sider>
       <Layout className="site-layout default-layout-body">

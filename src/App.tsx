@@ -22,7 +22,7 @@ function App() {
   const userLs = getUserFromLs();
   const refreshToken = getRefreshTokenFromLocalStorage();
   const auth = isAuthenticated || Object.entries(userLs).length > 0;
-  const socketInstance = io('http://localhost:4000');
+  const socketInstance = io('http://192.168.2.14:4000');
 
   useEffect(() => {
     if (userLs.id && refreshToken) {
