@@ -1,14 +1,15 @@
 import React from 'react';
-import { Col, Form, Input, Modal, Row, Select, Table } from 'antd';
+import { Col, Modal, Row, Table } from 'antd';
 import styles from './ReportRefund.module.scss';
 import CommonButton from 'components/CommonButton/CommonButton';
-import { TSupplyResponse } from 'types/supply';
+import useService from './service';
+import { getNameById } from 'helpers/functions';
 
 type Props = {
   open: boolean;
   onCancel: () => void;
-  listSupplyImport: Array<TSupplyResponse>;
-  handleExportExcel: (data: Array<TSupplyResponse>) => void;
+  listSupplyImport: Array<any>;
+  handleExportExcel: (data: Array<any>) => void;
 };
 const ModalReportImport = ({ handleExportExcel, listSupplyImport, open, onCancel }: Props) => {
   const columns: any = [
@@ -69,8 +70,8 @@ const ModalReportImport = ({ handleExportExcel, listSupplyImport, open, onCancel
       width: 150,
     },
     {
-      title: 'Số lượng xuất',
-      dataIndex: 'quantityExpect',
+      title: 'Số lượng nhap',
+      dataIndex: 'quantityImport',
       width: 150,
     },
     {
@@ -79,12 +80,14 @@ const ModalReportImport = ({ handleExportExcel, listSupplyImport, open, onCancel
       width: 100,
     },
   ];
+  const { groups, suppliers, units } = useService();
+
   return (
     <Modal open={open} footer={null} onCancel={onCancel} width={1000}>
       <div className={styles.wrapperModal}>
         <Row justify="center" className={styles.tittle}>
           <Col span={6}>
-            <span className={styles.name}>Thông tin xuất kho</span>
+            <span className={styles.name}>Thông tin nhap kho</span>
           </Col>
         </Row>
         <Table
@@ -92,9 +95,9 @@ const ModalReportImport = ({ handleExportExcel, listSupplyImport, open, onCancel
           //loading={loading}
           dataSource={listSupplyImport.map((e) => ({
             ...e,
-            group: e?.group?.name,
-            unit: e?.unit?.name,
-            company: e.company ? e.company.name : '',
+            group: getNameById(e.group, groups),
+            unit: getNameById(e.unit, units),
+            company: getNameById(e.company, suppliers),
             isLoss: e.isLoss ? 'Có' : 'Không',
           }))}
           size="middle"

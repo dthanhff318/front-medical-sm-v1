@@ -53,7 +53,7 @@ const ReportRefund = () => {
         handleExportExcel={handleExportExcel}
       />
       <Col className={s.title} span={24}>
-        <h2>Báo cáo nhập kho chi tiết </h2>
+        <h2>Báo cáo nhập xuat ton</h2>
       </Col>
       <Form
         initialValues={{ remember: true }}
@@ -81,27 +81,6 @@ const ReportRefund = () => {
           </Col>
 
           <Row gutter={[40, 40]}>
-            <Col span={8}>
-              <span className={s.titleCheckbox}>Chọn khoa phòng</span>
-              <div className={s.selectAllBtn} onChange={(e) => handleSelectAll(e, DEPARTMENT)}>
-                <Checkbox>Chon tat ca</Checkbox>
-              </div>
-              <Form.Item
-                name="department"
-                className={s.selection_department}
-                rules={[{ required: true, message: 'Vui long chọn khoa pohng' }]}
-              >
-                <Checkbox.Group style={{ width: '100%' }}>
-                  <Row gutter={[0, 10]}>
-                    {departmentList.map((d) => (
-                      <Col span={24}>
-                        <Checkbox value={d.id}>{d.name}</Checkbox>
-                      </Col>
-                    ))}
-                  </Row>
-                </Checkbox.Group>
-              </Form.Item>
-            </Col>
             <Col span={8}>
               <span className={s.titleCheckbox}>Chọn loại phiếu</span>
               <div className={s.selectAllBtn} onChange={(e) => handleSelectAll(e, TYPE_PLAN)}>

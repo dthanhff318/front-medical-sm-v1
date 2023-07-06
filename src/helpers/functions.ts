@@ -61,3 +61,8 @@ export const getNameByTicketType = (typePlan: number) => {
   }
   return namePlan;
 };
+
+export const getNameById = (id: number, findList: any[]) => {
+  const findItem = findList.find((e) => Number(e.id) === id);
+  return findItem.name;
+};

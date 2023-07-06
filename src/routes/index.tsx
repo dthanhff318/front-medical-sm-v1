@@ -24,7 +24,7 @@ import Unit from 'pages/Adm/Extension/Unit/Unit';
 import Group from 'pages/Adm/Extension/Group/Group';
 import ReportRefund from 'pages/Adm/Report/ReportRefund/ReportRefund';
 import ReportInventory from 'pages/Adm/Report/ReportInventory/ReportInventory';
-import ReportInventoryDepartment from 'pages/Adm/Report/ReportInventoryDepartment/ReportInventoryDepartment';
+import ReportBidding from 'pages/Adm/Report/ReportBidding/ReportBidding';
 import Analysis from 'pages/Adm/Analysis/Analysis';
 import StaffManage from 'pages/Adm/StaffManage/StaffManage';
 
@@ -145,10 +145,10 @@ export const routers: any = [
     exact: true,
   },
   {
-    name: 'ReportInventoryDepartment',
-    element: <ReportInventoryDepartment />,
+    name: 'ReportBidding',
+    element: <ReportBidding />,
     public: false,
-    path: MPath.ADM_REPORT_INVENTORY_DEPARTMENT,
+    path: MPath.ADM_REPORT_BIDDING,
     role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
     exact: true,
   },

@@ -1,12 +1,15 @@
 import { getNameById } from 'helpers/functions';
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
+import { getDepartments } from 'store/slices/departmentSlice';
 import * as XLSX from 'xlsx';
 
+type Props = {};
 const useService = () => {
+  const dispatch = useDispatch();
   const { departmentList } = useSelector((state: RootState) => state.department);
-  const { groups, suppliers, units } = useSelector((state: RootState) => state.common);
+  const { groups, units, suppliers } = useSelector((state: RootState) => state.common);
 
   const handleExportExcel = (data) => {
     const convertData = data.map((e) => ({
@@ -21,8 +24,8 @@ const useService = () => {
       ['Công ty']: getNameById(e.company, suppliers),
       ['Hạn sử dụng']: e.dateExpired,
       ['Lô sản xuất']: e.productCode,
-      ['Số lượng nhap']: e.quantityImport,
-      ['Số lượng kho']: e.quantity,
+      ['Don gia']: e.unitPrice,
+      ['Tong gia tien']: e.totalPrice,
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(convertData);
@@ -38,18 +41,22 @@ const useService = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', 'data-import.xlsx');
+    link.setAttribute('download', 'bidding-report.xlsx');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
+  useEffect(() => {
+    dispatch(getDepartments({}) as any);
+  }, []);
+
   return {
     departmentList,
-    handleExportExcel,
     groups,
-    suppliers,
+    handleExportExcel,
     units,
+    suppliers,
   };
 };
 

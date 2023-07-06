@@ -11,6 +11,9 @@ const reportApi = {
   getDataReportInventory: (data: TGetDataReport) => {
     return axiosClient.post('/report/inventory-store', data);
   },
+  getReportBidding: (data: TGetDataReport) => {
+    return axiosClient.post('/report/bidding', data);
+  },
 };
 
 export default reportApi;

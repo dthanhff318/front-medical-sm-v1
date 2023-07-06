@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Checkbox, Col, DatePicker, Form, Row } from 'antd';
-import moment from 'moment';
 import s from './ReportInventory.module.scss';
 import CommonButton from 'components/CommonButton/CommonButton';
 import { useForm } from 'antd/es/form/Form';
@@ -19,13 +18,12 @@ const ReportInventory = () => {
   const [openModal, setOpenModal] = useState<TModal>('');
   const [listSupplyExport, setListSupplyExport] = useState<any>([]);
 
-  const { departmentList, groups } = useService();
+  const { departmentList, groups, handleExportExcel } = useService();
   const handleSeen = async (data) => {
     const timeRange = data.timeRange.map((time) => time.format('DD MM YY'));
     const res = await reportApi.getDataReportInventory({ ...data, timeRange });
     setOpenModal('create');
     setListSupplyExport(res.data);
-    console.log(res);
   };
 
   const handleSelectAll = (e, fieldName: string) => {
@@ -52,7 +50,7 @@ const ReportInventory = () => {
         listSupplyExport={listSupplyExport}
         open={openModal === 'create'}
         onCancel={() => setOpenModal('')}
-       
+        handleExportExcel={handleExportExcel}
       />
       <Col className={s.title} span={24}>
         <h2>Báo cáo xuất nhập tồn</h2>

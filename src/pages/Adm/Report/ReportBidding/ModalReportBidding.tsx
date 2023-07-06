@@ -1,23 +1,28 @@
 import React from 'react';
 import { Col, Modal, Row, Table } from 'antd';
-import styles from './ReportInventory.module.scss';
+import styles from './ReportBidding.module.scss';
 import CommonButton from 'components/CommonButton/CommonButton';
+import { TSupplyResponse } from 'types/supply';
 import { getNameById } from 'helpers/functions';
 import useService from './service';
-
 type Props = {
   open: boolean;
   onCancel: () => void;
   listSupplyExport: Array<any>;
-  handleExportExcel: (data: any) => void;
+  handleExportExcel: (data: Array<any>) => void;
 };
-const ModalReportInventory = ({ listSupplyExport, open, onCancel, handleExportExcel }: Props) => {
+const ModalReportBidding = ({ handleExportExcel, listSupplyExport, open, onCancel }: Props) => {
   const columns: any = [
     {
       title: 'Tên vật tư',
       width: 250,
       dataIndex: 'name',
       fixed: 'left',
+    },
+    {
+      title: 'Mã',
+      width: 100,
+      dataIndex: 'code',
     },
     {
       title: 'Hoạt chất',
@@ -65,23 +70,22 @@ const ModalReportInventory = ({ listSupplyExport, open, onCancel, handleExportEx
       width: 150,
     },
     {
-      title: 'Số lượng nhập',
-      dataIndex: 'quantityImport',
-      width: 150,
-    },
-    {
-      title: 'Số lượng xuất',
-      dataIndex: 'quantityExport',
-      width: 150,
-    },
-    {
-      title: 'Số lượng kho',
+      title: 'So luong',
       dataIndex: 'quantity',
-      width: 100,
+      width: 150,
+    },
+    {
+      title: 'Don gia',
+      dataIndex: 'unitPrice',
+      width: 200,
+    },
+    {
+      title: 'Tong gia tien',
+      dataIndex: 'totalPrice',
+      width: 300,
     },
   ];
-  const { groups, suppliers, units } = useService();
-
+  const { groups, units, suppliers } = useService();
   return (
     <Modal open={open} footer={null} onCancel={onCancel} width={1000}>
       <div className={styles.wrapperModal}>
@@ -116,4 +120,4 @@ const ModalReportInventory = ({ listSupplyExport, open, onCancel, handleExportEx
   );
 };
 
-export default ModalReportInventory;
+export default ModalReportBidding;

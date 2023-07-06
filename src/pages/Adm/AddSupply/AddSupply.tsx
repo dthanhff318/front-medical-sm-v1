@@ -72,7 +72,7 @@ const AddSupply: React.FC = () => {
     const dateExp = form.getFieldValue('dateExpired');
     const price = form.getFieldValue('price');
     const productCode = form.getFieldValue('productCode');
-    const convertDate = dateExp ? moment(dateExp.$d).format('MMM Do YY') : '';
+    const convertDate = dateExp ? moment(dateExp.$d).format('MM DD YY') : '';
     const isLoss = form.getFieldValue('isLoss') === 'Có' ? true : false;
     const group = selectSupply.group;
     const unit = selectSupply.unit;

@@ -14,7 +14,7 @@ const MPath = {
   ADM_REPORT_EXPORT: '/adm/report/export',
   ADM_REPORT_REFUND: '/adm/report/refund',
   ADM_REPORT_INVENTORY: '/adm/report/inventory',
-  ADM_REPORT_INVENTORY_DEPARTMENT: '/adm/report/inventory/department',
+  ADM_REPORT_BIDDING: '/adm/report/bidding',
   ADM_EXTENSION_UNIT: '/adm/extension/unit',
   ADM_EXTENSION_GROUP: '/adm/extension/group',
   ADM_ANALYSIS: '/adm/analysis',
