@@ -73,7 +73,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
           label: <Link to={MPath.ADM_REPORT_REFUND}>Nhập kho</Link>,
         },
         {
-          label: <Link to={MPath.ADM_REPORT_BIDDING}>Dau thau</Link>,
+          label: <Link to={MPath.ADM_REPORT_BIDDING}>Đấu thầu</Link>,
         },
         {
           label: <Link to={MPath.ADM_REPORT_INVENTORY}>Xuất nhập tồn</Link>,
@@ -166,7 +166,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
           label: <Link to={MPath.ADM_REPORT_REFUND}>Nhập kho</Link>,
         },
         {
-          label: <Link to={MPath.ADM_REPORT_BIDDING}>Dau thau</Link>,
+          label: <Link to={MPath.ADM_REPORT_BIDDING}>Đấu thầu</Link>,
         },
         {
           label: <Link to={MPath.ADM_REPORT_INVENTORY}>Xuất nhập tồn</Link>,

@@ -52,7 +52,7 @@ const ReportBidding = () => {
         handleExportExcel={handleExportExcel}
       />
       <Col className={s.title} span={24}>
-        <h2>Báo cáo nhap thau:</h2>
+        <h2>Báo cáo nhập thầu:</h2>
       </Col>
       <Form
         initialValues={{ remember: true }}
@@ -66,7 +66,7 @@ const ReportBidding = () => {
             <strong>Chọn thời gian :</strong>
             <Form.Item
               name="timeRange"
-              rules={[{ required: true, message: 'Vui long chọn khoang thoi gian' }]}
+              rules={[{ required: true, message: 'Hãy chọn các mốc thời gian' }]}
             >
               <DatePicker.RangePicker format="DD MM YYYY" />
             </Form.Item>
@@ -83,12 +83,12 @@ const ReportBidding = () => {
             <Col span={12}>
               <span className={s.titleCheckbox}>Chọn loại vật tư</span>
               <div className={s.selectAllBtn} onChange={(e) => handleSelectAll(e, GROUP)}>
-                <Checkbox>Chon tat ca</Checkbox>
+                <Checkbox>Chọn tất cả</Checkbox>
               </div>
               <Form.Item
                 name="group"
                 className={s.selection_group}
-                rules={[{ required: true, message: 'Vui long chọn loai vat tu' }]}
+                rules={[{ required: true, message: 'Vui lòng chọn loại vật tư' }]}
               >
                 <Checkbox.Group style={{ width: '100%' }}>
                   <Row gutter={[0, 10]}>

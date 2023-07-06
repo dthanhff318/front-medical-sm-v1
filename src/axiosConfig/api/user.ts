@@ -17,6 +17,9 @@ const userApi = {
     const strParams = queryString.stringify(params);
     return axiosClient.get(`/user/staff?${strParams}`);
   },
+  getListStaffDepartment: (department: number) => {
+    return axiosClient.post('/user/staff-department', { department });
+  },
 };
 
 export default userApi;
