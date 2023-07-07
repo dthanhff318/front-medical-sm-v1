@@ -8,6 +8,9 @@ const authApi = {
   checkAuth: (body: { refreshToken: string }) => {
     return axiosClient.post('/auth/check-auth', body);
   },
+  getCurrentUser: () => {
+    return axiosClient.get('/auth/current-user');
+  },
 };
 
 export default authApi;

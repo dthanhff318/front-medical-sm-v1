@@ -48,6 +48,8 @@ export type TUser = {
   role?: ERole;
   department?: null | number;
   displayName?: string;
+  email?: string;
+  photo?: string;
 };
 export type TInitAuthState = {
   isAuthenticated: boolean;

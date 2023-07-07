@@ -18,6 +18,7 @@ import { getPublicUrl } from 'helpers/functions';
 import useService from './service';
 import { ERole } from 'enums';
 import NotiMain from 'components/NotiMain/NotiMain';
+import ModalUserInfo from './ModalUserInfo';
 
 const { Header, Sider, Content } = Layout;
 
@@ -26,9 +27,19 @@ type Props = {
 };
 const DefaultLayout: React.FC<Props> = ({ children }) => {
   const { onLogout, role, notis, numberSeen, notiRef, loading } = useService();
+  const [modal, setModal] = useState<'user' | ''>('');
+
   const items: MenuProps['items'] = [
     {
       key: '1',
+      label: (
+        <p style={{ padding: '3px' }} onClick={() => setModal('user')}>
+          Thong tin ca nhan
+        </p>
+      ),
+    },
+    {
+      key: '2',
       label: (
         <p style={{ padding: '3px' }} onClick={onLogout}>
           Đăng xuất
@@ -307,6 +318,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
   };
   return (
     <Layout className="defaultlayout-wapper">
+      <ModalUserInfo open={modal === 'user'} handleCancel={() => setModal('')} />
       <Sider className="sider-wapper" trigger={null} collapsible collapsed={collapsed}>
         <Link to={role === ERole.Admin ? MPath.ADM_HOME : MPath.USER_HOME} className="sider-title">
           <div className="sider-logo">

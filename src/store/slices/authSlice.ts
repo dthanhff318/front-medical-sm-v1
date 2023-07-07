@@ -21,6 +21,8 @@ const authSlice = createSlice({
       };
     },
     saveUser: (state: TInitAuthState, action: PayloadAction<TUser>) => {
+      console.log(action.payload);
+
       state.currentUser = action.payload;
       state.isAuthenticated = true;
     },

@@ -1,3 +1,4 @@
+import authApi from 'axiosConfig/api/auth';
 import { listTypes } from 'const';
 import SocketContext from 'context/socketContext';
 import { ERole } from 'enums';
@@ -7,7 +8,7 @@ import { useInView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { RootState } from 'store';
-import { logout } from 'store/slices/authSlice';
+import { logout, saveUser } from 'store/slices/authSlice';
 import { fetchInfoCommon } from 'store/slices/commonSlice';
 import { getNotis, setDataFetch } from 'store/slices/noti';
 
@@ -43,6 +44,11 @@ const useService = () => {
     }
   };
 
+  const getCurrentUser = async () => {
+    const res = await authApi.getCurrentUser();
+    dispatch(saveUser(res.data));
+  };
+
   useEffect(() => {
     if (dataFetch.firstFetch) {
       getListNoti();
@@ -53,6 +59,7 @@ const useService = () => {
 
   useEffect(() => {
     dispatch(fetchInfoCommon({}) as any);
+    getCurrentUser();
   }, []);
 
   useEffect(() => {
