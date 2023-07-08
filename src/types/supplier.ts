@@ -4,4 +4,5 @@ export type TSupplier = {
   email?: string;
   phone?: string;
   location?: string;
+  photo?: string;
 };

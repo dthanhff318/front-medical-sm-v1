@@ -49,7 +49,7 @@ const ModalUserInfo = ({ handleCancel, open }: Props) => {
         <Descriptions
           title={
             <div className="title-info">
-              <h2>Thong tin ca nhan</h2>
+              <h2>Thông tin cá nhân</h2>
               <div className="avatar-wrapper">
                 {loading ? (
                   <div className="avatar-loading" />

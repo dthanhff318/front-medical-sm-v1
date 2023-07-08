@@ -29,7 +29,6 @@ function App() {
       dispatch(saveUser(userLs));
     }
   }, []);
-  console.log(userLs.role);
 
   return (
     <BrowserRouter>

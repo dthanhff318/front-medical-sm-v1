@@ -3,16 +3,19 @@ import CommonButton from 'components/CommonButton/CommonButton';
 import ModalDelete from 'components/CommonModal/ModalDelete';
 import { useNavigate } from 'react-router-dom';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './style.module.scss';
 import useService from './service';
 import { toast } from 'react-toastify';
 import { EditOutlined, RollbackOutlined, SaveOutlined } from '@ant-design/icons';
 import MPath from 'routes/routes';
 import { TSupplier } from 'types/supplier';
-type TModal = '' | 'delete' | 'create';
+import uploadApi from 'axiosConfig/api/upload';
+import { useDispatch } from 'react-redux';
+import { updateSupplier } from 'store/slices/supplierSlice';
 const SupplierDetail = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
   const [descriptions, setDescriptions] = useState<TSupplier>({
     name: '',
@@ -20,11 +23,32 @@ const SupplierDetail = () => {
     email: '',
     location: '',
   });
+  const inputRef = useRef<HTMLInputElement>(null);
+  const triggerUpload = () => {
+    inputRef.current?.click();
+  };
 
+  const handleUpload = async (e) => {
+    try {
+      if (e.target.files && e.target.files.length && supplierDetail.id) {
+        const fileUpload = e.target.files[0];
+        // Check is Image
+        const listImageType = ['image/jpeg', 'image/png', 'image/jpg'];
+        if (!listImageType.includes(fileUpload.type)) {
+          return;
+        }
+        const formImg = new FormData();
+        formImg.append('file', fileUpload);
+        const res = await uploadApi.uploadPhotoSupplier(formImg, supplierDetail.id);
+        dispatch(updateSupplier(res.data) as any);
+      }
+    } catch (err) {
+      toast.error('Tải ảnh lên không thành công');
+    }
+  };
   const { supplierState, handleUpdateSupplier } = useService();
 
   const { supplierDetail, loading } = supplierState;
-  const notify = () => toast('Wow so easy !');
   const handleEditClick = () => {
     setIsEditing(true);
   };
@@ -53,9 +77,7 @@ const SupplierDetail = () => {
   return (
     <>
       <div className={styles.wrapper}>
-        <h2 className={styles.title} onClick={notify}>
-          Thông tin chi tiết nhà cung cấp
-        </h2>
+        <h2 className={styles.title}>Thông tin chi tiết nhà cung cấp</h2>
         <CommonButton onClick={() => navigate(MPath.ADM_SUPPLIER)}>
           <RollbackOutlined />
         </CommonButton>
@@ -115,6 +137,15 @@ const SupplierDetail = () => {
               )}
             </Descriptions.Item>
           </Descriptions>
+        </div>
+        <div className={styles.photo}>
+          {supplierDetail.photo ? (
+            <img src={supplierDetail.photo} className={styles.img} />
+          ) : (
+            <div className={styles.img}>Chưa có ảnh nào</div>
+          )}
+          <CommonButton onClick={triggerUpload}>Tải ảnh lên</CommonButton>
+          <input ref={inputRef} type="file" className={styles.inputFile} onChange={handleUpload} />
         </div>
       </div>
     </>
