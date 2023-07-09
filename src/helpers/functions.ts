@@ -1,5 +1,6 @@
 import { IndexedObject } from 'types/common';
 import queryString from 'query-string';
+import { ERole } from 'enums';
 
 export const isEmptyObject = (obj: IndexedObject) => {
   if (obj.constructor === Object && Object.keys(obj).length === 0) {
@@ -65,4 +66,17 @@ export const getNameByTicketType = (typePlan: number) => {
 export const getNameById = (id: number, findList: any[]) => {
   const findItem = findList.find((e) => Number(e.id) === id);
   return findItem.name;
+};
+
+export const getRoleName = (role) => {
+  switch (role) {
+    case ERole.Admin:
+      return 'Admin';
+    case ERole.Staff_Accept:
+      return 'Nhân viên quản lý kho';
+    case ERole.Staff_Report:
+      return 'Nhân viên quản lý tiện ích';
+    case ERole.User:
+      return 'Khoa phòng';
+  }
 };

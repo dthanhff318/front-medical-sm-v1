@@ -8,8 +8,7 @@ import ModalDetail from './ModalDetail';
 export default function Debt() {
   const { debts, setTime, setStatus, setSearch } = useService();
   const [modal, setModal] = React.useState<'' | 'detail'>('');
-  const [data, setData] = React.useState({});
-
+  const [data, setData] = React.useState([]);
   const columns = [
     {
       title: 'ID',

@@ -39,6 +39,7 @@ const useService = () => {
   useEffect(() => {
     getListDebt({ timeRange: time, isDone: status, search });
   }, [time, search, status]);
+
   return {
     setTime,
     setStatus,

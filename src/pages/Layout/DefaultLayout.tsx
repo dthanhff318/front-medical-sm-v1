@@ -34,7 +34,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       key: '1',
       label: (
         <p style={{ padding: '3px' }} onClick={() => setModal('user')}>
-          Thong tin ca nhan
+          Thông tin cá nhân
         </p>
       ),
     },
@@ -231,6 +231,11 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       id: 4,
       icon: MedicineBoxOutlined,
       label: <Link to={MPath.USER_TICKET_HISTORY}>Phiếu gửi</Link>,
+    },
+    {
+      id: 5,
+      icon: MedicineBoxOutlined,
+      label: <Link to={MPath.USER_REPORT}>Báo cáo</Link>,
     },
   ];
   const itemsAdmin: MenuProps['items'] = listSubnavAdmin.map((list: any, index) => {

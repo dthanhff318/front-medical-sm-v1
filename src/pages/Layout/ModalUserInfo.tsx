@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'store';
 import './DefaultLayout.scss';
 import { saveUser } from 'store/slices/authSlice';
+import { getRoleName } from 'helpers/functions';
 
 type Props = {
   open: boolean;
@@ -43,6 +44,7 @@ const ModalUserInfo = ({ handleCancel, open }: Props) => {
       setLoading(false);
     }
   };
+
   return (
     <Modal title="" open={open} onCancel={handleCancel} width="70vw">
       <div className="user-info-wrapper">
@@ -65,11 +67,11 @@ const ModalUserInfo = ({ handleCancel, open }: Props) => {
           layout="horizontal"
           column={1}
         >
-          <Descriptions.Item label="Ten hien thi">{currentUser.displayName}</Descriptions.Item>
+          <Descriptions.Item label="Tên hiển thị">{currentUser.displayName}</Descriptions.Item>
           <Descriptions.Item label="Email">{currentUser.email}</Descriptions.Item>
-          <Descriptions.Item label="Vi tri">{currentUser.role}</Descriptions.Item>
+          <Descriptions.Item label="Vị trí">{getRoleName(currentUser.role)}</Descriptions.Item>
           {currentUser.department && (
-            <Descriptions.Item label="Khoa phong">{currentUser.department}</Descriptions.Item>
+            <Descriptions.Item label="Khoa phòng">{currentUser.department}</Descriptions.Item>
           )}
         </Descriptions>
       </div>

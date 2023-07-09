@@ -28,6 +28,7 @@ const MPath = {
   USER_STORE: '/store/department',
   USER_TICKET_HISTORY: '/store/ticket-history',
   USER_TICKET_HISTORY_DETAIL: '/store/ticket-history/:id',
+  USER_REPORT: '/report',
 };
 
 export default MPath;

@@ -28,6 +28,7 @@ import ReportBidding from 'pages/Adm/Report/ReportBidding/ReportBidding';
 import Analysis from 'pages/Adm/Analysis/Analysis';
 import StaffManage from 'pages/Adm/StaffManage/StaffManage';
 import Debt from 'pages/Adm/Debt/Debt';
+import ReportDepartment from 'pages/User/ReportDepartment/ReportDepartment';
 
 export const routers: any = [
   {
@@ -241,6 +242,14 @@ export const routers: any = [
     element: <TicketHistoryDetail />,
     public: false,
     path: MPath.USER_TICKET_HISTORY_DETAIL,
+    role: [ERole.User],
+    exact: true,
+  },
+  {
+    name: 'USER_REPORT',
+    element: <ReportDepartment />,
+    public: false,
+    path: MPath.USER_REPORT,
     role: [ERole.User],
     exact: true,
   },

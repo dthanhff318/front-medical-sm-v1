@@ -2,6 +2,7 @@ import React from 'react';
 import useService from './service';
 import s from './HomeUser.module.scss';
 import { Table } from 'antd';
+import { getRoleName } from 'helpers/functions';
 
 type Props = {};
 
@@ -10,27 +11,22 @@ const HomeUser = (props: Props) => {
   const columns = [
     {
       title: 'ID',
-      // width: 150,
       dataIndex: 'id',
     },
     {
       title: 'Tên',
-      // width: 150,
       dataIndex: 'displayName',
     },
     {
       title: 'Email',
-      // width: 150,
       dataIndex: 'email',
     },
     {
       title: 'Email',
-      // width: 150,
       dataIndex: 'email',
     },
     {
       title: 'Vị trí',
-      // width: 150,
       dataIndex: 'role',
     },
   ];
@@ -41,7 +37,14 @@ const HomeUser = (props: Props) => {
         <p>Trưởng phòng: </p>
         <p>Số điện thoại: </p>
         <p>Địa chỉ khoa: </p>
-        <Table columns={columns} dataSource={dataDepartment.member} style={{ marginTop: '1rem' }} />
+        <Table
+          columns={columns}
+          dataSource={dataDepartment.member.map((e) => ({
+            ...e,
+            role: getRoleName(e.role),
+          }))}
+          style={{ marginTop: '1rem' }}
+        />
       </div>
     </div>
   );
