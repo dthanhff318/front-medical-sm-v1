@@ -27,6 +27,7 @@ import ReportInventory from 'pages/Adm/Report/ReportInventory/ReportInventory';
 import ReportBidding from 'pages/Adm/Report/ReportBidding/ReportBidding';
 import Analysis from 'pages/Adm/Analysis/Analysis';
 import StaffManage from 'pages/Adm/StaffManage/StaffManage';
+import Debt from 'pages/Adm/Debt/Debt';
 
 export const routers: any = [
   {
@@ -59,6 +60,14 @@ export const routers: any = [
     public: false,
     role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
     path: MPath.ADM_ADD_SUPPLY,
+    exact: true,
+  },
+  {
+    name: 'AdmDebt',
+    element: <Debt />,
+    public: false,
+    role: [ERole.Admin, ERole.Staff_Accept, ERole.Staff_Report],
+    path: MPath.ADM_DEBT,
     exact: true,
   },
   {

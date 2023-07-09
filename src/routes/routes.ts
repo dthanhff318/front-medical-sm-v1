@@ -4,6 +4,7 @@ const MPath = {
   ADM_HOME: '/adm',
   ADM_BIDDING: '/adm/bidding',
   ADM_ADD_SUPPLY: '/adm/add/supply',
+  ADM_DEBT: '/adm/debt',
   ADM_DEPARTMENT: '/adm/department',
   ADM_SUPPLIER: '/adm/supplier',
   ADM_SUPPLIER_DETAIL: '/adm/supplier/:id',
