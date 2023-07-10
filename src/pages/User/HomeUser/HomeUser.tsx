@@ -39,7 +39,7 @@ const HomeUser = (props: Props) => {
         <p>Địa chỉ khoa: </p>
         <Table
           columns={columns}
-          dataSource={dataDepartment.member.map((e) => ({
+          dataSource={dataDepartment.member?.map((e) => ({
             ...e,
             role: getRoleName(e.role),
           }))}

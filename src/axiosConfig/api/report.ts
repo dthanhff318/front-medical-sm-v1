@@ -1,5 +1,6 @@
 import { axiosClient } from 'axiosConfig/axiosClient';
 import { TGetDataReport } from 'store/slices/type';
+import { IndexedObject } from 'types/common';
 
 const reportApi = {
   getDataReport: (data: TGetDataReport) => {
@@ -13,6 +14,9 @@ const reportApi = {
   },
   getReportBidding: (data: TGetDataReport) => {
     return axiosClient.post('/report/bidding', data);
+  },
+  getReportForDepartment: (data: IndexedObject) => {
+    return axiosClient.post('/report/for-department', data);
   },
 };
 
