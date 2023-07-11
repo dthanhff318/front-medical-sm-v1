@@ -11,13 +11,14 @@ type Props = {};
 
 const ReportDepartment = (props: Props) => {
   const [modal, setModal] = useState<'detail' | ''>('');
-  const { handleGetReport, handleExportExcel } = useService();
+  const { handleGetReport, handleExportExcel, data } = useService();
   const [form] = useForm();
 
   return (
     <div className={s.wrapper}>
       <ModalReport
         open={modal === 'detail'}
+        listSupply={data}
         onCancel={() => setModal('')}
         handleExportExcel={handleExportExcel}
       />
@@ -37,7 +38,6 @@ const ReportDepartment = (props: Props) => {
           <Form.Item name="type" rules={[{ required: true, message: 'Hãy chọn loại báo cáo' }]}>
             <Radio.Group>
               <Space direction="vertical">
-                <Radio value="all">Báo cáo xuất nhập vật tư</Radio>
                 <Radio value="export">Báo cáo xuất vật tư</Radio>
                 <Radio value="import">Báo cáo nhập vật tư</Radio>
               </Space>

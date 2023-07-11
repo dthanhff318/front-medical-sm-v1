@@ -3,13 +3,14 @@ import { Col, Modal, Row, Table } from 'antd';
 import styles from './ReportDepartment.module.scss';
 import CommonButton from 'components/CommonButton/CommonButton';
 import useService from './service';
+import { getNameById } from 'helpers/functions';
 type Props = {
   open: boolean;
   onCancel: () => void;
-  // listSupplyExport: Array<any>;
+  listSupply: Array<any>;
   handleExportExcel: (data: Array<any>) => void;
 };
-const ModalReport = ({ handleExportExcel, open, onCancel }: Props) => {
+const ModalReport = ({ handleExportExcel, open, onCancel, listSupply }: Props) => {
   const columns: any = [
     {
       title: 'Tên vật tư',
@@ -68,19 +69,9 @@ const ModalReport = ({ handleExportExcel, open, onCancel }: Props) => {
       width: 150,
     },
     {
-      title: 'So luong',
+      title: 'Số lượng',
       dataIndex: 'quantity',
       width: 150,
-    },
-    {
-      title: 'Don gia',
-      dataIndex: 'unitPrice',
-      width: 200,
-    },
-    {
-      title: 'Tong gia tien',
-      dataIndex: 'totalPrice',
-      width: 300,
     },
   ];
   const { groups, units, suppliers } = useService();
@@ -89,20 +80,26 @@ const ModalReport = ({ handleExportExcel, open, onCancel }: Props) => {
       <div className={styles.wrapperModal}>
         <Row justify="center" className={styles.tittle}>
           <Col span={6}>
-            <span className={styles.name}>Thông tin xuất kho</span>
+            <span className={styles.name}>Thông tin kho hàng</span>
           </Col>
         </Row>
         <Table
           columns={columns}
-          dataSource={[]}
+          dataSource={listSupply.map((e) => ({
+            ...e,
+            group: getNameById(e.group, groups),
+            unit: getNameById(e.unit, units),
+            company: getNameById(e.company, suppliers),
+            isLoss: e.isLoss ? 'Có' : 'Không',
+          }))}
           size="middle"
           scroll={{ x: 'max-content', y: '50vh' }}
           rowKey="id"
           pagination={false}
         />
-        <Row justify="center" className={styles.export}>
+        <Row justify="center" className={styles.export} style={{ marginTop: '1rem' }}>
           <Col span={4}>
-            <CommonButton onClick={() => {}}>Xuất Excel</CommonButton>
+            <CommonButton onClick={() => handleExportExcel(listSupply)}>Xuất Excel</CommonButton>
           </Col>
         </Row>
       </div>
