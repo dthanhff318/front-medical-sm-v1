@@ -131,6 +131,11 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       icon: CheckSquareOutlined,
       label: <Link to={MPath.ADM_ANALYSIS}>Thống kê</Link>,
     },
+    {
+      id: 11,
+      icon: CheckSquareOutlined,
+      label: <Link to={MPath.ADM_APOINTMENT}>Cuộc họp</Link>,
+    },
   ];
 
   const listSubnavStaffAccept = [

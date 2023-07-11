@@ -29,6 +29,7 @@ import Analysis from 'pages/Adm/Analysis/Analysis';
 import StaffManage from 'pages/Adm/StaffManage/StaffManage';
 import Debt from 'pages/Adm/Debt/Debt';
 import ReportDepartment from 'pages/User/ReportDepartment/ReportDepartment';
+import Appointment from 'pages/Adm/Appointment/Appointment';
 
 export const routers: any = [
   {
@@ -192,6 +193,14 @@ export const routers: any = [
     element: <StaffManage />,
     public: false,
     path: MPath.ADM_STAFF,
+    role: [ERole.Admin],
+    exact: true,
+  },
+  {
+    name: 'Appointment',
+    element: <Appointment />,
+    public: false,
+    path: MPath.ADM_APOINTMENT,
     role: [ERole.Admin],
     exact: true,
   },
