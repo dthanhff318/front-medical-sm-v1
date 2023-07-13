@@ -1,47 +1,39 @@
 import React, { useEffect } from 'react';
 import s from './Home.module.scss';
 import useService from './service';
-import { ZoomMtg } from '@zoomus/websdk';
-import ZoomMtgEmbedded from '@zoomus/websdk/embedded';
 
-const client = ZoomMtgEmbedded.createClient();
+// const client = ZoomMtgEmbedded.createClient();
+
 export default function Appointment() {
   const { dataService } = useService();
-  const initZoom = () => {
-    let meetingSDKElement = document.getElementById('meetingSDKElement');
-    if (meetingSDKElement) client.init({ zoomAppRoot: meetingSDKElement, language: 'en-US' });
-  };
 
-  const joinMeet = () => {
-    client.join({
-      sdkKey: '!212',
-      signature: 'Sdsd',
-      meetingNumber: '111111',
-      password: '123',
-      userName: 'dthanh',
-    });
-  };
+  // useEffect(() => {
+  //   // Khởi tạo client và cấu hình
+  //   const CLIENT_ID = 'YOUR_CLIENT_ID';
+  //   const API_KEY = 'YOUR_API_KEY';
+  //   const DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'];
+  //   const SCOPES = 'https://www.googleapis.com/auth/calendar.readonly';
 
-  useEffect(() => {
-    initZoom();
-  }, []);
+  //   gapi.load('client:auth2', () => {
+  //     gapi.client.init({
+  //       apiKey: API_KEY,
+  //       clientId: CLIENT_ID,
+  //       discoveryDocs: DISCOVERY_DOCS,
+  //       scope: SCOPES,
+  //     });
 
-  let authEndpoint = '';
-  let sdkKey = '';
-  let meetingNumber = '123456789';
-  let passWord = '';
-  let role = 0;
-  let userName = 'React';
-  let userEmail = '';
-  let registrantToken = '';
-  let zakToken = '';
-  let leaveUrl = 'http://localhost:3000';
+  //     gapi.client.load('calendar', 'v3', () => {
+  //       // API đã sẵn sàng để sử dụng
+  //       // Tiếp theo, bạn có thể triển khai các chức năng của bạn ở đây
+  //     });
+  //   });
+  // }, []);
 
   return (
     <div>
       <h2>Cuộc họp</h2>
       <div id="meetingSDKElement"></div>
-      <button onClick={joinMeet}>Join Meeting</button>
+      <button onClick={() => {}}>Join Meeting</button>
     </div>
   );
 }
