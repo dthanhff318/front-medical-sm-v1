@@ -39,7 +39,7 @@ const DepartmentManage = () => {
       render: (_, d) => (
         <div className={styles.actionBtn}>
           <Link to={replacePathParams(MPath.ADM_DEPARTMENT_DETAIL, { id: d.id })}>
-            <CommonButton>Chi tiet</CommonButton>
+            <CommonButton>Chi tiết</CommonButton>
           </Link>
           <CommonButton
             danger
@@ -48,7 +48,7 @@ const DepartmentManage = () => {
               setOpenModal('delete');
             }}
           >
-            Xoa
+            Xóa
           </CommonButton>
         </div>
       ),
@@ -64,8 +64,7 @@ const DepartmentManage = () => {
   const onChangePage = (page: number, limit: number) => {
     navigate(createQueryUrl(location, { ...urlQueryParams, page, limit }));
   };
-  const onSearch = (value: string) => {
-  };
+  const onSearch = (value: string) => {};
   const departmentListMapping =
     departmentList.map((d) => ({
       ...d,
@@ -76,8 +75,8 @@ const DepartmentManage = () => {
     <>
       <ModalDelete
         open={openModal === 'delete'}
-        title="Ban co chac chan xoa khong ?"
-        subTitle="Xoa"
+        title="Bạn có chắc chắn muốn xóa không ?"
+        subTitle="Xóa"
         onCancel={() => setOpenModal('')}
         onOk={() => {
           handleDeleteDepartment(selectDepartment);
@@ -91,9 +90,13 @@ const DepartmentManage = () => {
       />
       <div className={styles.wrapper}>
         <h2 className={styles.title}>Quản lý khoa phòng</h2>
-        <Row gutter={[8, 0]} justify = 'space-between'style={{ marginBottom: '20px' }}>
+        <Row gutter={[8, 0]} justify="space-between" style={{ marginBottom: '20px' }}>
           <Col span={8}>
-            <Search placeholder="Nhập tên khoa phòng" onSearch={onSearch} style={{ width: '100%' }} />
+            <Search
+              placeholder="Nhập tên khoa phòng"
+              onSearch={onSearch}
+              style={{ width: '100%' }}
+            />
           </Col>
           <Col span={4}>
             <CommonButton onClick={() => setOpenModal('create')}>Thêm mới khoa phòng</CommonButton>

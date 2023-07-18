@@ -29,7 +29,7 @@ const AccountManage = () => {
       width: '40%',
     },
     {
-      title: 'Quyen',
+      title: 'Quyền',
       dataIndex: 'role',
       width: '30%',
       key: 'role',
@@ -47,7 +47,7 @@ const AccountManage = () => {
               setOpenModal('delete');
             }}
           >
-            Xoa
+            Xóa
           </CommonButton>
         </div>
       ),
@@ -93,7 +93,7 @@ const AccountManage = () => {
     <>
       <ModalDelete
         open={openModal === 'delete'}
-        title="Ban co chac chan xoa khong ?"
+        title="Bạn có chắc chắn muốn xóa ?"
         subTitle="Xoa"
         onCancel={() => setOpenModal('')}
         onOk={() => {
@@ -134,14 +134,14 @@ const AccountManage = () => {
             </Row>
           </div>
           <Descriptions bordered size="small">
-            <Descriptions.Item label="Ten khoa">
+            <Descriptions.Item label="Tên khoa">
               {isEditing ? (
                 <Input value={descriptions.name} onChange={(e) => handleInputChange(e, 'name')} />
               ) : (
                 <p>{descriptions.name}</p>
               )}
             </Descriptions.Item>
-            <Descriptions.Item label="Vi tri">
+            <Descriptions.Item label="Vị trí">
               {isEditing ? (
                 <Input
                   value={descriptions.location}
@@ -152,14 +152,14 @@ const AccountManage = () => {
               )}
             </Descriptions.Item>
             <Descriptions.Item label="Gmail">childlik@gmail.com</Descriptions.Item>
-            <Descriptions.Item label="So dien thoai">
+            <Descriptions.Item label="Số điện thoại">
               {isEditing ? (
                 <Input value={descriptions.phone} onChange={(e) => handleInputChange(e, 'phone')} />
               ) : (
                 <p>{descriptions.phone}</p>
               )}
             </Descriptions.Item>
-            <Descriptions.Item label="Truong khoa">Nguyen Van Vinh</Descriptions.Item>
+            <Descriptions.Item label="Trưởng khoa">Nguyen Van Vinh</Descriptions.Item>
           </Descriptions>
         </div>
         <div className={styles.groupBtn}>

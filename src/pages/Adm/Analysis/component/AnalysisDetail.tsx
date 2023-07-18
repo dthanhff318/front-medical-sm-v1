@@ -24,7 +24,7 @@ const AnalysisDetail = (props: Props) => {
 
   return (
     <>
-      <h2 className={styles.title}>Thống kế chi tiết xuất nhập vật tư</h2>
+      <h2 className={styles.title}>Thống kê chi tiết xuất nhập vật tư</h2>
       <p className={styles.subTitle}>Thống kê vật tư xuất theo tháng</p>
       <Row gutter={[40, 40]} style={{ marginBottom: '3rem' }}>
         <Col span={8} style={{ display: 'flex', alignItems: 'center' }}>

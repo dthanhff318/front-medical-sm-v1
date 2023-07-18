@@ -29,13 +29,13 @@ const ModalCreateStaff = ({ open, onCreateStaff, onCancel }: Props) => {
           <strong>Tên nhân viên</strong>
           <Form.Item
             name="displayName"
-            rules={[{ required: true, message: 'Vui long nhap ten nhân viên!' }]}
+            rules={[{ required: true, message: 'Vui lòng nhập tên nhân viên!' }]}
           >
             <Input />
           </Form.Item>
 
           <strong>Chức vụ</strong>
-          <Form.Item name="role" rules={[{ required: true, message: 'Vui long chon chuc vu!' }]}>
+          <Form.Item name="role" rules={[{ required: true, message: 'Vui lòng chọn chức vụ!' }]}>
             <Radio.Group>
               <Radio value="staff-accept">Nhân viên quản lý vật tư</Radio>
               <Radio value="staff-report">Nhân viên quản lý báo cáo</Radio>
@@ -43,14 +43,14 @@ const ModalCreateStaff = ({ open, onCreateStaff, onCancel }: Props) => {
           </Form.Item>
 
           <span>Email</span>
-          <Form.Item name="email" rules={[{ required: true, message: 'Vui long nhap email' }]}>
+          <Form.Item name="email" rules={[{ required: true, message: 'Vui lòng nhập email' }]}>
             <Input />
           </Form.Item>
 
           <span>Tài khoản</span>
           <Form.Item
             name="username"
-            rules={[{ required: true, message: 'Vui long nhap tai khoan' }]}
+            rules={[{ required: true, message: 'Vui lòng nhập tai khoan' }]}
           >
             <Input />
           </Form.Item>
@@ -58,7 +58,7 @@ const ModalCreateStaff = ({ open, onCreateStaff, onCancel }: Props) => {
           <span>Mật khẩu</span>
           <Form.Item
             name="password"
-            rules={[{ required: true, message: 'Vui long nhap mat khau' }]}
+            rules={[{ required: true, message: 'Vui lòng nhập mat khau' }]}
           >
             <Input />
           </Form.Item>

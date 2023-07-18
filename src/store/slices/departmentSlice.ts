@@ -86,15 +86,18 @@ export const createUserDepartment = createAsyncThunk(
   },
 );
 // Update department
-export const updateDepartment = createAsyncThunk('department/updateDepartment', async (data: any) => {
-  try {
-    const { id, ...body } = data;
-    const res = await departmentApi.updateDepartment(id, body);
-    return res.data;
-  } catch (err) {
-    console.log(err);
-  }
-});
+export const updateDepartment = createAsyncThunk(
+  'department/updateDepartment',
+  async (data: any) => {
+    try {
+      const { id, ...body } = data;
+      const res = await departmentApi.updateDepartment(id, body);
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  },
+);
 // delete user department
 export const deleteUserDepartment = createAsyncThunk(
   'department/deleteUserDepartment',
@@ -124,7 +127,7 @@ const departmentSlice = createSlice({
     });
     builder.addCase(deleteDepartment.fulfilled, (state, action) => {
       const remainDepartments = state.departmentList.filter(
-        (d: TDepartment) => d.id === action.payload,
+        (d: TDepartment) => d.id !== action.payload,
       );
       state.departmentList = remainDepartments;
     });
@@ -149,7 +152,6 @@ const departmentSlice = createSlice({
     });
     builder.addCase(updateDepartment.pending, (state, action) => {
       state.loading = 'user';
-
     });
     builder.addCase(updateDepartment.fulfilled, (state, action) => {
       state.loading = '';

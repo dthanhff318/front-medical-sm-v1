@@ -26,30 +26,30 @@ const ModalCreateDepartment = ({ open, onCreateDepartment, onCancel }: Props) =>
           autoComplete="off"
           form={form}
         >
-          <span>Ten khoa phong</span>
+          <span>Tên khoa phòng</span>
           <Form.Item
             name="name"
-            rules={[{ required: true, message: 'Vui long dien ten khoa phong!' }]}
+            rules={[{ required: true, message: 'Vui long điền tên khoa phòng!' }]}
           >
             <Input />
           </Form.Item>
 
-          <span>Vi tri</span>
+          <span>Ví trí</span>
           <Form.Item
             name="location"
-            rules={[{ required: true, message: 'Hay nhap vi tri khoa phong!' }]}
+            rules={[{ required: true, message: 'Hãy nhập vị trí khoa phòng!' }]}
           >
             <Input />
           </Form.Item>
 
-          <span>So dien thoai</span>
-          <Form.Item name="phone" rules={[{ required: true, message: 'Hay nhap so dien thoai' }]}>
+          <span>Số điện thoại</span>
+          <Form.Item name="phone" rules={[{ required: true, message: 'Hãy nhập số điện thọai' }]}>
             <Input />
           </Form.Item>
 
           <div className={styles.bottom}>
             <Form.Item>
-              <CommonButton isSubmit={true}>Tao khoa phong</CommonButton>
+              <CommonButton isSubmit={true}>Thêm khoa phòng</CommonButton>
             </Form.Item>
           </div>
         </Form>

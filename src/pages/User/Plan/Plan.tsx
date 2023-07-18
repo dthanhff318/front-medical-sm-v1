@@ -104,6 +104,7 @@ const Plan: React.FC = () => {
       createdTime: moment(Date.now()).format('DD MMM YYYY'),
     };
     handleSendPlan(dataSend);
+    setDataAdd([]);
     socket?.emit('sendPlan', {
       department: currentUser.department,
       name: currentUser.displayName,
@@ -126,7 +127,10 @@ const Plan: React.FC = () => {
             <Form.Item name="typePlan">
               <span>Loại phiếu bổ sung</span>
               <Select
-                onChange={(e) => setTypePlan(e)}
+                onChange={(e) => {
+                  setDataAdd([]);
+                  setTypePlan(e);
+                }}
                 options={listTypePlanImport}
                 placeholder="Chọn loại phiếu"
               />

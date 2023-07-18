@@ -22,7 +22,7 @@ const AnalysisClassify = (props: Props) => {
 
   return (
     <>
-      <h2 className={styles.title}>Thống kế phân loại</h2>
+      <h2 className={styles.title}>Thống kê phân loại</h2>
       <Row gutter={[40, 40]} style={{ marginBottom: '3rem' }}>
         <Col span={24}>
           <p className={styles.subTitle}>Phân loại số lượng vật tư theo nhóm</p>

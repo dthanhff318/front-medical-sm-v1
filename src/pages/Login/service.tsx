@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import MPath from 'routes/routes';
 import { toast } from 'react-toastify';
 import { ERole } from 'enums';
+import authApi from 'axiosConfig/api/auth';
 
 const useService = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const useService = () => {
       saveToken('accessToken', accessToken);
       saveToken('refreshToken', refreshToken);
       dispatch(setLoading(false));
-      toast.success('Dang nhap thanh cong !');
+      toast.success('Đăng nhập thành công!');
       if (
         dataUser.role === ERole.Admin ||
         dataUser.role === ERole.Staff_Accept ||
@@ -35,6 +36,15 @@ const useService = () => {
       toast.error(err.response.data);
     }
   };
-  return { handleLogin };
+
+  const handleForgot = async (email: string) => {
+    try {
+      await authApi.forgotPassword(email);
+      toast.success('Yêu cầu cấp lại mật khẩu thành công!');
+    } catch (err) {
+      toast.error('Có lỗi xảy ra!');
+    }
+  };
+  return { handleLogin, handleForgot };
 };
 export default useService;

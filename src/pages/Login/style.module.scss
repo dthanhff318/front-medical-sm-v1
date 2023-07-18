@@ -1,15 +1,15 @@
 .wrapper {
-  background: linear-gradient(
-    68deg,
-    rgba(54, 115, 130, 0.8860586470916492) 0%,
-    rgba(10, 4, 36, 0.874562324929972) 100%
-  );
+  background: url('../../../public/bgMain.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   .loginForm {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(234, 234, 234, 0.8);
+    border: 2px solid rgb(49, 44, 44);
     padding: 2rem;
     border-radius: 12px;
     .label {

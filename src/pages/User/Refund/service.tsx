@@ -22,19 +22,24 @@ const useService = ({ value }: Props) => {
     }
   };
   const handleSendPlan = async (data: any) => {
-    setLoadSend(true);
-    if (!data.typePlan) {
-      toast.error('Vui lòng chọn loại phiếu !');
+    try {
+      setLoadSend(true);
+      if (!data.typePlan) {
+        toast.error('Vui lòng chọn loại phiếu !');
+        setLoadSend(false);
+        return;
+      }
+      if (!data.planList.length) {
+        toast.error('Danh sách vật tư đang trống !');
+        setLoadSend(false);
+        return;
+      }
+      await planApi.sendPlan(data);
       setLoadSend(false);
-      return;
+      toast.success('Gửi phiếu thành công !');
+    } catch (err) {
+      toast.error('Gửi phiếu không thành công !');
     }
-    if (!data.planList.length) {
-      toast.error('Danh sách vật tư đang trống !');
-      setLoadSend(false);
-      return;
-    }
-    await planApi.sendPlan(data);
-    setLoadSend(false);
   };
 
   // Side effect

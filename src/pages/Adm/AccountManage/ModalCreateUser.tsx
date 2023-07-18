@@ -27,11 +27,8 @@ const ModalCreateUser = ({ open, onCreateUser, onCancel, loading }: Props) => {
           autoComplete="off"
           form={form}
         >
-          <span>Ten hien thi</span>
-          <Form.Item
-            name="displayName"
-            rules={[{ required: true, message: 'Please input your displayname!' }]}
-          >
+          <span>Tên người dùng</span>
+          <Form.Item name="displayName" rules={[{ required: true, message: 'Vui lòng nhập tên!' }]}>
             <Input />
           </Form.Item>
           <span>Email</span>
@@ -42,23 +39,23 @@ const ModalCreateUser = ({ open, onCreateUser, onCancel, loading }: Props) => {
             <Input />
           </Form.Item>
 
-          <span>Tai khoan</span>
+          <span>Tài khoản</span>
           <Form.Item
             name="username"
-            rules={[{ required: true, message: 'Please input your username!' }]}
+            rules={[{ required: true, message: 'Vui lòng nhập tài khoản' }]}
           >
             <Input />
           </Form.Item>
 
-          <span>Mat khau</span>
+          <span>Mật khẩu</span>
           <Form.Item
             name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
+            rules={[{ required: true, message: 'Vui lòng nhập mật khẩu' }]}
           >
             <Input.Password />
           </Form.Item>
 
-          <span>Nhap lai mat khau</span>
+          <span>Nhập lại mật khẩu</span>
           <Form.Item
             name=""
             dependencies={['password']}
@@ -66,16 +63,14 @@ const ModalCreateUser = ({ open, onCreateUser, onCancel, loading }: Props) => {
             rules={[
               {
                 required: true,
-                message: 'Please confirm your password!',
+                message: 'Vui lòng nhập mật khẩu',
               },
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   if (!value || getFieldValue('password') === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(
-                    new Error('The two passwords that you entered do not match!'),
-                  );
+                  return Promise.reject(new Error('Mật khẩu không trùng khớp'));
                 },
               }),
             ]}
@@ -86,7 +81,7 @@ const ModalCreateUser = ({ open, onCreateUser, onCancel, loading }: Props) => {
           <div className={styles.bottom}>
             <Form.Item>
               <CommonButton loading={loading === 'user'} isSubmit={true}>
-                Tao tai khoan
+                Tạo tài khoản
               </CommonButton>
             </Form.Item>
           </div>

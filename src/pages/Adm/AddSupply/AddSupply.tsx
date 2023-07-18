@@ -39,6 +39,8 @@ const AddSupply: React.FC = () => {
 
   const handleSelectCompany = (id: string) => {
     setSelectCompany(id);
+    setDataAdd([]);
+    form.resetFields();
   };
 
   const handleSelectSupply = (id: string) => {
@@ -99,6 +101,7 @@ const AddSupply: React.FC = () => {
         company,
       },
     ]);
+    form.resetFields();
   };
 
   const handleSubmit = (info: { company: number; codeBill: string }) => {
@@ -116,6 +119,9 @@ const AddSupply: React.FC = () => {
       })),
     };
     handleAddSupplyToStore(dataBill);
+    form.resetFields();
+    formSubmit.resetFields();
+    setDataAdd([]);
   };
 
   const deleteSupply = (name: string) => {
@@ -292,7 +298,7 @@ const AddSupply: React.FC = () => {
                 <Select
                   showSearch
                   value={value}
-                  placeholder="Nhap ten vat tu"
+                  placeholder="Nhập tên vật tư để tìm"
                   style={{ width: '100%' }}
                   defaultActiveFirstOption={false}
                   showArrow={true}

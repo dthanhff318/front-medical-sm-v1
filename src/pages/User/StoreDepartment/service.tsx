@@ -13,10 +13,9 @@ const useService = () => {
   );
   const { currentUser } = useSelector((state: RootState) => state.auth);
   const urlQueryParams = parseSearchParams(location.search);
-  console.log(storeDepartment);
 
   const getStore = (condition?: any) => {
-    dispatch(getStoreOfDepartment(condition) as any);
+    dispatch(getStoreOfDepartment({ ...condition, id: currentUser.department }) as any);
   };
 
   const onDeleteSupplyStore = (id: number) => dispatch(deleteSupplyStore(id) as any);
@@ -27,7 +26,7 @@ const useService = () => {
         id: currentUser.department,
         condition: urlQueryParams,
       });
-  }, [location]);
+  }, [currentUser.department]);
   return {
     storeDepartment,
     loading,

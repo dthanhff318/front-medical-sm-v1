@@ -42,7 +42,7 @@ const StaffManage = () => {
               setOpenModal('delete');
             }}
           >
-            Xoa
+            Xóa
           </CommonButton>
         </div>
       ),

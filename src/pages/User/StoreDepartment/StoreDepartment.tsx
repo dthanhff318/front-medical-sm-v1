@@ -92,7 +92,9 @@ const StoreDepartment: React.FC = () => {
   ];
   return (
     <div className={styles.wapper}>
-      <Divider style={{ marginTop: '0px' }}>Tổng kho vật tư</Divider>
+      <Divider style={{ marginTop: '0px', fontWeight: 600, fontSize: '1.4rem' }}>
+        Tổng kho vật tư
+      </Divider>
       <Row gutter={[8, 0]} style={{ marginBottom: '20px' }}>
         <Col span={8}>
           <Search placeholder="Nhập tên vật tư" onSearch={onSearch} style={{ width: '100%' }} />
