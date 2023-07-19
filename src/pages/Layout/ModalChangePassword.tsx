@@ -7,6 +7,7 @@ import { RootState } from 'store';
 import './DefaultLayout.scss';
 import { saveUser } from 'store/slices/authSlice';
 import { getRoleName } from 'helpers/functions';
+import CommonButton from 'components/CommonButton/CommonButton';
 
 type Props = {
   open: boolean;
@@ -22,7 +23,7 @@ const ModalChangePassword = ({ handleCancel, open }: Props) => {
   const { currentUser } = useSelector((state: RootState) => state.auth);
 
   return (
-    <Modal title="" open={open} onCancel={handleCancel} width="40vw">
+    <Modal title="" open={open} onCancel={handleCancel} width="40vw" footer={null}>
       <div className="change-pass-wrapper">
         <Form>
           <Form.Item
@@ -73,6 +74,10 @@ const ModalChangePassword = ({ handleCancel, open }: Props) => {
             ]}
           >
             <Input.Password />
+          </Form.Item>
+          <Form.Item>
+            <CommonButton>Hủy</CommonButton>
+            <CommonButton isSubmit={true}>Đổi mật khẩu</CommonButton>
           </Form.Item>
         </Form>
       </div>
