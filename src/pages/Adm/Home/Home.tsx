@@ -37,7 +37,7 @@ const columns: any = [
     width: 200,
   },
   {
-    title: 'Tên hãng',
+    title: 'Model',
     dataIndex: 'brand',
     width: 200,
   },

@@ -45,7 +45,7 @@ const ModalReportBidding = ({ handleExportExcel, listSupplyExport, open, onCance
       width: 100,
     },
     {
-      title: 'Tên hãng',
+      title: 'Model',
       dataIndex: 'brand',
       width: 200,
     },

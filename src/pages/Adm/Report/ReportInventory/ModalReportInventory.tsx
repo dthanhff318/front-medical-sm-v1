@@ -40,7 +40,7 @@ const ModalReportInventory = ({ listSupplyExport, open, onCancel, handleExportEx
       width: 100,
     },
     {
-      title: 'Tên hãng',
+      title: 'Model',
       dataIndex: 'brand',
       width: 200,
     },

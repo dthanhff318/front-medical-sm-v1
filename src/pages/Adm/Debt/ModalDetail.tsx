@@ -52,7 +52,7 @@ const ModalDetail = ({ open, onCancel, data }: Props) => {
       dataIndex: 'dateExpired',
     },
     {
-      title: 'Tên hãng',
+      title: 'Model',
       width: 200,
       dataIndex: 'brand',
     },

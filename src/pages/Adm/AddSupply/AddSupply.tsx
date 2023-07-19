@@ -162,7 +162,7 @@ const AddSupply: React.FC = () => {
       width: 200,
     },
     {
-      title: 'Tên hãng',
+      title: 'Model',
       dataIndex: 'brand',
       width: 200,
     },
@@ -339,7 +339,7 @@ const AddSupply: React.FC = () => {
               </Form.Item>
             </Col>
             <Col span={6}>
-              <span>Hãng sản xuất</span>
+              <span>Model sản xuất</span>
               <Form.Item name="brand">
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>

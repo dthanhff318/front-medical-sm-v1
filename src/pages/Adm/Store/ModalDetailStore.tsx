@@ -143,7 +143,7 @@ const ModalCreateDepartment = ({
               </Form.Item>
             </Col>
             <Col span={11}>
-              <span>Tên hãng</span>
+              <span>Model</span>
               <Form.Item
                 name="brand"
                 rules={[{ required: true, message: 'Vui long dien ten khoa phong!' }]}

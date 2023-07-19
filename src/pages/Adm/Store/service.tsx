@@ -42,7 +42,7 @@ const useService = ({ value }: Props) => {
         ['Đơn vị']: e.unit.name,
         ['Nhóm']: e.group.name,
         ['Hao phí']: e.isLoss ? 'Có' : 'Không',
-        ['Hãng']: e.brand,
+        ['Model']: e.brand,
         ['Quốc gia']: e.country,
         ['Công ty']: e.company.name,
         ['Hạn sử dụng']: e.dateExpired,

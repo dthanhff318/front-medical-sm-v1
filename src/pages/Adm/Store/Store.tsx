@@ -73,7 +73,7 @@ const Store: React.FC = () => {
       width: 100,
     },
     {
-      title: 'Tên hãng',
+      title: 'Model',
       dataIndex: 'brand',
       width: 200,
     },

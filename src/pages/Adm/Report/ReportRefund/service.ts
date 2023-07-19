@@ -16,7 +16,7 @@ const useService = () => {
       ['Đơn vị']: getNameById(e.unit, units),
       ['Nhóm']: getNameById(e.group, groups),
       ['Hao phí']: e.isLoss ? 'Có' : 'Không',
-      ['Hãng']: e.brand,
+      ['Model']: e.brand,
       ['Quốc gia']: e.country,
       ['Công ty']: getNameById(e.company, suppliers),
       ['Hạn sử dụng']: e.dateExpired,

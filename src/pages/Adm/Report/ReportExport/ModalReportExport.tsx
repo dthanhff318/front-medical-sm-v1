@@ -46,7 +46,7 @@ const ModalReportExport = ({ handleExportExcel, listSupplyExport, open, onCancel
       width: 100,
     },
     {
-      title: 'Tên hãng',
+      title: 'Model',
       dataIndex: 'brand',
       width: 200,
     },

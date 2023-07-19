@@ -58,7 +58,7 @@ const DetailTicket = () => {
       width: 250,
     },
     {
-      title: 'Tên hãng',
+      title: 'Model',
       dataIndex: 'brand',
       width: 250,
     },
