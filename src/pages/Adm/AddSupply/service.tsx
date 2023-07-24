@@ -1,6 +1,7 @@
 import storeApi from 'axiosConfig/api/store';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { findBiddingWithSupplier } from 'store/slices/biddingSlice';
 import { findSupplier } from 'store/slices/supplierSlice';
 
@@ -37,9 +38,12 @@ const useService = ({ value, selectCompany }: Props) => {
   }, [selectCompany]);
 
   const handleAddSupplyToStore = async (data: any) => {
-    setLoading(true);
-    await storeApi.addSupplyToStore(data);
-    setLoading(false);
+    try {
+      setLoading(true);
+      await storeApi.addSupplyToStore(data);
+      setLoading(false);
+      toast.success('Nhập kho thành công');
+    } catch (err) {}
   };
   return {
     search,

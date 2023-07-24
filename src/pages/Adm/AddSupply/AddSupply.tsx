@@ -25,7 +25,7 @@ const AddSupply: React.FC = () => {
     {
       required: true,
       validator: (_, value) => {
-        const quantityBiddingRemain = form.getFieldValue('biddingCount');
+        const quantityBiddingRemain = form.getFieldValue('remainCount');
         if (!value) {
           return Promise.reject(new Error('Vui lòng nhập số lượng hợp lệ'));
         }
@@ -55,7 +55,7 @@ const AddSupply: React.FC = () => {
       company: supply.company.name,
       country: supply.country,
       biddingPrice: supply.biddingPrice,
-      biddingCount: supply.biddingCount,
+      remainCount: supply.remainCount,
       unit: supply.unit.name,
       codeBidding: supply.codeBidding,
       yearBidding: supply.yearBidding,
@@ -362,8 +362,8 @@ const AddSupply: React.FC = () => {
               </Form.Item>
             </Col>
             <Col span={4}>
-              <span>Số lượng thầu</span>
-              <Form.Item name="biddingCount">
+              <span>Số lượng khả dụng</span>
+              <Form.Item name="remainCount">
                 <Input style={{ marginBottom: '10px' }} readOnly />
               </Form.Item>
             </Col>

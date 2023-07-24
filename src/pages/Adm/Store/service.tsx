@@ -48,6 +48,7 @@ const useService = ({ value }: Props) => {
         ['Hạn sử dụng']: e.dateExpired,
         ['Lô sản xuất']: e.productCode,
         ['Mã thầu']: e.codeBidding,
+        ['Số lượng']: e.quantity,
       }));
 
       const worksheet = XLSX.utils.json_to_sheet(convertData);
