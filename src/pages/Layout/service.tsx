@@ -15,7 +15,9 @@ import { getNotis, setDataFetch } from 'store/slices/noti';
 const useService = () => {
   const dispatch = useDispatch();
   const { socket } = useContext(SocketContext);
-  const { role, id, department } = useSelector((state: RootState) => state.auth.currentUser);
+  const { role, id, department, permission } = useSelector(
+    (state: RootState) => state.auth.currentUser,
+  );
   const { loading, notis, dataFetch, numberSeen } = useSelector((state: RootState) => state.noti);
   const { departments } = useSelector((state: RootState) => state.common);
   const { ref: notiRef, inView } = useInView();
@@ -27,7 +29,7 @@ const useService = () => {
   const getListNoti = async () => {
     if (role && dataFetch.hasMore) {
       try {
-        const notiFor = role === ERole.Admin ? 'admin' : 'user';
+        const notiFor = role === ERole.Admin || role === ERole.Admin_Staff ? 'admin' : 'user';
         const dataQuery: {
           notiFor: string;
           department?: number;
@@ -95,6 +97,7 @@ const useService = () => {
     dataFetch,
     notiRef,
     loading,
+    permission,
   };
 };
 

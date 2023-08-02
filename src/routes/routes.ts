@@ -20,7 +20,7 @@ const MPath = {
   ADM_EXTENSION_GROUP: '/adm/extension/group',
   ADM_ANALYSIS: '/adm/analysis',
   ADM_STAFF: '/adm/staff',
-  ADM_APOINTMENT: '/adm/appointment',
+  ADM_ALL_PLAN: '/adm/all-plan',
 
   // User
   USER_HOME: '/',

@@ -1,4 +1,4 @@
-import { Form, Input, Modal, Radio } from 'antd';
+import { Checkbox, Form, Input, Modal, Radio, Row } from 'antd';
 import React from 'react';
 import styles from './style.module.scss';
 import CommonButton from 'components/CommonButton/CommonButton';
@@ -34,20 +34,12 @@ const ModalCreateStaff = ({ open, onCreateStaff, onCancel }: Props) => {
             <Input />
           </Form.Item>
 
-          <strong>Chức vụ</strong>
-          <Form.Item name="role" rules={[{ required: true, message: 'Vui lòng chọn chức vụ!' }]}>
-            <Radio.Group>
-              <Radio value="staff-accept">Nhân viên quản lý vật tư</Radio>
-              <Radio value="staff-report">Nhân viên quản lý báo cáo</Radio>
-            </Radio.Group>
-          </Form.Item>
-
-          <span>Email</span>
+          <strong>Email</strong>
           <Form.Item name="email" rules={[{ required: true, message: 'Vui lòng nhập email' }]}>
             <Input />
           </Form.Item>
 
-          <span>Tài khoản</span>
+          <strong>Tài khoản</strong>
           <Form.Item
             name="username"
             rules={[{ required: true, message: 'Vui lòng nhập tai khoan' }]}
@@ -55,12 +47,44 @@ const ModalCreateStaff = ({ open, onCreateStaff, onCancel }: Props) => {
             <Input />
           </Form.Item>
 
-          <span>Mật khẩu</span>
+          <strong>Mật khẩu</strong>
           <Form.Item
             name="password"
             rules={[{ required: true, message: 'Vui lòng nhập mat khau' }]}
           >
             <Input />
+          </Form.Item>
+          <strong>Chức năng</strong>
+          <Form.Item
+            name="permission"
+            rules={[{ required: true, message: 'Vui lòng chọn chức vụ!' }]}
+          >
+            <Checkbox.Group style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <Row>
+                <Checkbox value="admin-add">Nhập kho</Checkbox>
+              </Row>
+              <Row>
+                <Checkbox value="admin-store">Tổng kho</Checkbox>
+              </Row>
+              <Row>
+                <Checkbox value="admin-report">Báo cáo</Checkbox>
+              </Row>
+              <Row>
+                <Checkbox value="admin-department">Khoa phòng</Checkbox>
+              </Row>
+              <Row>
+                <Checkbox value="admin-ticket">Phiếu duyệt</Checkbox>
+              </Row>
+              <Row>
+                <Checkbox value="admin-company">Nhà cung cấp</Checkbox>
+              </Row>
+              <Row>
+                <Checkbox value="admin-category">Danh mục</Checkbox>
+              </Row>
+              <Row>
+                <Checkbox value="admin-analysis">Thống kê</Checkbox>
+              </Row>
+            </Checkbox.Group>
           </Form.Item>
 
           <div className={styles.bottom}>

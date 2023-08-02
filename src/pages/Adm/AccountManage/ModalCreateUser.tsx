@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal, Select } from 'antd';
+import { Button, Checkbox, Form, Input, Modal, Row, Select } from 'antd';
 import React from 'react';
 import styles from './style.module.scss';
 import CommonButton from 'components/CommonButton/CommonButton';
@@ -76,6 +76,23 @@ const ModalCreateUser = ({ open, onCreateUser, onCancel, loading }: Props) => {
             ]}
           >
             <Input.Password />
+          </Form.Item>
+          <strong>Chức năng</strong>
+          <Form.Item
+            name="permission"
+            rules={[{ required: true, message: 'Vui lòng chọn chức vụ!' }]}
+          >
+            <Checkbox.Group style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <Row>
+                <Checkbox value="department-add">Nhập kho</Checkbox>
+              </Row>
+              <Row>
+                <Checkbox value="department-refund">Tổng kho</Checkbox>
+              </Row>
+              <Row>
+                <Checkbox value="department-report">Báo cáo</Checkbox>
+              </Row>
+            </Checkbox.Group>
           </Form.Item>
 
           <div className={styles.bottom}>

@@ -40,7 +40,7 @@ export type TCreateStaff = {
   username: string;
   password: string;
   displayName: string;
-  role: ERole.Staff_Accept | ERole.Staff_Report;
+  role: ERole.Admin_Staff;
 };
 // auth
 export type TUser = {
@@ -50,6 +50,7 @@ export type TUser = {
   displayName?: string;
   email?: string;
   photo?: string;
+  permission?: string[];
 };
 export type TInitAuthState = {
   isAuthenticated: boolean;

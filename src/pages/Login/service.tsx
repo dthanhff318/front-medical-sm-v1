@@ -17,17 +17,17 @@ const useService = () => {
       dispatch(setLoading(true));
       const res = await axiosClient.post('/auth/login', data);
       const { accessToken, refreshToken, ...dataUser } = res.data as any;
+      console.log(dataUser);
+
       dispatch(saveUser(dataUser as TUser));
       saveUserToLs(dataUser);
       saveToken('accessToken', accessToken);
       saveToken('refreshToken', refreshToken);
       dispatch(setLoading(false));
       toast.success('Đăng nhập thành công!');
-      if (
-        dataUser.role === ERole.Admin ||
-        dataUser.role === ERole.Staff_Accept ||
-        dataUser.role === ERole.Staff_Report
-      ) {
+      console.log(dataUser.role === ERole.Admin_Staff);
+
+      if (dataUser.role === ERole.Admin || dataUser.role === ERole.Admin_Staff) {
         return navigate(MPath.ADM_HOME);
       }
       return navigate(MPath.USER_HOME);

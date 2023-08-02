@@ -24,10 +24,10 @@ const StaffManage = () => {
       width: '40%',
     },
     {
-      title: 'Chức vụ',
-      dataIndex: 'role',
+      title: 'Email',
+      dataIndex: 'email',
       width: '30%',
-      key: 'role',
+      key: 'email',
     },
     {
       title: '',
@@ -84,17 +84,7 @@ const StaffManage = () => {
           </Col>
         </Row>
 
-        <Table
-          dataSource={listStaff.map((e) => ({
-            ...e,
-            role:
-              e.role === ERole.Staff_Accept
-                ? 'Nhân viên quản lý vật tư'
-                : 'Nhân viên quản lý báo cáo',
-          }))}
-          columns={columns}
-          loading={loading}
-        />
+        <Table dataSource={listStaff} columns={columns} loading={loading} />
       </div>
     </>
   );

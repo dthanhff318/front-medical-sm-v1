@@ -8,6 +8,7 @@ import { TCreateStaff } from 'store/slices/type';
 import { TUser } from 'types/user';
 import userApi from 'axiosConfig/api/user';
 import { toast } from 'react-toastify';
+import { ERole } from 'enums';
 
 const useService = () => {
   const [loading, setLoading] = useState(false);
@@ -18,18 +19,15 @@ const useService = () => {
     setValue(value);
   };
 
-  const urlQueryParams = parseSearchParams(location.search);
-  const departmentState = useSelector((state: RootState) => state.department);
-
   const onCreateStaff = async (data: TCreateStaff) => {
     try {
       setLoading(true);
-      const res = await userApi.createStaff(data);
+      const res = await userApi.createStaff({ ...data, role: ERole.Admin_Staff });
       const updateList = [...listStaff, res.data];
       setListStaff(updateList);
-      toast.success('Them moi nhan vien thanh cong');
+      toast.success('Thêm mới nhân viên thành công!');
     } catch (err) {
-      toast.error('Co loi xay ra');
+      toast.error('Có lỗi xảy ra');
     } finally {
       setLoading(false);
     }

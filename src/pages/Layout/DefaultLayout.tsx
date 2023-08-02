@@ -27,7 +27,7 @@ type Props = {
   children: JSX.Element;
 };
 const DefaultLayout: React.FC<Props> = ({ children }) => {
-  const { onLogout, role, notis, numberSeen, notiRef, loading } = useService();
+  const { onLogout, role, notis, numberSeen, notiRef, loading, permission } = useService();
   const [modal, setModal] = useState<'user' | 'change-pass' | ''>('');
 
   const items: MenuProps['items'] = [
@@ -70,20 +70,24 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
           label: <Link to={MPath.ADM_DEBT}>Công nợ</Link>,
         },
       ],
+      permision: 'admin-add',
     },
     {
       id: 2,
       icon: MedicineBoxOutlined,
+      permision: 'admin-bidding',
       label: <Link to={MPath.ADM_BIDDING}>Cập nhật đấu thầu</Link>,
     },
     {
       id: 3,
       icon: SnippetsOutlined,
+      permision: 'admin-store',
       label: <Link to={MPath.ADM_DEPOT}>Tổng kho</Link>,
     },
     {
       id: 4,
       icon: SnippetsOutlined,
+      permision: 'admin-report',
       label: 'Báo cáo',
       children: [
         {
@@ -102,28 +106,33 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
     },
     {
       id: 5,
+      permision: 'admin-department',
       icon: BankOutlined,
       label: <Link to={MPath.ADM_DEPARTMENT}>Khoa phòng</Link>,
     },
     {
+      permision: 'admin-ticket',
       id: 6,
       icon: CheckSquareOutlined,
       label: <Link to={MPath.ADM_LIST_TICKET}>Phiếu duyệt</Link>,
     },
     {
       id: 7,
+      permision: 'admin-company',
       icon: HomeOutlined,
       label: <Link to={MPath.ADM_SUPPLIER}>Nhà cung cấp</Link>,
     },
     {
       id: 8,
+      permision: 'admin-staff',
       icon: HomeOutlined,
       label: <Link to={MPath.ADM_STAFF}>Nhân viên</Link>,
     },
     {
       id: 9,
       icon: SnippetsOutlined,
-      label: 'Tiện ích',
+      permision: 'admin-category',
+      label: 'Danh mục',
       children: [
         {
           id: 1,
@@ -137,91 +146,15 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
     },
     {
       id: 10,
+      permision: 'admin-analysis',
       icon: CheckSquareOutlined,
       label: <Link to={MPath.ADM_ANALYSIS}>Thống kê</Link>,
     },
-    // {
-    //   id: 11,
-    //   icon: CheckSquareOutlined,
-    //   label: <Link to={MPath.ADM_APOINTMENT}>Cuộc họp</Link>,
-    // },
-  ];
-
-  const listSubnavStaffAccept = [
     {
-      id: 1,
-      icon: FileAddOutlined,
-      label: 'Nhập kho',
-      children: [
-        {
-          label: <Link to={MPath.ADM_ADD_SUPPLY}>Phiếu nhập kho</Link>,
-        },
-        {
-          label: <Link to={MPath.ADM_DEBT}>Công nợ</Link>,
-        },
-      ],
-    },
-    {
-      id: 3,
-      icon: SnippetsOutlined,
-      label: <Link to={MPath.ADM_DEPOT}>Tổng kho</Link>,
-    },
-    {
-      id: 6,
+      id: 11,
+      permision: 'admin-plan',
       icon: CheckSquareOutlined,
-      label: <Link to={MPath.ADM_LIST_TICKET}>Phiếu duyệt</Link>,
-    },
-    {
-      id: 8,
-      icon: CheckSquareOutlined,
-      label: <Link to={MPath.ADM_ANALYSIS}>Thống kê</Link>,
-    },
-  ];
-
-  const listSubnavStaffReport = [
-    {
-      id: 4,
-      icon: SnippetsOutlined,
-      label: 'Báo cáo',
-      children: [
-        {
-          label: <Link to={MPath.ADM_REPORT_EXPORT}>Xuất kho theo khoa phòng</Link>,
-        },
-        {
-          label: <Link to={MPath.ADM_REPORT_REFUND}>Nhập kho</Link>,
-        },
-        {
-          label: <Link to={MPath.ADM_REPORT_BIDDING}>Đấu thầu</Link>,
-        },
-        {
-          label: <Link to={MPath.ADM_REPORT_INVENTORY}>Xuất nhập tồn</Link>,
-        },
-      ],
-    },
-    {
-      id: 7,
-      icon: HomeOutlined,
-      label: <Link to={MPath.ADM_SUPPLIER}>Nhà cung cấp</Link>,
-    },
-    {
-      id: 8,
-      icon: SnippetsOutlined,
-      label: 'Tiện ích',
-      children: [
-        {
-          id: 1,
-          label: <Link to={MPath.ADM_EXTENSION_UNIT}>Đơn vị</Link>,
-        },
-        {
-          id: 2,
-          label: <Link to={MPath.ADM_EXTENSION_GROUP}>Nhóm vật tư</Link>,
-        },
-      ],
-    },
-    {
-      id: 9,
-      icon: CheckSquareOutlined,
-      label: <Link to={MPath.ADM_ANALYSIS}>Thống kê</Link>,
+      label: <Link to={MPath.ADM_ALL_PLAN}>Dự trù</Link>,
     },
   ];
 
@@ -252,44 +185,14 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       label: <Link to={MPath.USER_REPORT}>Báo cáo</Link>,
     },
   ];
+
   const itemsAdmin: MenuProps['items'] = listSubnavAdmin.map((list: any, index) => {
     const key = String(index + 1);
     return {
       key: `sub${key}`,
       icon: React.createElement(list.icon),
       label: list.label,
-      children: list.children?.map((_, j) => {
-        const subKey = index * 4 + j + 1;
-        return {
-          key: subKey,
-          label: _.label,
-        };
-      }),
-    };
-  });
-
-  const itemsStaffAccept: MenuProps['items'] = listSubnavStaffAccept.map((list: any, index) => {
-    const key = String(index + 1);
-    return {
-      key: `sub${key}`,
-      icon: React.createElement(list.icon),
-      label: list.label,
-      children: list.children?.map((_, j) => {
-        const subKey = index * 4 + j + 1;
-        return {
-          key: subKey,
-          label: _.label,
-        };
-      }),
-    };
-  });
-
-  const itemsStaffReport: MenuProps['items'] = listSubnavStaffReport.map((list: any, index) => {
-    const key = String(index + 1);
-    return {
-      key: `sub${key}`,
-      icon: React.createElement(list.icon),
-      label: list.label,
+      disabled: role === ERole.Admin ? false : permission?.includes(list.permision) ? false : true,
       children: list.children?.map((_, j) => {
         const subKey = index * 4 + j + 1;
         return {
@@ -325,10 +228,8 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
     switch (role) {
       case ERole.Admin:
         return itemsAdmin;
-      case ERole.Staff_Accept:
-        return itemsStaffAccept;
-      case ERole.Staff_Report:
-        return itemsStaffReport;
+      case ERole.Admin_Staff:
+        return itemsAdmin;
       case ERole.User:
         return itemsUser;
       default:
