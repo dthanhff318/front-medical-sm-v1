@@ -162,26 +162,31 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
     {
       id: 1,
       icon: MedicineBoxOutlined,
+      permision: 'department-add',
       label: <Link to={MPath.USER_PLAN}>Cấp mới vật tư</Link>,
     },
     {
       id: 2,
       icon: MedicineBoxOutlined,
+      permision: 'department-refund',
       label: <Link to={MPath.USER_REFUND}>Hoàn trả vật tư</Link>,
     },
     {
       id: 3,
+      permision: 'department-store',
       icon: MedicineBoxOutlined,
       label: <Link to={MPath.USER_STORE}>Kho lưu trữ vật tư</Link>,
     },
     {
       id: 4,
       icon: MedicineBoxOutlined,
+      permision: 'department-ticket',
       label: <Link to={MPath.USER_TICKET_HISTORY}>Phiếu gửi</Link>,
     },
     {
       id: 5,
       icon: MedicineBoxOutlined,
+      permision: 'department-report',
       label: <Link to={MPath.USER_REPORT}>Báo cáo</Link>,
     },
   ];
@@ -208,6 +213,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
 
     return {
       key: `sub${key}`,
+      disabled: permission?.includes(list.permision) ? false : true,
       icon: React.createElement(list.icon),
       label: list.label,
     };

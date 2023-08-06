@@ -87,7 +87,13 @@ const ModalCreateUser = ({ open, onCreateUser, onCancel, loading }: Props) => {
                 <Checkbox value="department-add">Nhập kho</Checkbox>
               </Row>
               <Row>
-                <Checkbox value="department-refund">Tổng kho</Checkbox>
+                <Checkbox value="department-refund">Hoàn trả</Checkbox>
+              </Row>
+              <Row>
+                <Checkbox value="department-store">Tổng kho</Checkbox>
+              </Row>
+              <Row>
+                <Checkbox value="department-ticket">Phiếu gửi</Checkbox>
               </Row>
               <Row>
                 <Checkbox value="department-report">Báo cáo</Checkbox>
