@@ -189,6 +189,18 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       permision: 'department-report',
       label: <Link to={MPath.USER_REPORT}>Báo cáo</Link>,
     },
+    {
+      id: 6,
+      icon: MedicineBoxOutlined,
+      permision: '',
+      label: <Link to={MPath.USER_REPORT}>Dự trù</Link>,
+    },
+    {
+      id: 7,
+      icon: MedicineBoxOutlined,
+      permision: '',
+      label: <Link to={MPath.USER_REPORT}>Duyệt phiếu</Link>,
+    },
   ];
 
   const itemsAdmin: MenuProps['items'] = listSubnavAdmin.map((list: any, index) => {
@@ -213,7 +225,7 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
 
     return {
       key: `sub${key}`,
-      disabled: permission?.includes(list.permision) ? false : true,
+      disabled: permission?.includes(list.permision) || !list.permision ? false : true,
       icon: React.createElement(list.icon),
       label: list.label,
     };

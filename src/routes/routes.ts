@@ -30,6 +30,8 @@ const MPath = {
   USER_TICKET_HISTORY: '/store/ticket-history',
   USER_TICKET_HISTORY_DETAIL: '/store/ticket-history/:id',
   USER_REPORT: '/report',
+  USER_SEND_PLAN: '/send-plan',
+  USER_ACCEPT_TICKET: '/accept-ticket',
 };
 
 export default MPath;

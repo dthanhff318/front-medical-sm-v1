@@ -8,9 +8,8 @@ const Appointment = () => {
   useEffect(() => {}, []);
 
   return (
-    <div>
-      <h2>Cuộc họp</h2>
-      <iframe src="https://example.com/meetingsdk" allow="camera; microphone"></iframe>
+    <div className={s.plantWrapper}>
+      <h2 className={s.title}>Danh sach du tru</h2>
     </div>
   );
 };

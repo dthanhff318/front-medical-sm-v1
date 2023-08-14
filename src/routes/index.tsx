@@ -30,6 +30,8 @@ import StaffManage from 'pages/Adm/StaffManage/StaffManage';
 import Debt from 'pages/Adm/Debt/Debt';
 import ReportDepartment from 'pages/User/ReportDepartment/ReportDepartment';
 import Appointment from 'pages/Adm/Appointment/Appointment';
+import SendPlan from 'pages/User/SendPlan/SendPlan';
+import AcceptTicket from 'pages/User/AcceptTicket/AcceptTicket';
 
 export const routers: any = [
   {
@@ -257,6 +259,22 @@ export const routers: any = [
   {
     name: 'USER_REPORT',
     element: <ReportDepartment />,
+    public: false,
+    path: MPath.USER_REPORT,
+    role: [ERole.User],
+    exact: true,
+  },
+  {
+    name: 'USER_SEND_PLAN',
+    element: <SendPlan />,
+    public: false,
+    path: MPath.USER_REPORT,
+    role: [ERole.User],
+    exact: true,
+  },
+  {
+    name: 'USER_ACCEPT_TICKET',
+    element: <AcceptTicket />,
     public: false,
     path: MPath.USER_REPORT,
     role: [ERole.User],

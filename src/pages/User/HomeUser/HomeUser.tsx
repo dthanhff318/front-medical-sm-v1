@@ -22,10 +22,6 @@ const HomeUser = (props: Props) => {
       dataIndex: 'email',
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-    },
-    {
       title: 'Vị trí',
       dataIndex: 'role',
     },
@@ -34,14 +30,14 @@ const HomeUser = (props: Props) => {
     <div className={s.wrapper}>
       <h2 className={s.title}>{dataDepartment.name}</h2>
       <div className={s.infoWrap}>
-        <p>Trưởng phòng: Chưa chỉ định</p>
-        <p>Số điện thoại: 098833322</p>
-        <p>Địa chỉ khoa: Phòng D3 Khu 5</p>
+        <p>Trưởng phòng: {dataDepartment?.member?.find(e=>e.id===dataDepartment.owner).displayName}</p>
+        <p>Email: {dataDepartment?.member?.find(e=>e.id===dataDepartment.owner).email}</p>
+        <p>Địa chỉ khoa: {dataDepartment.location}</p>
         <Table
           columns={columns}
           dataSource={dataDepartment.member?.map((e) => ({
             ...e,
-            role: getRoleName(e.role),
+            role: e.id === dataDepartment.owner ? 'Trưởng Phòng' : 'Nhan Vien',
           }))}
           style={{ marginTop: '1rem' }}
         />

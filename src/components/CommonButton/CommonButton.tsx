@@ -9,6 +9,7 @@ type Props = {
   isSubmit?: boolean;
   className?: string;
   loading?: boolean;
+  disabled?: boolean;
 };
 
 const CommonButton = ({
@@ -18,6 +19,7 @@ const CommonButton = ({
   isSubmit = false,
   className,
   loading = false,
+  disabled,
 }: Props) => {
   return (
     <Button
@@ -26,6 +28,7 @@ const CommonButton = ({
       danger={danger}
       loading={loading}
       className={`${styles.commonBtn} ${className}`}
+      disabled={disabled}
     >
       {children}
     </Button>

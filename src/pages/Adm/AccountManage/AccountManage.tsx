@@ -14,7 +14,14 @@ import { TDepartment } from 'types/department';
 type TModal = '' | 'delete' | 'create';
 const AccountManage = () => {
   const navigate = useNavigate();
-
+  const {
+    departmentDetail,
+    handleCreateUser,
+    handleDeleteUser,
+    makeAsOwner,
+    loading,
+    handleUpdateDepartment,
+  } = useService();
   const columns = [
     {
       title: 'ID',
@@ -33,6 +40,19 @@ const AccountManage = () => {
       dataIndex: 'role',
       width: '30%',
       key: 'role',
+      render: (_, user) => (
+        <div className={styles.actionBtn}>
+          <CommonButton
+            onClick={() => {
+              makeAsOwner(user.id);
+            }}
+            disabled={departmentDetail.owner === user.id}
+          >
+            {departmentDetail.owner === user.id && 'Trưởng Phòng'}
+            {departmentDetail.owner !== user.id && "Chuyển Trưởng Phòng"}
+          </CommonButton>
+        </div>
+      ),
     },
     {
       title: '',
@@ -61,8 +81,7 @@ const AccountManage = () => {
     phone: '',
     location: '',
   });
-  const { departmentDetail, handleCreateUser, handleDeleteUser, loading, handleUpdateDepartment } =
-    useService();
+
   const listUserDepartment = departmentDetail?.member?.map((u) => ({
     ...u,
     key: u?.id,

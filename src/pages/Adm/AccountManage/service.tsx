@@ -9,6 +9,8 @@ import {
   updateDepartment,
 } from 'store/slices/departmentSlice';
 import { TDepartment } from 'types/department';
+import { IndexedObject } from 'types/common';
+import departmentApi from 'axiosConfig/api/department';
 
 const useService = () => {
   const dispatch = useDispatch();
@@ -24,9 +26,22 @@ const useService = () => {
   const handleUpdateDepartment = (data: TDepartment) => {
     dispatch(updateDepartment({ id, ...data }) as any);
   };
+
+  const makeAsOwner = async (idUser: number) => {
+    await departmentApi.updateDepartment( Number(id), { owner: idUser });
+    // dispatch(updateDepartment({ id, owner: idUser }) as any);
+    dispatch(getDepartmentInfoDetail(id ?? '') as any);
+  };
   useEffect(() => {
     dispatch(getDepartmentInfoDetail(id ?? '') as any);
   }, [id]);
-  return { departmentDetail, handleCreateUser, handleDeleteUser, loading, handleUpdateDepartment };
+  return {
+    departmentDetail,
+    handleCreateUser,
+    handleDeleteUser,
+    makeAsOwner,
+    loading,
+    handleUpdateDepartment,
+  };
 };
 export default useService;
